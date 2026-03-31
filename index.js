@@ -331,7 +331,7 @@
                 const texts = extractModuleTexts(moduleObj);
                 if (texts.length === 0) continue;
 
-                const axisLabel = `${axisMeta.icon ?? ''} ${axisMeta.name_ko} [${axisKey}축]`;
+                const axisLabel = `${axisMeta.name_ko} [${axisKey}축]`;
                 sections.push(`## ${axisLabel} — ${moduleObj.name}\n${texts.join('\n')}`);
             }
         }
@@ -351,7 +351,7 @@
             const texts = extractConfigTexts(modeObj);
             if (texts.length === 0) continue;
 
-            const cfgLabel = `${cfgMeta.icon ?? ''} ${cfgMeta.name_ko}`;
+            const cfgLabel = `${cfgMeta.name_ko}`;
             sections.push(`## ${cfgLabel} — ${modeObj.name}\n${texts.join('\n')}`);
         }
 
@@ -420,7 +420,7 @@
 
             const labelEl = document.createElement('div');
             labelEl.className = 'nov-style-popup-axis-label';
-            labelEl.textContent = `${axisMeta.icon ?? ''} ${axisMeta.name_ko} (${axisMeta.name_en})`;
+            labelEl.textContent = `${axisMeta.name_ko} (${axisMeta.name_en})`;
             groupEl.appendChild(labelEl);
 
             if (isCombinable) {
@@ -497,35 +497,52 @@
                 groupEl.appendChild(listEl);
                 combSection.appendChild(groupEl);
             } else {
-                const selectEl = document.createElement('select');
-                selectEl.className = 'nov-style-popup-select';
-                selectEl.dataset.axis = axisKey;
-
                 const currentSel = getAxisSelection(axisKey, 'mutex');
 
-                for (const mod of modulesForAxis) {
-                    const opt = document.createElement('option');
-                    opt.value = mod.id;
-                    opt.textContent = mod.name;
-                    opt.title = mod.one_liner ?? '';
-                    if (mod.id === currentSel) opt.selected = true;
-                    selectEl.appendChild(opt);
-                }
+                const btnGroup = document.createElement('div');
+                btnGroup.className = 'nov-style-mutex-btn-group';
+                btnGroup.dataset.axis = axisKey;
 
                 const oneLinerEl = document.createElement('div');
                 oneLinerEl.className = 'nov-style-popup-oneliner';
                 const initMod = modulesForAxis.find(
-                    m => m.id === (currentSel ?? modulesForAxis[0]?.id)
+                    m => m.id === (currentSel ?? null)
                 );
                 oneLinerEl.textContent = initMod?.one_liner ?? '';
 
-                selectEl.addEventListener('change', () => {
-                    setAxisSelection(axisKey, selectEl.value);
-                    const selMod = modulesForAxis.find(m => m.id === selectEl.value);
-                    oneLinerEl.textContent = selMod?.one_liner ?? '';
-                });
+                for (const mod of modulesForAxis) {
+                    if (mod.id.endsWith(UNUSED_SUFFIX)) continue;
 
-                groupEl.appendChild(selectEl);
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = 'nov-style-mutex-btn';
+                    btn.dataset.modId = mod.id;
+                    btn.textContent = mod.name;
+                    btn.title = mod.one_liner ?? '';
+
+                    if (mod.id === currentSel) {
+                        btn.classList.add('active');
+                    }
+
+                    btn.addEventListener('click', () => {
+                        const wasActive = btn.classList.contains('active');
+                        btnGroup.querySelectorAll('.nov-style-mutex-btn').forEach(b => b.classList.remove('active'));
+
+                        if (wasActive) {
+                            // 해제 → null (사용하지 않음)으로 자동 복귀
+                            setAxisSelection(axisKey, null);
+                            oneLinerEl.textContent = '';
+                        } else {
+                            btn.classList.add('active');
+                            setAxisSelection(axisKey, mod.id);
+                            oneLinerEl.textContent = mod.one_liner ?? '';
+                        }
+                    });
+
+                    btnGroup.appendChild(btn);
+                }
+
+                groupEl.appendChild(btnGroup);
                 groupEl.appendChild(oneLinerEl);
                 mutexSection.appendChild(groupEl);
             }
@@ -548,7 +565,7 @@
 
             const labelEl = document.createElement('div');
             labelEl.className = 'nov-style-popup-axis-label';
-            labelEl.textContent = `${cfgMeta.icon ?? ''} ${cfgMeta.name_ko}`;
+            labelEl.textContent = `${cfgMeta.name_ko}`;
             groupEl.appendChild(labelEl);
 
             const currentSel = getConfigSelection(cfgMeta.id);
@@ -687,12 +704,22 @@
         for (const [axisKey, axisMeta] of Object.entries(catalog.axes)) {
             if (axisMeta.type !== 'mutex') continue;
             const sel = getAxisSelection(axisKey, 'mutex');
-            const selectEl = popupEl.querySelector(
-                `select.nov-style-popup-select[data-axis="${axisKey}"]`
+            const btnGroup = popupEl.querySelector(
+                `.nov-style-mutex-btn-group[data-axis="${axisKey}"]`
             );
-            if (selectEl) {
-                selectEl.value = sel ?? selectEl.options[0]?.value ?? '';
-                selectEl.dispatchEvent(new Event('change'));
+            if (btnGroup) {
+                const oneLinerEl = btnGroup.closest('.nov-style-popup-axis-group')
+                    ?.querySelector('.nov-style-popup-oneliner');
+                btnGroup.querySelectorAll('.nov-style-mutex-btn').forEach(btn => {
+                    const isActive = btn.dataset.modId === sel;
+                    btn.classList.toggle('active', isActive);
+                    if (isActive && oneLinerEl) {
+                        oneLinerEl.textContent = btn.title;
+                    }
+                });
+                if (!sel && oneLinerEl) {
+                    oneLinerEl.textContent = '';
+                }
             }
         }
 

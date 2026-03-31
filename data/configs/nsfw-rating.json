@@ -16,7 +16,7 @@
     },
     {
       "id": "NSFW-01",
-      "name": "SFW 전연령",
+      "name": "전연령",
       "one_liner": "성적·폭력 묘사 완전 차단. 암시도 금지. 전연령 콘텐츠만 생성.",
       "ui_description": "모든 성적 묘사와 폭력 묘사를 차단합니다. 로맨스는 감정 표현까지만 허용되며, 신체 접촉은 손잡기·포옹 수준까지만 가능합니다.",
       "operations": {
@@ -73,6 +73,54 @@
     },
     {
       "id": "NSFW-02",
+      "name": "12+",
+      "one_liner": "가벼운 긴장감, 손잡기·포옹·가벼운 키스, 약한 폭력(밀침·넘어짐·멍) 허용. 성적 암시/이중적 의미는 금지.",
+      "ui_description": "12세 이상 적합. 가벼운 긴장감과 갈등, 손잡기·포옹·가벼운 키스 등 가벼운 스킨십, 약한 폭력(밀침·넘어짐·멍)이 허용됩니다. 성적 암시, 이중적 의미, 노출, 심각한 폭력은 금지됩니다.",
+      "operations": {
+        "{B_TONE_VOCAB}": {
+          "mode": "REPLACE",
+          "value": "12+ 등급. 가벼운 긴장감과 갈등이 허용된다. 스킨십은 손잡기, 포옹, 가벼운 키스까지 허용된다. 약한 폭력(밀침, 넘어짐, 멍)은 허용되지만, 유혈이나 심각한 부상은 금지된다. 성적 암시, 이중적 의미(double entendre), 노출 묘사는 금지된다. 감정적 갈등과 가벼운 위기는 허용되지만, 극단적 공포나 트라우마 묘사는 금지된다."
+        }
+      },
+      "injections": {
+        "preamble_core_directives_add": [
+          "[CONTENT_RATING_12PLUS]: 콘텐츠 등급: 12+. 가벼운 스킨십(손잡기, 포옹, 가벼운 키스)과 약한 폭력(밀침, 넘어짐, 멍)까지 허용. 성적 암시, 이중적 의미, 노출, 심각한 폭력은 금지."
+        ]
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-NSFW02-01",
+            "category": "content_rating",
+            "rule": "성적 암시나 이중적 의미가 있는가? → 삭제하고 중립적 표현으로 교체.",
+            "source": "NSFW-02",
+            "priority": "critical"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-NSFW02-02",
+            "category": "content_rating",
+            "rule": "스킨십이 가벼운 키스 수준을 넘는가? → 축소.",
+            "source": "NSFW-02",
+            "priority": "critical"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-NSFW02-03",
+            "category": "content_rating",
+            "rule": "폭력 묘사가 유혈이나 심각한 부상을 포함하는가? → 결과만 간접 서술로 교체.",
+            "source": "NSFW-02"
+          }
+        }
+      ]
+    },
+    {
+      "id": "NSFW-03",
       "name": "Suggestive (암시 허용)",
       "one_liner": "분위기·긴장감·암시까지 허용. 직접적 성적 묘사와 과잉 폭력은 금지.",
       "ui_description": "로맨틱한 긴장감, 신체 접촉(키스, 밀착), 성적 암시까지 허용합니다. 직접적인 성행위 묘사나 과잉 폭력 묘사는 금지됩니다. 웹소설·로맨스 소설 수준.",
@@ -91,26 +139,26 @@
         {
           "mode": "ADD",
           "check": {
-            "id": "CHK-NSFW02-01",
+            "id": "CHK-NSFW03-01",
             "category": "content_rating",
             "rule": "직접적 성행위 묘사가 있는가? → fade to black 또는 장면 전환으로 교체.",
-            "source": "NSFW-02",
+            "source": "NSFW-03",
             "priority": "critical"
           }
         },
         {
           "mode": "ADD",
           "check": {
-            "id": "CHK-NSFW02-02",
+            "id": "CHK-NSFW03-02",
             "category": "content_rating",
             "rule": "폭력 묘사가 과잉인가(절단, 장기, 고문 세부)? → 축소.",
-            "source": "NSFW-02"
+            "source": "NSFW-03"
           }
         }
       ]
     },
     {
-      "id": "NSFW-03",
+      "id": "NSFW-04",
       "name": "NSFW (성인)",
       "one_liner": "성적·폭력 직접 묘사 허용. 캐릭터 존엄 유지, 과잉·비하 표현 금지.",
       "ui_description": "성행위, 폭력의 직접 묘사를 허용합니다. 단, NO_MISOGYNY 규칙은 유지되며, 모든 인물의 존엄과 주체성이 보장됩니다. 과잉 묘사(goreporn, 비하 목적 묘사)는 금지됩니다.",
@@ -129,35 +177,35 @@
         {
           "mode": "ADD",
           "check": {
-            "id": "CHK-NSFW03-01",
+            "id": "CHK-NSFW04-01",
             "category": "content_rating",
             "rule": "성적 묘사가 서사/캐릭터와 무관한 과잉인가? → 축소. 산문의 밀도 유지.",
-            "source": "NSFW-03"
+            "source": "NSFW-04"
           }
         },
         {
           "mode": "ADD",
           "check": {
-            "id": "CHK-NSFW03-02",
+            "id": "CHK-NSFW04-02",
             "category": "content_rating",
             "rule": "묘사가 특정 인물을 비하·모욕하는 목적인가? → 삭제. NO_MISOGYNY 위반 검사.",
-            "source": "NSFW-03",
+            "source": "NSFW-04",
             "priority": "critical"
           }
         },
         {
           "mode": "ADD",
           "check": {
-            "id": "CHK-NSFW03-03",
+            "id": "CHK-NSFW04-03",
             "category": "content_rating",
             "rule": "해부학 용어가 남용되는가? → 감각 중심 표현으로 교체.",
-            "source": "NSFW-03"
+            "source": "NSFW-04"
           }
         }
       ]
     },
     {
-      "id": "NSFW-04",
+      "id": "NSFW-05",
       "name": "R18 (무제한)",
       "one_liner": "묘사 제한 없음. NO_MISOGYNY 규칙만 유지.",
       "ui_description": "모든 묘사 제한을 해제합니다. 유일하게 유지되는 규칙은 NO_MISOGYNY(여성 인물의 주체성·존엄 보장)뿐입니다.",
@@ -177,10 +225,10 @@
         {
           "mode": "ADD",
           "check": {
-            "id": "CHK-NSFW04-01",
+            "id": "CHK-NSFW05-01",
             "category": "content_rating",
             "rule": "NO_MISOGYNY를 위반하는가? → 교정. R18이라도 인물 존엄은 유지.",
-            "source": "NSFW-04",
+            "source": "NSFW-05",
             "priority": "critical"
           }
         }

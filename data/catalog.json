@@ -5,64 +5,55 @@
       "name_ko": "시점",
       "name_en": "POV",
       "type": "mutex",
-      "ui_description": "누가 보는가/말하는가. 1인칭, 2인칭, 3인칭 제한, 전지적, 공간, 사물 시점. 하나만 선택 가능.",
-      "icon": "👁️"
+      "ui_description": "누가 보는가/말하는가. 1인칭, 2인칭, 3인칭 제한, 전지적, 공간, 사물 시점. 하나만 선택 가능."
     },
     "S": {
       "name_ko": "서술 방식",
       "name_en": "Narration Style",
       "type": "mutex",
-      "ui_description": "글의 서술 문법과 구조. 동화적, 무협적, 서간체 등. 하나만 선택 가능.",
-      "icon": "📝"
+      "ui_description": "글의 서술 문법과 구조. 동화적, 무협적, 서간체 등. 하나만 선택 가능."
     },
     "B": {
       "name_ko": "어조 · 어휘",
       "name_en": "Tone & Vocabulary",
       "type": "mutex",
-      "ui_description": "문장의 온도, 말투, 단어 선택 수준.",
-      "icon": "🎨"
+      "ui_description": "문장의 온도, 말투, 단어 선택 수준."
     },
     "C": {
       "name_ko": "장르",
       "name_en": "Genre",
       "type": "combinable",
-      "ui_description": "세계관의 규칙과 서사 관습을 결정하는 장르.",
-      "icon": "📚"
+      "ui_description": "세계관의 규칙과 서사 관습을 결정하는 장르."
     },
     "D": {
       "name_ko": "분위기",
       "name_en": "Mood & Atmosphere",
       "type": "combinable",
-      "ui_description": "장면 전체를 지배하는 정서적 색채. 고요/내성, 긴장/위협, 몽환/초현실, 고양/에너지, 서정/감성의 5개 카테고리. 복수 선택 가능.",
-      "icon": "🌫️"
+      "ui_description": "장면 전체를 지배하는 정서적 색채. 고요/내성, 긴장/위협, 몽환/초현실, 고양/에너지, 서정/감성의 5개 카테고리. 복수 선택 가능."
     },
     "E": {
       "name_ko": "배경",
       "name_en": "Setting & Era",
       "type": "combinable",
-      "ui_description": "시대, 장소, 문화적 맥락.",
-      "icon": "🏙️"
+      "ui_description": "시대, 장소, 문화적 맥락."
     },
     "F": {
       "name_ko": "특별 요소",
       "name_en": "Special Elements",
       "type": "combinable",
-      "ui_description": "특수 종족, 마법 체계, 고유 장치 등 세계관 플러그인. 신격/신화, 초능력, 변신, 계약/저주, 사후세계, 시간 조작, 가상 세계, 동물 언어 각성, 오메가버스, 센티넬버스.",
-      "icon": "✨"
+      "ui_description": "특수 종족, 마법 체계, 고유 장치 등 세계관 플러그인. 신격/신화, 초능력, 변신, 계약/저주, 사후세계, 시간 조작, 가상 세계, 동물 언어 각성, 오메가버스, 센티넬버스."
     },
     "G": {
       "name_ko": "상호작용",
       "name_en": "Interaction Style",
       "type": "combinable",
-      "ui_description": "NPC 반응 방식, 서사 개입 빈도, 관계 역학.",
-      "icon": "🔄"
+      "ui_description": "NPC 반응 방식, 서사 개입 빈도, 관계 역학."
     },
     "W": {
       "name_ko": "세계 시뮬레이션",
       "name_en": "World Simulation",
       "type": "mutex",
-      "ui_description": "세계가 유저에게 갖는 기본 태도. NPC 자율성, 사건 빈도, 갈등 강도, 결과의 비례 수준을 결정한다. 모든 장르·배경·어조와 직교하며, 빌드 순서 최상위에서 세계의 기본 규칙을 설정한다.",
-      "icon": "🌍"
+      "ui_description": "세계가 유저에게 갖는 기본 태도. NPC 자율성, 사건 빈도, 갈등 강도, 결과의 비례 수준을 결정한다. 모든 장르·배경·어조와 직교하며, 빌드 순서 최상위에서 세계의 기본 규칙을 설정한다."
     }
   },
   "modules": [
@@ -912,7 +903,6 @@
       "id": "user_character_control",
       "name_ko": "유저 캐릭터 제어",
       "name_en": "User Character Control",
-      "icon": "🎭",
       "file": "configs/user-character-control.json",
       "modes": [
         "UCC-00",
@@ -924,21 +914,20 @@
       "id": "nsfw_rating",
       "name_ko": "NSFW 등급 제어",
       "name_en": "NSFW Content Rating",
-      "icon": "🔞",
       "file": "configs/nsfw-rating.json",
       "modes": [
         "NSFW-00",
         "NSFW-01",
         "NSFW-02",
         "NSFW-03",
-        "NSFW-04"
+        "NSFW-04",
+        "NSFW-05"
       ]
     },
     {
       "id": "lethal_protocol",
-      "name_ko": "치명적 결과 프로토콜",
-      "name_en": "Lethal Consequence Protocol",
-      "icon": "💀",
+      "name_ko": "치명적 결과",
+      "name_en": "Lethal Consequence",
       "file": "configs/lethal-protocol.json",
       "modes": [
         "LETHAL-00",
