@@ -12,6 +12,8 @@
     /* ------------------------------------------------------------------ */
 
     const EXTENSION_NAME = 'nov-style';
+    const UNUSED_MODULE_SUFFIX = '-00';
+    const PROMPT_TITLE = '# 문체 지침';
 
     let eventSource, event_types, saveSettingsDebounced, getContext;
 
@@ -329,13 +331,12 @@
                 if (!Array.isArray(selectedIds) || selectedIds.length === 0) continue;
             } else {
                 const sel = getAxisSelection(axisKey, 'mutex');
-                if (!sel || sel.endsWith('-00')) continue; // "사용하지 않음"
+                if (!sel || sel.endsWith(UNUSED_MODULE_SUFFIX)) continue;
                 selectedIds = [sel];
             }
 
             for (const moduleId of selectedIds) {
-                // -00은 "사용하지 않음"
-                if (moduleId && moduleId.endsWith('-00')) continue;
+                if (moduleId && moduleId.endsWith(UNUSED_MODULE_SUFFIX)) continue;
 
                 const moduleObj = axisData.modules?.find(m => m.id === moduleId);
                 if (!moduleObj) continue;
@@ -353,7 +354,7 @@
         for (const cfgMeta of catalog.configs) {
             const cfgId = cfgMeta.id;
             const selectedMode = getConfigSelection(cfgId);
-            if (!selectedMode || selectedMode.endsWith('-00')) continue;
+            if (!selectedMode || selectedMode.endsWith(UNUSED_MODULE_SUFFIX)) continue;
 
             const cfgData = configs[cfgId];
             if (!cfgData) continue;
@@ -369,7 +370,7 @@
         }
 
         if (sections.length === 0) return '';
-        return `# 문체 지침\n\n${sections.join('\n\n')}`;
+        return `${PROMPT_TITLE}\n\n${sections.join('\n\n')}`;
     }
 
     /* ------------------------------------------------------------------ */
