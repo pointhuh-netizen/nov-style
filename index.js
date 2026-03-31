@@ -592,22 +592,17 @@
         const previewSection = document.createElement('div');
         previewSection.className = 'nov-style-popup-section';
         const previewTitle = document.createElement('div');
-        previewTitle.className = 'nov-style-popup-section-title';
-        previewTitle.textContent = '── 프롬프트 미리보기 ──';
+        previewTitle.className = 'nov-style-popup-section-title nov-style-popup-preview-toggle';
+        previewTitle.textContent = '👁️ 프롬프트 미리보기';
         previewSection.appendChild(previewTitle);
-
-        const previewToggle = document.createElement('button');
-        previewToggle.className = 'menu_button';
-        previewToggle.textContent = '👁️ 미리보기 토글';
-        previewSection.appendChild(previewToggle);
 
         const previewTextarea = document.createElement('textarea');
         previewTextarea.className = 'nov-style-popup-preview';
         previewTextarea.readOnly = true;
-        previewTextarea.placeholder = '미리보기를 클릭하면 표시됩니다';
+        previewTextarea.placeholder = '클릭하면 미리보기가 표시됩니다';
         previewSection.appendChild(previewTextarea);
 
-        previewToggle.addEventListener('click', () => {
+        previewTitle.addEventListener('click', () => {
             const promptText = buildPrompt(data);
             previewTextarea.value = promptText || '(선택된 문체 없음)';
             previewTextarea.classList.toggle('visible');
