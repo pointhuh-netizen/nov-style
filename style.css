@@ -8,6 +8,17 @@
 
 .nov-style-sidebar-row {
     margin-bottom: 6px;
+    width: 100%;
+}
+
+/* 사이드바 버튼이 세로로 찍히는 문제 해결 */
+#nov-style-settings .menu_button,
+#nov-style-settings button.menu_button {
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    box-sizing: border-box;
 }
 
 .nov-style-enable-label {
