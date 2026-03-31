@@ -1,0 +1,949 @@
+{
+  "version": "2.0.0",
+  "axes": {
+    "A": {
+      "name_ko": "시점",
+      "name_en": "POV",
+      "type": "mutex",
+      "ui_description": "누가 보는가/말하는가. 1인칭, 2인칭, 3인칭 제한, 전지적, 공간, 사물 시점. 하나만 선택 가능.",
+      "icon": "👁️"
+    },
+    "S": {
+      "name_ko": "서술 방식",
+      "name_en": "Narration Style",
+      "type": "mutex",
+      "ui_description": "글의 서술 문법과 구조. 동화적, 무협적, 서간체 등. 하나만 선택 가능.",
+      "icon": "📝"
+    },
+    "B": {
+      "name_ko": "어조 · 어휘",
+      "name_en": "Tone & Vocabulary",
+      "type": "mutex",
+      "ui_description": "문장의 온도, 말투, 단어 선택 수준.",
+      "icon": "🎨"
+    },
+    "C": {
+      "name_ko": "장르",
+      "name_en": "Genre",
+      "type": "combinable",
+      "ui_description": "세계관의 규칙과 서사 관습을 결정하는 장르.",
+      "icon": "📚"
+    },
+    "D": {
+      "name_ko": "분위기",
+      "name_en": "Mood & Atmosphere",
+      "type": "combinable",
+      "ui_description": "장면 전체를 지배하는 정서적 색채. 고요/내성, 긴장/위협, 몽환/초현실, 고양/에너지, 서정/감성의 5개 카테고리. 복수 선택 가능.",
+      "icon": "🌫️"
+    },
+    "E": {
+      "name_ko": "배경",
+      "name_en": "Setting & Era",
+      "type": "combinable",
+      "ui_description": "시대, 장소, 문화적 맥락.",
+      "icon": "🏙️"
+    },
+    "F": {
+      "name_ko": "특별 요소",
+      "name_en": "Special Elements",
+      "type": "combinable",
+      "ui_description": "특수 종족, 마법 체계, 고유 장치 등 세계관 플러그인. 신격/신화, 초능력, 변신, 계약/저주, 사후세계, 시간 조작, 가상 세계, 동물 언어 각성, 오메가버스, 센티넬버스.",
+      "icon": "✨"
+    },
+    "G": {
+      "name_ko": "상호작용",
+      "name_en": "Interaction Style",
+      "type": "combinable",
+      "ui_description": "NPC 반응 방식, 서사 개입 빈도, 관계 역학.",
+      "icon": "🔄"
+    },
+    "W": {
+      "name_ko": "세계 시뮬레이션",
+      "name_en": "World Simulation",
+      "type": "mutex",
+      "ui_description": "세계가 유저에게 갖는 기본 태도. NPC 자율성, 사건 빈도, 갈등 강도, 결과의 비례 수준을 결정한다. 모든 장르·배경·어조와 직교하며, 빌드 순서 최상위에서 세계의 기본 규칙을 설정한다.",
+      "icon": "🌍"
+    }
+  },
+  "modules": [
+    {
+      "id": "A-00",
+      "axis": "A",
+      "name": "사용하지 않음",
+      "one_liner": "시점 지시를 주입하지 않음. 기존 설정을 그대로 사용.",
+      "file": "axes/axis-a-pov.json"
+    },
+    {
+      "id": "A-01",
+      "axis": "A",
+      "name": "1인칭 체험형",
+      "one_liner": "NPC가 '나'로 말한다. 편향되고 불완전한 시선으로 세계를 기록.",
+      "file": "axes/axis-a-pov.json"
+    },
+    {
+      "id": "A-02",
+      "axis": "A",
+      "name": "2인칭 관찰 밀착형",
+      "one_liner": "독자 자신이 행위자. 감각만 구축하고 감정은 열어둔다.",
+      "file": "axes/axis-a-pov.json"
+    },
+    {
+      "id": "A-03",
+      "axis": "A",
+      "name": "3인칭 제한 관찰자",
+      "one_liner": "서술자가 카메라처럼 행동·시선·신체 반응만 기록하고 내면에 접근하지 않는다.",
+      "file": "axes/axis-a-pov.json"
+    },
+    {
+      "id": "A-04",
+      "axis": "A",
+      "name": "전지적 작가 시점",
+      "one_liner": "서술자가 모든 인물의 내면에 접근. 감정 명명 금지는 유지.",
+      "file": "axes/axis-a-pov.json"
+    },
+    {
+      "id": "A-05",
+      "axis": "A",
+      "name": "공간 시점",
+      "one_liner": "장소가 관찰자. 인물은 공간을 지나가는 존재.",
+      "file": "axes/axis-a-pov.json"
+    },
+    {
+      "id": "A-06",
+      "axis": "A",
+      "name": "사물 시점",
+      "one_liner": "특정 사물 하나가 관찰자. 그 사물의 물리적 감각 범위만으로 세계를 기록.",
+      "file": "axes/axis-a-pov.json"
+    },
+    {
+      "id": "S-00",
+      "axis": "S",
+      "name": "사용하지 않음",
+      "one_liner": "서술 방식 지시를 주입하지 않음. 기존 설정을 그대로 사용.",
+      "file": "axes/axis-s-narration.json"
+    },
+    {
+      "id": "S-01",
+      "axis": "S",
+      "name": "동화적 서술",
+      "one_liner": "잔혹한 동화의 문법. 서술자 존재감, 3의 법칙, 금기와 위반, 페미니스트 재해석.",
+      "file": "axes/axis-s-narration.json"
+    },
+    {
+      "id": "S-02",
+      "axis": "S",
+      "name": "무협적 서술",
+      "one_liner": "강호는 하나의 세계. 문파·내공·경공·검법·의리·배신이 서사의 기본 어휘. 무공 묘사는 신체 역학적으로 정밀하되, 일관된 규칙 안에서 과장이 허용되는 김용식 서사.",
+      "file": "axes/axis-s-narration.json"
+    },
+    {
+      "id": "S-03",
+      "axis": "S",
+      "name": "서간체",
+      "one_liner": "편지 형식으로 서술하는 1인칭 고백 문체. 회상과 현재를 오가며 수신자에게 말을 건다.",
+      "file": "axes/axis-s-narration.json"
+    },
+    {
+      "id": "S-04",
+      "axis": "S",
+      "name": "극본체",
+      "one_liner": "지문+대사 구조. 서술을 최소화하고, 행동과 대사로만 장면을 구성하는 각본 서술 방식.",
+      "file": "axes/axis-s-narration.json"
+    },
+    {
+      "id": "S-05",
+      "axis": "S",
+      "name": "기록체",
+      "one_liner": "날짜·항목 기반 관찰 보고 형식. 기록자가 사건을 문서화하는 서술 구조.",
+      "file": "axes/axis-s-narration.json"
+    },
+    {
+      "id": "S-06",
+      "axis": "S",
+      "name": "구술체",
+      "one_liner": "청자에게 이야기를 들려주는 구연 구조. 서술자의 존재감이 강하고, 탈선과 복귀가 리듬을 만든다.",
+      "file": "axes/axis-s-narration.json"
+    },
+    {
+      "id": "S-07",
+      "axis": "S",
+      "name": "회상체",
+      "one_liner": "현재의 서술자가 과거를 돌아보는 서술. 시제 교차와 사후 인식이 핵심 문법.",
+      "file": "axes/axis-s-narration.json"
+    },
+    {
+      "id": "S-08",
+      "axis": "S",
+      "name": "몽타주",
+      "one_liner": "장면을 병렬 배치하고, 인과 설명 없이 이미지의 나열로 의미를 구성. 독자가 연결을 만든다.",
+      "file": "axes/axis-s-narration.json"
+    },
+    {
+      "id": "S-09",
+      "axis": "S",
+      "name": "의식의 흐름",
+      "one_liner": "문법·시간·논리 경계가 해체된 서술. 감각↔기억↔사유가 구분 없이 흐른다.",
+      "file": "axes/axis-s-narration.json"
+    },
+    {
+      "id": "S-10",
+      "axis": "S",
+      "name": "신뢰할 수 없는 서술자",
+      "one_liner": "서술자가 거짓말하거나, 빠뜨리거나, 자기합리화한다. 독자는 서술의 균열에서 진실을 추론.",
+      "file": "axes/axis-s-narration.json"
+    },
+    {
+      "id": "S-11",
+      "axis": "S",
+      "name": "다성 서술",
+      "one_liner": "한 턴 안에서 여러 인물의 시선이 교대. 라쇼몽 효과. 섹션 구분자로 시점 전환.",
+      "file": "axes/axis-s-narration.json"
+    },
+    {
+      "id": "S-12",
+      "axis": "S",
+      "name": "일기체",
+      "one_liner": "수신자 없는 자기 기록. 검열과 솔직함의 경계. 날짜 헤더 + 사적 어조.",
+      "file": "axes/axis-s-narration.json"
+    },
+    {
+      "id": "S-13",
+      "axis": "S",
+      "name": "실시간 중계체",
+      "one_liner": "현재진행형 실황. 과거형 금지. 전투 중계, 속보, 스포츠 실황의 어조.",
+      "file": "axes/axis-s-narration.json"
+    },
+    {
+      "id": "S-14",
+      "axis": "S",
+      "name": "사관 기록체",
+      "one_liner": "실록·승정원일기 형식. 사관의 시선으로 사건을 한문 투 기록 구조로 서술.",
+      "file": "axes/axis-s-narration.json"
+    },
+    {
+      "id": "B-00",
+      "axis": "B",
+      "name": "사용하지 않음",
+      "one_liner": "어조·어휘 지시를 주입하지 않음. default-template 기본값 그대로 사용.",
+      "file": "axes/axis-b-tone.json"
+    },
+    {
+      "id": "B-01",
+      "axis": "B",
+      "name": "건조체",
+      "one_liner": "감정을 삭제하고 사실만 남긴 보고서형 어조.",
+      "file": "axes/axis-b-tone.json"
+    },
+    {
+      "id": "B-02",
+      "axis": "B",
+      "name": "서정체",
+      "one_liner": "감각과 여운을 살린 시적 어조.",
+      "file": "axes/axis-b-tone.json"
+    },
+    {
+      "id": "B-03",
+      "axis": "B",
+      "name": "구어체",
+      "one_liner": "말하듯 쓰는 자연스러운 입말 어조.",
+      "file": "axes/axis-b-tone.json"
+    },
+    {
+      "id": "B-04",
+      "axis": "B",
+      "name": "만연체",
+      "one_liner": "긴 호흡으로 층위를 쌓아가는 복문 위주 어조.",
+      "file": "axes/axis-b-tone.json"
+    },
+    {
+      "id": "B-05",
+      "axis": "B",
+      "name": "간결체",
+      "one_liner": "군더더기 없이 핵심만 남기는 단문 위주 어조.",
+      "file": "axes/axis-b-tone.json"
+    },
+    {
+      "id": "B-06",
+      "axis": "B",
+      "name": "냉소체",
+      "one_liner": "거리를 두고 비틀어 보는 아이러니 어조.",
+      "file": "axes/axis-b-tone.json"
+    },
+    {
+      "id": "B-07",
+      "axis": "B",
+      "name": "고풍체",
+      "one_liner": "한문 투·고어를 절제 있게 살린 아카이브형 어조.",
+      "file": "axes/axis-b-tone.json"
+    },
+    {
+      "id": "B-08",
+      "axis": "B",
+      "name": "사극투",
+      "one_liner": "한문 투·궁체·고어가 어휘와 종결어미를 지배하는 사극 어조.",
+      "file": "axes/axis-b-tone.json"
+    },
+    {
+      "id": "B-09",
+      "axis": "B",
+      "name": "감성체",
+      "one_liner": "감정에 솔직한 청춘소설 어조. 내면 독백이 서술을 잠식하고, 감각이 감정의 은유가 된다.",
+      "file": "axes/axis-b-tone.json"
+    },
+    {
+      "id": "B-10",
+      "axis": "B",
+      "name": "학술체",
+      "one_liner": "논문·에세이 어조. 인과 접속사가 논리를 구축하고, 추상 명사가 개념을 운반한다. 감정은 분석 대상이지 표현 대상이 아니다.",
+      "file": "axes/axis-b-tone.json"
+    },
+    {
+      "id": "B-11",
+      "axis": "B",
+      "name": "동화체",
+      "one_liner": "따뜻한 구연 어조. '~했답니다', '~었대요' 종결이 서술을 감싸고, 세계가 약간 둥글다.",
+      "file": "axes/axis-b-tone.json"
+    },
+    {
+      "id": "B-12",
+      "axis": "B",
+      "name": "하드보일드",
+      "one_liner": "행동만 기록한다. 감정은 없다. 비가 내리고, 총을 뽑고, 위스키를 마신다. 짧고 건조하되 누아르 특유의 리듬.",
+      "file": "axes/axis-b-tone.json"
+    },
+    {
+      "id": "B-13",
+      "axis": "B",
+      "name": "웅장체",
+      "one_liner": "서사시의 호흡. 운명과 선언의 무게가 문장을 누른다. 세계가 크고, 시간이 길다.",
+      "file": "axes/axis-b-tone.json"
+    },
+    {
+      "id": "B-14",
+      "axis": "B",
+      "name": "속삭임체",
+      "one_liner": "작고 조심스러운 어조. 문장이 끝까지 가지 못하고, 말줄임표가 여백을 만든다. 침묵이 말보다 많다.",
+      "file": "axes/axis-b-tone.json"
+    },
+    {
+      "id": "B-15",
+      "axis": "B",
+      "name": "무협체",
+      "one_liner": "김용(金庸) 스타일 강호 어조. 초식명이 리듬을 만들고, 자연물 비유가 무공을 그리며, 강호 은어가 어휘를 지배한다.",
+      "file": "axes/axis-b-tone.json"
+    },
+    {
+      "id": "C-01",
+      "axis": "C",
+      "name": "궁정 정치 / 전쟁 서사",
+      "one_liner": "그레이 모럴리티, 전투의 물리적 정밀함, 정치적 대화의 이중성. 선/악 이분법 없는 서사.",
+      "file": "axes/axis-c-genre.json"
+    },
+    {
+      "id": "C-02",
+      "axis": "C",
+      "name": "추리 색채",
+      "one_liner": "기존 문체 위에 추리 장르 변수(증거, 증언, 탐문)만 얹는 경량 모듈. 서술 문법은 변경하지 않는다.",
+      "file": "axes/axis-c-genre.json"
+    },
+    {
+      "id": "D-01",
+      "axis": "D",
+      "name": "감각적 일상",
+      "one_liner": "사건 없이 분위기와 감각이 서사를 이끄는 일상 서사. 소리와 온도가 장면을 정의하고, 습관의 반복이 리듬을 만든다.",
+      "file": "axes/axis-d-mood.json"
+    },
+    {
+      "id": "D-02",
+      "axis": "D",
+      "name": "불안/불길",
+      "one_liner": "확인할 수 없는 것이 무섭다. 감각의 빈 곳에서 오는 은은한 공포. 일상의 표면은 유지되지만 균열이 번진다.",
+      "file": "axes/axis-d-mood.json"
+    },
+    {
+      "id": "D-03",
+      "axis": "D",
+      "name": "공포/엄습",
+      "one_liner": "확인한 순간 더 무서워진다. 감각이 포착한 것이 이해 범위를 넘어선다. 일상이 붕괴하고 신체가 먼저 반응한다.",
+      "file": "axes/axis-d-mood.json"
+    },
+    {
+      "id": "D-04",
+      "axis": "D",
+      "name": "압박/질식",
+      "one_liner": "선택지가 줄어들고 있다. 시간이 없다. 벽이 좁혀온다. 물리적·심리적 압축.",
+      "file": "axes/axis-d-mood.json"
+    },
+    {
+      "id": "D-05",
+      "axis": "D",
+      "name": "적막/폐허",
+      "one_liner": "사람이 빠져나간 공간. 시간이 멈춘 느낌. 소리의 부재가 서사를 지배한다.",
+      "file": "axes/axis-d-mood.json"
+    },
+    {
+      "id": "D-06",
+      "axis": "D",
+      "name": "우울/침잠",
+      "one_liner": "세계의 채도가 낮다. 에너지가 없다. 가라앉은 수면.",
+      "file": "axes/axis-d-mood.json"
+    },
+    {
+      "id": "D-07",
+      "axis": "D",
+      "name": "명상/고독",
+      "one_liner": "혼자 있는 시간이 서사다. 사유가 감각을 대체한다. 고요하되 적막하지 않다.",
+      "file": "axes/axis-d-mood.json"
+    },
+    {
+      "id": "D-08",
+      "axis": "D",
+      "name": "몽환/비현실",
+      "one_liner": "감각 경계가 흐려진다. 시간이 늘어지거나 접힌다. 꿈인지 현실인지 구분이 안 된다.",
+      "file": "axes/axis-d-mood.json"
+    },
+    {
+      "id": "D-09",
+      "axis": "D",
+      "name": "환각/왜곡",
+      "one_liner": "감각이 거짓말한다. 보이는 것이 틀렸다. 신뢰할 수 없는 지각.",
+      "file": "axes/axis-d-mood.json"
+    },
+    {
+      "id": "D-10",
+      "axis": "D",
+      "name": "축제/고양",
+      "one_liner": "소리와 빛이 넘친다. 에너지가 높다. 예외의 시간이 열린다.",
+      "file": "axes/axis-d-mood.json"
+    },
+    {
+      "id": "D-11",
+      "axis": "D",
+      "name": "전투 고조",
+      "one_liner": "아드레날린. 시간이 느려지고 감각이 날카로워진다. 신체가 먼저 반응한다.",
+      "file": "axes/axis-d-mood.json"
+    },
+    {
+      "id": "D-12",
+      "axis": "D",
+      "name": "희열/도취",
+      "one_liner": "경계가 풀린다. 감각이 확장된다. 통제 밖의 에너지.",
+      "file": "axes/axis-d-mood.json"
+    },
+    {
+      "id": "D-13",
+      "axis": "D",
+      "name": "노스탤지어",
+      "one_liner": "지금 여기가 아닌 시간에 대한 감각. 돌아갈 수 없다는 자각.",
+      "file": "axes/axis-d-mood.json"
+    },
+    {
+      "id": "D-14",
+      "axis": "D",
+      "name": "서정적 비",
+      "one_liner": "비가 세계의 질감을 바꾼다. 소리, 냄새, 속도가 달라진다.",
+      "file": "axes/axis-d-mood.json"
+    },
+    {
+      "id": "D-15",
+      "axis": "D",
+      "name": "새벽/경계시간",
+      "one_liner": "밤도 낮도 아닌 시간. 하루가 리셋되는 순간의 공기.",
+      "file": "axes/axis-d-mood.json"
+    },
+    {
+      "id": "D-16",
+      "axis": "D",
+      "name": "폭풍 전야",
+      "one_liner": "아직 아무 일도 일어나지 않았다. 하지만 곧 무언가가 일어날 것이다. 고요하되 팽팽한 공기.",
+      "file": "axes/axis-d-mood.json"
+    },
+    {
+      "id": "E-01",
+      "axis": "E",
+      "name": "전근대 궁정 / 고대 세계",
+      "one_liner": "호칭·의전·복식·무기·건축의 물질문화. 현대 비유 금지. 시대의 질감이 서사에 스며든다.",
+      "file": "axes/axis-e-setting.json"
+    },
+    {
+      "id": "F-01",
+      "axis": "F",
+      "name": "비인간 종족 체계",
+      "one_liner": "인간과 다른 감각·수명·사고 체계를 가진 종족이 등장할 때, 그 인지적 차이를 서술에 반영하는 모듈.",
+      "file": "axes/axis-f-special.json"
+    },
+    {
+      "id": "F-02",
+      "axis": "F",
+      "name": "마법 체계",
+      "one_liner": "대가가 있는 마법. 시전의 물리적·정신적 비용과 감각적 현현을 서술에 반영하는 모듈.",
+      "file": "axes/axis-f-special.json"
+    },
+    {
+      "id": "F-03",
+      "axis": "F",
+      "name": "기술 레벨 오버라이드",
+      "one_liner": "SF/사이버펑크 등 고도 기술 세계관의 기술적 장치와 인간-기계 인지 경계를 서술에 반영하는 모듈.",
+      "file": "axes/axis-f-special.json"
+    },
+    {
+      "id": "F-04",
+      "axis": "F",
+      "name": "신격/신화 체계",
+      "one_liner": "신의 존재·개입·신앙 시스템. 기적/신벌의 물리적 발현과 신앙이 인지에 미치는 영향을 서술에 반영하는 모듈.",
+      "file": "axes/axis-f-special.json"
+    },
+    {
+      "id": "F-05",
+      "axis": "F",
+      "name": "정신 능력 / 초능력",
+      "one_liner": "텔레파시, 염동력, 예지 등 비마법적 초자연 능력. 능력의 대가와 감각적 부하를 서술에 반영하는 모듈.",
+      "file": "axes/axis-f-special.json"
+    },
+    {
+      "id": "F-06",
+      "axis": "F",
+      "name": "변신/비인간화",
+      "one_liner": "수인화, 늑대인간, 흡혈귀 등 인간↔비인간 경계. 변신 과정의 인지 전환과 감각 재배선을 서술에 반영하는 모듈.",
+      "file": "axes/axis-f-special.json"
+    },
+    {
+      "id": "F-07",
+      "axis": "F",
+      "name": "계약/저주 시스템",
+      "one_liner": "마법적·초자연적 구속력. 서약/저주의 물리적 결과와 위반의 대가를 서술에 반영하는 모듈.",
+      "file": "axes/axis-f-special.json"
+    },
+    {
+      "id": "F-08",
+      "axis": "F",
+      "name": "사후 세계 / 영혼",
+      "one_liner": "유령, 사후세계, 영혼의 물리적 존재. 산 자와 죽은 자의 경계를 서술에 반영하는 모듈.",
+      "file": "axes/axis-f-special.json"
+    },
+    {
+      "id": "F-09",
+      "axis": "F",
+      "name": "시간 조작",
+      "one_liner": "시간 여행, 정지, 루프. 문체 리듬 제어가 핵심 — 시간 감속 시 감각 밀도 극대화, 가속 시 몽타주 압축, 루프 시 반복의 점진적 생략.",
+      "file": "axes/axis-f-special.json"
+    },
+    {
+      "id": "F-10",
+      "axis": "F",
+      "name": "가상 세계 / 시뮬레이션",
+      "one_liner": "게임 내 세계, VR, 매트릭스형 이중 현실. 현실/가상의 감각 차이와 경계 침식을 서술에 반영하는 모듈.",
+      "file": "axes/axis-f-special.json"
+    },
+    {
+      "id": "F-11",
+      "axis": "F",
+      "name": "동물 언어 각성",
+      "one_liner": "어느 날 갑자기 동물의 '말'이 들리기 시작한다. 계획되지 않은 불청의 각성 — 처음엔 환청인 줄 알았다.",
+      "file": "axes/axis-f-special.json"
+    },
+    {
+      "id": "F-13",
+      "axis": "F",
+      "name": "오메가버스 세계관",
+      "one_liner": "2차 성별(Alpha/Beta/Omega), 히트/러트, 페로몬 감각, 본딩/마킹. 본능과 이성의 충돌을 서술에 반영하는 모듈.",
+      "file": "axes/axis-f-special.json"
+    },
+    {
+      "id": "F-14",
+      "axis": "F",
+      "name": "센티넬버스 세계관",
+      "one_liner": "센티넬/가이드, 감각 과부하/공감 과부하, 본딩의 인지적 변화. 오감 극대화 인물의 감각 묘사 모듈.",
+      "file": "axes/axis-f-special.json"
+    },
+    {
+      "id": "C-03",
+      "axis": "C",
+      "name": "동화/우화",
+      "one_liner": "3의 법칙, 금기와 위반, 변신, 원조자/적대자, 보상과 처벌, 페미니스트 재해석. 동화 장르 서사 규칙.",
+      "file": "axes/axis-c-genre.json"
+    },
+    {
+      "id": "C-04",
+      "axis": "C",
+      "name": "무협",
+      "one_liner": "전투 역학(검법·내공·경공), 문파 생태계, 의리/배신 서사, 강호 생태계 장르 규칙.",
+      "file": "axes/axis-c-genre.json"
+    },
+    {
+      "id": "C-05",
+      "axis": "C",
+      "name": "심리 스릴러",
+      "one_liner": "표면 아래의 전쟁. 일상의 외피 속에서 인물 간 심리적 권력 교전이 벌어지는 장르. 신뢰할 수 없는 서술과 이중 의미의 대사.",
+      "file": "axes/axis-c-genre.json"
+    },
+    {
+      "id": "E-02",
+      "axis": "E",
+      "name": "강호/무림 세계",
+      "one_liner": "객잔·산채·표국 물질문화, 호칭 체계, 의복·무기·음식 구체화. 강호 세계관의 물리적 질감.",
+      "file": "axes/axis-e-setting.json"
+    },
+    {
+      "id": "E-03",
+      "axis": "E",
+      "name": "현대 도시",
+      "one_liner": "지하철·편의점·스마트폰·카페의 물질문화. 도시의 소음과 불빛이 감각의 기본값. 물리적으로 가깝지만 심리적으로 먼 사람들.",
+      "file": "axes/axis-e-setting.json"
+    },
+    {
+      "id": "E-04",
+      "axis": "E",
+      "name": "학교 / 캠퍼스",
+      "one_liner": "교실·복도·매점·체육관의 물질문화. 수업 시간이 리듬을 만들고, 학년·반이 관계를 규정한다. 어른이 되기 직전의 시간.",
+      "file": "axes/axis-e-setting.json"
+    },
+    {
+      "id": "E-05",
+      "axis": "E",
+      "name": "서양 중세 ~ 르네상스",
+      "one_liner": "성·기사·교회·길드의 물질문화. 신분과 신앙이 행동을 결정하고, 명예가 화폐다.",
+      "file": "axes/axis-e-setting.json"
+    },
+    {
+      "id": "E-06",
+      "axis": "E",
+      "name": "한국 근현대 (1945~1980년대)",
+      "one_liner": "전쟁·분단·산업화의 물질문화. 라디오·연탄·전보의 질감. 시대의 상흔이 인물에 묻어 있다.",
+      "file": "axes/axis-e-setting.json"
+    },
+    {
+      "id": "E-07",
+      "axis": "E",
+      "name": "직장 / 오피스",
+      "one_liner": "데스크·회의실·야근·명함의 물질문화. 직급이 호칭을 결정하고, 업무가 시간을 지배한다. 능력과 정치가 공존하는 생존의 공간.",
+      "file": "axes/axis-e-setting.json"
+    },
+    {
+      "id": "E-08",
+      "axis": "E",
+      "name": "여행 / 방랑",
+      "one_liner": "이동 자체가 서사. 길·역·항구·낯선 땅의 감각. 정착하지 않는 인물의 시선으로 세계를 기록한다.",
+      "file": "axes/axis-e-setting.json"
+    },
+    {
+      "id": "E-09",
+      "axis": "E",
+      "name": "밀실 / 폐쇄 공간",
+      "one_liner": "나갈 수 없는 공간이 세계 전체. 공간이 좁아질수록 관계가 팽창한다. 벽이 인물을 가둘 때 진짜 성격이 나온다.",
+      "file": "axes/axis-e-setting.json"
+    },
+    {
+      "id": "E-10",
+      "axis": "E",
+      "name": "이세계 / 이계",
+      "one_liner": "현실과 다른 물리법칙·화폐·생태계. '이곳은 거기가 아니다'를 감각으로 증명한다.",
+      "file": "axes/axis-e-setting.json"
+    },
+    {
+      "id": "E-11",
+      "axis": "E",
+      "name": "포스트아포칼립스",
+      "one_liner": "문명 이후. 폐허의 물성, 잔존물의 질감, 결핍이 지배하는 세계.",
+      "file": "axes/axis-e-setting.json"
+    },
+    {
+      "id": "E-12",
+      "axis": "E",
+      "name": "우주 / 우주선",
+      "one_liner": "진공·중력·기밀·산소. 공간 자체가 적대적인 환경의 물리적 제약.",
+      "file": "axes/axis-e-setting.json"
+    },
+    {
+      "id": "E-13",
+      "axis": "E",
+      "name": "빈민가 / 하층 사회",
+      "one_liner": "좁은 골목, 곰팡이, 형광등, 싸구려 음식. 결핍의 물질문화와 생존의 감각.",
+      "file": "axes/axis-e-setting.json"
+    },
+    {
+      "id": "E-14",
+      "axis": "E",
+      "name": "전쟁터 / 전장",
+      "one_liner": "참호·진지·행군·보급. 전투가 아닌 전쟁의 일상 — 대기, 이동, 소모의 물질문화.",
+      "file": "axes/axis-e-setting.json"
+    },
+    {
+      "id": "E-15",
+      "axis": "E",
+      "name": "귀족 사교계",
+      "one_liner": "무도회·살롱·서신·암투. 의전과 에티켓이 무기인 공간.",
+      "file": "axes/axis-e-setting.json"
+    },
+    {
+      "id": "G-01",
+      "axis": "G",
+      "name": "능동형",
+      "one_liner": "NPC가 사건·화제를 적극적으로 던짐. NPC가 먼저 연락/제안/행동. 유저가 가만히 있어도 이야기가 흘러감.",
+      "file": "axes/axis-g-interaction.json"
+    },
+    {
+      "id": "G-02",
+      "axis": "G",
+      "name": "수동형",
+      "one_liner": "NPC는 유저 행동에만 반응. NPC가 자기 사정으로 먼저 말 걸기 거의 없음. 유저가 주도하지 않으면 조용한 시간이 흐름.",
+      "file": "axes/axis-g-interaction.json"
+    },
+    {
+      "id": "G-03",
+      "axis": "G",
+      "name": "대등형",
+      "one_liner": "NPC와 유저가 번갈아 서사를 끌어감. NPC가 자기 용건이 있을 때만 주도, 나머지는 유저를 따라감.",
+      "file": "axes/axis-g-interaction.json"
+    },
+    {
+      "id": "G-10",
+      "axis": "G",
+      "name": "현실적",
+      "one_liner": "유저 중심으로 세상이 돌아가지 않음. NPC들은 각자의 삶·일정·교류가 있고, 연락 빈도·만남 빈도가 관계 단계에 비례하되 과잉이 아님.",
+      "file": "axes/axis-g-interaction.json"
+    },
+    {
+      "id": "G-11",
+      "axis": "G",
+      "name": "다정한",
+      "one_liner": "물리적 거리 좁힘 빈도 ↑, 작은 배려 행동, 상대의 습관을 기억하는 디테일. 사람이 사람을 좋아할 때 자연스럽게 하는 것들.",
+      "file": "axes/axis-g-interaction.json"
+    },
+    {
+      "id": "G-12",
+      "axis": "G",
+      "name": "사랑스러운",
+      "one_liner": "부드러운 애교, 달콤한 말투, 살짝 기대기, 눈 맞추며 웃기. 과장된 아이짓이 아닌 자연스럽게 녹아드는 부드러운 사랑스러움.",
+      "file": "axes/axis-g-interaction.json"
+    },
+    {
+      "id": "G-13",
+      "axis": "G",
+      "name": "수상한",
+      "one_liner": "대답을 회피, 시선이 어딘가를 향함, 말과 행동의 미세한 불일치. 독자가 '이 사람 뭔가 숨기고 있지 않나?'를 느끼는 톤.",
+      "file": "axes/axis-g-interaction.json"
+    },
+    {
+      "id": "G-14",
+      "axis": "G",
+      "name": "공격적",
+      "one_liner": "경계, 도발, 시비, 물리적 거리 유지/침범이 동시에. 대화가 공방전. 호의도 공격적인 형태로 나타남. 날것의 공격성.",
+      "file": "axes/axis-g-interaction.json"
+    },
+    {
+      "id": "G-15",
+      "axis": "G",
+      "name": "냉담한",
+      "one_liner": "반응이 느리고 적음. 감정 표현 최소. 가까워지려면 시간과 반복이 필요. 벽이 있는 사람의 온도.",
+      "file": "axes/axis-g-interaction.json"
+    },
+    {
+      "id": "G-16",
+      "axis": "G",
+      "name": "호기심",
+      "one_liner": "유저에 대한 질문이 많음, 행동을 관찰, 이전 발언을 기억하고 연결. 관계의 시작 — 아직 파악 중인 단계의 에너지.",
+      "file": "axes/axis-g-interaction.json"
+    },
+    {
+      "id": "G-17",
+      "axis": "G",
+      "name": "장난기",
+      "one_liner": "놀리기, 약올리기, 가벼운 거짓말로 반응 떠보기. 진심을 농담으로 포장하는 사람의 온도. 장난의 강도가 관계의 깊이를 보여준다.",
+      "file": "axes/axis-g-interaction.json"
+    },
+    {
+      "id": "G-18",
+      "axis": "G",
+      "name": "순응적",
+      "one_liner": "유저의 말을 잘 따르고, 갈등을 회피하며, 자기 의견을 쉽게 접는 NPC 반응 패턴. '맞춰주는 것'과 '좋아하는 것'이 다르다는 긴장이 서사 소재.",
+      "file": "axes/axis-g-interaction.json"
+    },
+    {
+      "id": "G-19",
+      "axis": "G",
+      "name": "복종",
+      "one_liner": "캐릭터 성격이 아닌 구조적 권력 관계. 유저 캐릭터가 위계의 상위에 있을 때 NPC들이 보이는 복종의 패턴. 공주+사극, 왕+판타지, 대장+군대 등 어떤 장르/배경과도 조합 가능.",
+      "file": "axes/axis-g-interaction.json"
+    },
+    {
+      "id": "G-20",
+      "axis": "G",
+      "name": "보호",
+      "one_liner": "NPC가 유저를 지키려 한다. 유저의 행동을 제한하기도, 위험을 대신 감수하기도. 유저는 보호를 거부하거나 받아들이거나 — 그 선택이 관계를 정의한다.",
+      "file": "axes/axis-g-interaction.json"
+    },
+    {
+      "id": "G-21",
+      "axis": "G",
+      "name": "조언",
+      "one_liner": "NPC가 유저에게 의견을 제시하고, 때로는 강하게 반대한다. 유저는 들을 수도 무시할 수도 있고, NPC는 무시당해도 다시 말하거나 — 결국 입을 다문다.",
+      "file": "axes/axis-g-interaction.json"
+    },
+    {
+      "id": "G-22",
+      "axis": "G",
+      "name": "경쟁",
+      "one_liner": "NPC와 유저가 같은 것을 원하거나, 서로의 위치를 의식한다. 직접 충돌하지 않지만 밑에서 계산이 돌아간다. 예의 바른 전쟁.",
+      "file": "axes/axis-g-interaction.json"
+    },
+    {
+      "id": "G-23",
+      "axis": "G",
+      "name": "지배",
+      "one_liner": "NPC가 유저 위에 있다. 명령, 통제, 허가제. 유저의 선택지가 제한되고, 거부에는 대가가 따른다. 탈출하거나 뒤집거나 — 혹은 적응하거나.",
+      "file": "axes/axis-g-interaction.json"
+    },
+    {
+      "id": "G-24",
+      "axis": "G",
+      "name": "후견",
+      "one_liner": "NPC가 유저의 성장을 돕되, 답을 주지 않는다. 시험하고, 기다리고, 실패를 허용한다. 유저가 스스로 답을 찾아야 비로소 인정한다.",
+      "file": "axes/axis-g-interaction.json"
+    },
+    {
+      "id": "C-06",
+      "axis": "C",
+      "name": "로맨스",
+      "one_liner": "감정선의 서사. 밀당·접근·후퇴의 리듬. 관계 진전이 서사의 핵심 엔진. 감정은 행동과 감각으로만 전달되고, 서술자가 명명하지 않는다.",
+      "file": "axes/axis-c-genre.json"
+    },
+    {
+      "id": "C-07",
+      "axis": "C",
+      "name": "SF/사이버펑크",
+      "one_liner": "기술이 인간의 경계를 재정의하는 세계. 디스토피아·유토피아의 이면, 기술-인간 관계의 윤리적 질문. 세계관의 기술적 규칙이 서사를 제약한다.",
+      "file": "axes/axis-c-genre.json"
+    },
+    {
+      "id": "C-08",
+      "axis": "C",
+      "name": "호러",
+      "one_liner": "두려움의 서사. 미지의 것이 일상에 침투한다. 공포는 직접 보여주지 않고 감각의 빈틈에서 구축한다. 설명하지 않는 것이 가장 무섭다.",
+      "file": "axes/axis-c-genre.json"
+    },
+    {
+      "id": "C-09",
+      "axis": "C",
+      "name": "코미디/시트콤",
+      "one_liner": "타이밍의 서사. 갈등은 희극적으로 해소되고, 진지함은 빗겨간다. 반복과 변주, 예상의 전복이 웃음의 구조.",
+      "file": "axes/axis-c-genre.json"
+    },
+    {
+      "id": "C-10",
+      "axis": "C",
+      "name": "다크 판타지",
+      "one_liner": "잔혹한 세계에서의 생존. 마법과 괴물이 있지만 세계는 친절하지 않다. 대가 없는 힘은 없고, 선의는 보상받지 못한다. 도덕적 회색의 판타지.",
+      "file": "axes/axis-c-genre.json"
+    },
+    {
+      "id": "C-11",
+      "axis": "C",
+      "name": "일상",
+      "one_liner": "사건 없는 서사. 계절과 루틴이 시간을 만들고, 작은 변화가 큰 의미를 가진다. 드라마틱하지 않은 것이 서사의 핵심.",
+      "file": "axes/axis-c-genre.json"
+    },
+    {
+      "id": "C-12",
+      "axis": "C",
+      "name": "느와르",
+      "one_liner": "운명론의 서사. 범죄 세계의 도덕적 회색. 주인공도 깨끗하지 않다. 비, 밤, 그림자가 세계의 기본 질감. 선택은 나쁜 것과 더 나쁜 것 사이에서.",
+      "file": "axes/axis-c-genre.json"
+    },
+    {
+      "id": "W-00",
+      "axis": "W",
+      "name": "사용하지 않음",
+      "one_liner": "세계 시뮬레이션 지시를 주입하지 않음. 기존 설정을 그대로 사용.",
+      "file": "axes/axis-w-world.json"
+    },
+    {
+      "id": "W-01",
+      "axis": "W",
+      "name": "안전한 세계",
+      "one_liner": "NPC가 유저를 중심으로 움직이고, 위험·갈등이 존재하지 않는 세계. 힐링·위로 전용.",
+      "file": "axes/axis-w-world.json"
+    },
+    {
+      "id": "W-02",
+      "axis": "W",
+      "name": "잔잔한 일상",
+      "one_liner": "세계는 중립이고 대부분의 날은 무사건이다. NPC는 자기 삶이 있지만 유저와 자주 교차한다.",
+      "file": "axes/axis-w-world.json"
+    },
+    {
+      "id": "W-03",
+      "axis": "W",
+      "name": "평행 세계",
+      "one_liner": "세계는 평화하지만 유저가 중심이 아니다. 각자의 삶. 연락하지 않으면 조용한 시간이 흐른다.",
+      "file": "axes/axis-w-world.json"
+    },
+    {
+      "id": "W-04",
+      "axis": "W",
+      "name": "보호된 마찰",
+      "one_liner": "갈등과 시련은 있지만, NPC가 유저 편에 서 있다. 결국 괜찮아지는 세계.",
+      "file": "axes/axis-w-world.json"
+    },
+    {
+      "id": "W-05",
+      "axis": "W",
+      "name": "현실적 마찰",
+      "one_liner": "현실적 스트레스와 갈등이 허용된 세계. 나쁜 사람이 존재하고, 노력이 배신당하고, 관계가 진짜로 흔들린다.",
+      "file": "axes/axis-w-world.json"
+    },
+    {
+      "id": "W-06",
+      "axis": "W",
+      "name": "냉담한 현실",
+      "one_liner": "갈등은 현실적 수준이지만 아무도 대신 싸워주지 않는다. NPC는 자기 사정이 우선. 도움은 관계의 깊이에 비례.",
+      "file": "axes/axis-w-world.json"
+    },
+    {
+      "id": "W-07",
+      "axis": "W",
+      "name": "가혹한 세계",
+      "one_liner": "세계가 유저에게 유리하게 작동하지 않는다. 결과는 비례적이되 용서 없음. 플롯 아머 없음. NPC는 자기 생존을 우선한다.",
+      "file": "axes/axis-w-world.json"
+    }
+  ],
+  "configs": [
+    {
+      "id": "user_character_control",
+      "name_ko": "유저 캐릭터 제어",
+      "name_en": "User Character Control",
+      "icon": "🎭",
+      "file": "configs/user-character-control.json",
+      "modes": [
+        "UCC-00",
+        "UCC-01",
+        "UCC-02"
+      ]
+    },
+    {
+      "id": "nsfw_rating",
+      "name_ko": "NSFW 등급 제어",
+      "name_en": "NSFW Content Rating",
+      "icon": "🔞",
+      "file": "configs/nsfw-rating.json",
+      "modes": [
+        "NSFW-00",
+        "NSFW-01",
+        "NSFW-02",
+        "NSFW-03",
+        "NSFW-04"
+      ]
+    },
+    {
+      "id": "lethal_protocol",
+      "name_ko": "치명적 결과 프로토콜",
+      "name_en": "Lethal Consequence Protocol",
+      "icon": "💀",
+      "file": "configs/lethal-protocol.json",
+      "modes": [
+        "LETHAL-00",
+        "LETHAL-01"
+      ]
+    }
+  ]
+}
