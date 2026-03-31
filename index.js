@@ -14,7 +14,7 @@
     const EXTENSION_NAME = 'nov-style';
     const UNUSED_SUFFIX   = '-00';
     const PROMPT_TITLE    = '# 문체 지침';
-    const BUILD_ORDER     = ['W', 'A', 'S', 'B', 'C', 'D', 'E', 'F', 'G'];
+    const BUILD_ORDER     = ['A', 'S', 'B', 'W', 'C', 'D', 'E', 'F', 'G'];
 
     /* ------------------------------------------------------------------ */
     /* 1. ST 전역 API 획득                                                  */
@@ -396,7 +396,7 @@
         mutexSection.className = 'nov-style-popup-section';
         const mutexTitle = document.createElement('div');
         mutexTitle.className = 'nov-style-popup-section-title';
-        mutexTitle.textContent = '── Mutex 축 (하나만 선택) ──';
+        mutexTitle.textContent = '── 문체 스타일 ──';
         mutexSection.appendChild(mutexTitle);
 
         // Combinable 축 섹션
@@ -404,7 +404,7 @@
         combSection.className = 'nov-style-popup-section';
         const combTitle = document.createElement('div');
         combTitle.className = 'nov-style-popup-section-title';
-        combTitle.textContent = '── Combinable 축 (복수 선택) ──';
+        combTitle.textContent = '── 장르 · 분위기 · 요소 ──';
         combSection.appendChild(combTitle);
 
         for (const axisKey of BUILD_ORDER) {
@@ -437,6 +437,10 @@
                 badge.textContent = selCount > 0 ? `${selCount}개 선택됨` : '선택 없음';
                 groupEl.appendChild(badge);
 
+                const oneLinerEl = document.createElement('div');
+                oneLinerEl.className = 'nov-style-popup-oneliner';
+                oneLinerEl.textContent = '기존 설정을 그대로 사용합니다.';
+
                 for (const mod of modulesForAxis) {
                     if (mod.id.endsWith(UNUSED_SUFFIX)) continue;
 
@@ -468,12 +472,23 @@
                         setAxisSelection(axisKey, arr);
                         const cnt = arr.filter(id => !id.endsWith(UNUSED_SUFFIX)).length;
                         badge.textContent = cnt > 0 ? `${cnt}개 선택됨` : '선택 없음';
+                        if (!isActive) {
+                            // 새로 선택: 해당 항목 설명 표시
+                            oneLinerEl.textContent = mod.one_liner ?? '';
+                        } else if (cnt === 0) {
+                            // 마지막 항목 해제: 기본 안내 표시
+                            oneLinerEl.textContent = '기존 설정을 그대로 사용합니다.';
+                        } else {
+                            // 일부 항목 해제, 다른 항목 여전히 선택 중
+                            oneLinerEl.textContent = '';
+                        }
                     });
 
                     btnGroup.appendChild(btn);
                 }
 
                 groupEl.appendChild(btnGroup);
+                groupEl.appendChild(oneLinerEl);
                 combSection.appendChild(groupEl);
             } else {
                 const currentSel = getAxisSelection(axisKey, 'mutex');
@@ -532,7 +547,7 @@
         cfgSection.className = 'nov-style-popup-section';
         const cfgTitle = document.createElement('div');
         cfgTitle.className = 'nov-style-popup-section-title';
-        cfgTitle.textContent = '── ⚙️ 기본 설정 (Config) ──';
+        cfgTitle.textContent = '── 기본 설정 ──';
         cfgSection.appendChild(cfgTitle);
 
         for (const cfgMeta of catalog.configs) {

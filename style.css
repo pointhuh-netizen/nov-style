@@ -76,6 +76,12 @@
 
 .nov-style-popup-axis-group {
     margin-bottom: 12px;
+    border-bottom: 1px solid var(--SmartThemeBorderColor, rgba(255,255,255,0.1));
+    padding-bottom: 10px;
+}
+
+.nov-style-popup-axis-group:last-child {
+    border-bottom: none;
 }
 
 .nov-style-popup-axis-label {
