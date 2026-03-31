@@ -1,162 +1,29 @@
 /* Nov Style Engine - style.css */
 
+/* ---- 사이드바 패널 ---- */
+
 .nov-style-container {
     margin: 4px 0;
 }
 
-/* Loading indicator */
-.nov-style-loading {
-    padding: 8px;
-    color: var(--SmartThemeBodyColor, #ccc);
-    font-size: 0.9em;
-    text-align: center;
+.nov-style-sidebar-row {
+    margin-bottom: 6px;
 }
 
-/* Section grouping */
-.nov-style-section {
-    margin-bottom: 8px;
-}
-
-/* Axis group */
-.nov-style-axis-group {
-    margin-bottom: 10px;
-    border: 1px solid var(--SmartThemeBorderColor, #444);
-    border-radius: 4px;
-    overflow: hidden;
-}
-
-.nov-style-axis-header {
+.nov-style-enable-label {
     display: flex;
     align-items: center;
     gap: 6px;
-    padding: 6px 10px;
-    background: var(--SmartThemeBlurTintColor, rgba(0,0,0,0.3));
-    cursor: pointer;
-    user-select: none;
     font-size: 0.9em;
-    font-weight: bold;
+    cursor: pointer;
     color: var(--SmartThemeBodyColor, #ddd);
 }
 
-.nov-style-axis-header:hover {
-    background: var(--SmartThemeBlurTintColor, rgba(255,255,255,0.05));
-    filter: brightness(1.2);
-}
-
-.nov-style-axis-header .nov-style-axis-toggle {
-    margin-left: auto;
-    transition: transform 0.2s;
-    font-size: 0.8em;
-    color: var(--SmartThemeBodyColor, #aaa);
-}
-
-.nov-style-axis-header.collapsed .nov-style-axis-toggle {
-    transform: rotate(-90deg);
-}
-
-.nov-style-axis-body {
-    padding: 8px 10px;
-    background: var(--SmartThemeBlurTintColor, rgba(0,0,0,0.15));
-}
-
-.nov-style-axis-body.collapsed {
-    display: none;
-}
-
-.nov-style-axis-desc {
-    font-size: 0.8em;
-    color: var(--SmartThemeQuoteColor, #aaa);
-    margin-bottom: 6px;
-    font-style: italic;
-}
-
-/* Select dropdown */
-.nov-style-select {
-    width: 100%;
-    padding: 5px 8px;
-    background: var(--SmartThemeBlurTintColor, #2a2a2a);
-    color: var(--SmartThemeBodyColor, #ddd);
-    border: 1px solid var(--SmartThemeBorderColor, #555);
-    border-radius: 4px;
-    font-size: 0.88em;
-    cursor: pointer;
-}
-
-.nov-style-select:focus {
-    outline: none;
-    border-color: var(--SmartThemeQuoteColor, #7a7);
-}
-
-/* Checkbox list */
-.nov-style-checkbox-list {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-    max-height: 200px;
-    overflow-y: auto;
-    padding-right: 4px;
-}
-
-.nov-style-checkbox-list::-webkit-scrollbar {
-    width: 4px;
-}
-.nov-style-checkbox-list::-webkit-scrollbar-track {
-    background: transparent;
-}
-.nov-style-checkbox-list::-webkit-scrollbar-thumb {
-    background: var(--SmartThemeBorderColor, #555);
-    border-radius: 2px;
-}
-
-.nov-style-checkbox-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 6px;
-    padding: 2px 0;
-    cursor: pointer;
-}
-
-.nov-style-checkbox-item input[type="checkbox"] {
-    margin-top: 2px;
-    flex-shrink: 0;
-    accent-color: var(--SmartThemeQuoteColor, #7a7);
-    cursor: pointer;
-}
-
-.nov-style-checkbox-item label {
-    cursor: pointer;
-    font-size: 0.88em;
-    color: var(--SmartThemeBodyColor, #ddd);
-    line-height: 1.3;
-}
-
-.nov-style-checkbox-item label span.one-liner {
-    display: block;
-    font-size: 0.82em;
-    color: var(--SmartThemeQuoteColor, #999);
-    font-style: italic;
-}
-
-/* Actions */
-#nov-style-actions {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-    margin: 6px 0;
-}
-
-#nov-style-actions .menu_button {
-    flex: 1;
-    min-width: 80px;
-    font-size: 0.85em;
-    padding: 5px 8px;
-}
-
-/* Status bar */
+/* 사이드바 상태 바 */
 .nov-style-status {
     font-size: 0.82em;
     color: var(--SmartThemeQuoteColor, #999);
-    margin: 4px 0;
+    margin: 6px 0 2px;
     padding: 4px 6px;
     background: var(--SmartThemeBlurTintColor, rgba(0,0,0,0.2));
     border-radius: 3px;
@@ -173,45 +40,252 @@
     border-left-color: #e07070;
 }
 
-/* Preview textarea */
-.nov-style-preview {
+/* ---- 팝업 내부 레이아웃 ---- */
+
+.nov-style-popup {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding: 8px 4px;
+    min-width: 320px;
+}
+
+.nov-style-popup-section {
+    margin-bottom: 16px;
+}
+
+.nov-style-popup-section-title {
+    font-size: 0.85em;
+    font-weight: bold;
+    color: var(--SmartThemeQuoteColor, #aaa);
+    margin-bottom: 10px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--SmartThemeBorderColor, #444);
+}
+
+.nov-style-popup-axis-group {
+    margin-bottom: 12px;
+}
+
+.nov-style-popup-axis-label {
+    font-size: 0.88em;
+    font-weight: bold;
+    color: var(--SmartThemeBodyColor, #ddd);
+    margin-bottom: 4px;
+}
+
+.nov-style-popup-select {
     width: 100%;
-    min-height: 120px;
-    max-height: 300px;
+    padding: 5px 8px;
+    background: var(--SmartThemeBlurTintColor, #2a2a2a);
+    color: var(--SmartThemeBodyColor, #ddd);
+    border: 1px solid var(--SmartThemeBorderColor, #555);
+    border-radius: 4px;
+    font-size: 0.88em;
+    cursor: pointer;
+}
+
+.nov-style-popup-select:focus {
+    outline: none;
+    border-color: var(--SmartThemeQuoteColor, #7a7);
+}
+
+.nov-style-popup-oneliner {
+    font-size: 0.8em;
+    color: var(--SmartThemeQuoteColor, #999);
+    font-style: italic;
+    margin-top: 3px;
+    min-height: 1.2em;
+}
+
+/* Combinable 접이식 섹션 */
+.nov-style-popup-collapse-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 6px;
+    background: var(--SmartThemeBlurTintColor, rgba(0,0,0,0.2));
+    border-radius: 4px;
+    cursor: pointer;
+    user-select: none;
+    font-size: 0.85em;
+}
+
+.nov-style-popup-collapse-header:hover {
+    filter: brightness(1.2);
+}
+
+.nov-style-popup-collapse-toggle {
+    font-size: 0.75em;
+    color: var(--SmartThemeQuoteColor, #aaa);
+    width: 12px;
+    text-align: center;
+}
+
+.nov-style-popup-count-badge {
+    font-size: 0.82em;
+    color: var(--SmartThemeQuoteColor, #999);
+}
+
+.nov-style-popup-checkbox-list {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    margin-top: 6px;
+    max-height: 220px;
+    overflow-y: auto;
+    padding: 4px 6px;
+    border-left: 2px solid var(--SmartThemeBorderColor, #444);
+}
+
+.nov-style-popup-checkbox-list.collapsed {
+    display: none;
+}
+
+.nov-style-popup-checkbox-list::-webkit-scrollbar {
+    width: 4px;
+}
+.nov-style-popup-checkbox-list::-webkit-scrollbar-thumb {
+    background: var(--SmartThemeBorderColor, #555);
+    border-radius: 2px;
+}
+
+.nov-style-popup-checkbox-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    padding: 2px 0;
+    cursor: pointer;
+}
+
+.nov-style-popup-checkbox-item input[type="checkbox"] {
+    margin-top: 2px;
+    flex-shrink: 0;
+    accent-color: var(--SmartThemeQuoteColor, #7a7);
+    cursor: pointer;
+}
+
+.nov-style-popup-mod-name {
+    display: block;
+    font-size: 0.88em;
+    color: var(--SmartThemeBodyColor, #ddd);
+}
+
+.nov-style-popup-mod-oneliner {
+    display: block;
+    font-size: 0.78em;
+    color: var(--SmartThemeQuoteColor, #999);
+    font-style: italic;
+}
+
+/* 팝업 미리보기 */
+.nov-style-popup-preview {
+    width: 100%;
+    min-height: 100px;
+    max-height: 260px;
     margin-top: 6px;
     padding: 8px;
     background: var(--SmartThemeBlurTintColor, #1a1a1a);
     color: var(--SmartThemeBodyColor, #ccc);
     border: 1px solid var(--SmartThemeBorderColor, #444);
     border-radius: 4px;
-    font-size: 0.82em;
+    font-size: 0.8em;
     font-family: monospace;
     resize: vertical;
     box-sizing: border-box;
     display: none;
 }
 
-.nov-style-preview.visible {
+.nov-style-popup-preview.visible {
     display: block;
 }
 
-/* Config section */
-.nov-style-configs-header {
-    font-size: 0.85em;
+/* 팝업 액션 버튼 영역 */
+.nov-style-popup-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 4px;
+}
+
+.nov-style-popup-actions .menu_button {
+    flex: 1;
+    min-width: 80px;
+}
+
+.nov-style-popup-apply-btn {
     font-weight: bold;
-    color: var(--SmartThemeBodyColor, #ddd);
-    margin-bottom: 6px;
-    padding: 4px 0;
+}
+
+/* 팝업 상태 메시지 */
+.nov-style-popup-status {
+    font-size: 0.82em;
+    color: var(--SmartThemeQuoteColor, #999);
+    margin-top: 6px;
+    min-height: 1.3em;
+}
+
+.nov-style-popup-status.applied {
+    color: #7db87d;
+}
+
+.nov-style-popup-status.error {
+    color: #e07070;
+}
+
+/* ---- 폴백 모달 (ST popup API 없을 때) ---- */
+
+.nov-style-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(0, 0, 0, 0.65);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    box-sizing: border-box;
+}
+
+.nov-style-modal-dialog {
+    background: var(--SmartThemeBodyColor2, #1e1e2e);
+    border: 1px solid var(--SmartThemeBorderColor, #555);
+    border-radius: 8px;
+    width: 100%;
+    max-width: 720px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+.nov-style-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
     border-bottom: 1px solid var(--SmartThemeBorderColor, #444);
+    font-size: 1em;
+    font-weight: bold;
+    color: var(--SmartThemeBodyColor, #eee);
+    flex-shrink: 0;
 }
 
-.nov-style-config-item {
-    margin-bottom: 8px;
+.nov-style-modal-close {
+    padding: 2px 8px;
+    font-size: 0.9em;
 }
 
-.nov-style-config-item label {
-    display: block;
-    font-size: 0.85em;
-    color: var(--SmartThemeBodyColor, #ccc);
-    margin-bottom: 3px;
+.nov-style-modal-body {
+    overflow-y: auto;
+    padding: 16px;
+    flex: 1;
+}
+
+.nov-style-modal-body::-webkit-scrollbar {
+    width: 6px;
+}
+.nov-style-modal-body::-webkit-scrollbar-thumb {
+    background: var(--SmartThemeBorderColor, #555);
+    border-radius: 3px;
 }
