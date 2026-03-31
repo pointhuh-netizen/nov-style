@@ -211,6 +211,23 @@
     display: block;
 }
 
+/* 팝업 내 잔여 menu_button nowrap */
+.nov-style-popup .menu_button {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 미리보기 토글 제목 */
+.nov-style-popup-preview-toggle {
+    cursor: pointer;
+    user-select: none;
+}
+
+.nov-style-popup-preview-toggle:hover {
+    filter: brightness(1.2);
+}
+
 /* 팝업 액션 버튼 영역 */
 .nov-style-popup-actions {
     display: flex;
