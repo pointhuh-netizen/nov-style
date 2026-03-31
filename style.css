@@ -132,7 +132,7 @@
 }
 
 .nov-style-popup-section {
-    margin-bottom: 20px;
+    margin-bottom: 24px;
 }
 
 /* 가로선 (Line-through) 스타일 구분선 */
@@ -140,7 +140,7 @@
     font-size: 0.9em;
     font-weight: 700;
     color: var(--nov-text-muted);
-    margin-bottom: 16px;
+    margin-bottom: 20px;
     padding-bottom: 0;
     border-bottom: none;
     text-transform: uppercase;
@@ -168,16 +168,26 @@
 }
 
 .nov-style-popup-axis-group {
-    margin-bottom: 16px;
-    padding-bottom: 0;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px dashed var(--nov-border);
+}
+
+.nov-style-popup-axis-group:last-child {
     border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: 0;
 }
 
 .nov-style-popup-axis-label {
     font-size: 0.9em;
     font-weight: 600;
     color: var(--nov-text-main);
-    margin-bottom: 6px;
+    margin-bottom: 10px;
+    padding-left: 8px;
+    border-left: 3px solid var(--nov-accent-primary);
+    display: flex;
+    align-items: center;
 }
 
 /* 셀렉트 박스 */
@@ -213,7 +223,7 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    padding: 8px 12px;
+    padding: 10px 14px;
     background: var(--nov-bg-panel);
     border-radius: var(--nov-radius-sm);
     cursor: pointer;
@@ -222,6 +232,7 @@
     font-weight: 600;
     color: var(--nov-text-main);
     transition: var(--nov-transition);
+    margin-bottom: 8px;
 }
 
 .nov-style-popup-collapse-header:hover {
@@ -249,7 +260,6 @@
     display: flex;
     flex-direction: column;
     gap: 6px;
-    margin-top: 8px;
     max-height: 240px;
     overflow-y: auto;
     padding: 8px;
@@ -312,7 +322,7 @@
     width: 100%;
     min-height: 100px;
     max-height: 260px;
-    margin-top: 8px;
+    margin-top: 12px;
     padding: 12px;
     background: #F8F7F4;
     color: var(--nov-text-main);
@@ -337,7 +347,7 @@
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: 4px 8px;
+    padding: 6px 10px;
     border-radius: 4px;
     transition: var(--nov-transition);
 }
@@ -352,7 +362,7 @@
     gap: 12px;
     flex-wrap: wrap;
     justify-content: center;
-    margin-top: 12px;
+    margin-top: 16px;
 }
 
 .nov-style-popup-actions .menu_button {
@@ -411,8 +421,8 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 8px;
-    margin-top: 8px;
+    gap: 10px;
+    margin-top: 12px;
 }
 
 .nov-style-config-btn:hover,
