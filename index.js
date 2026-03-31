@@ -424,12 +424,9 @@
             groupEl.appendChild(labelEl);
 
             if (isCombinable) {
-                const collapseHeader = document.createElement('div');
-                collapseHeader.className = 'nov-style-popup-collapse-header';
-
-                const toggleIcon = document.createElement('span');
-                toggleIcon.className = 'nov-style-popup-collapse-toggle fa-solid fa-chevron-right';
-                collapseHeader.appendChild(toggleIcon);
+                const btnGroup = document.createElement('div');
+                btnGroup.className = 'nov-style-comb-btn-group';
+                btnGroup.dataset.axis = axisKey;
 
                 const selectedIds = getAxisSelection(axisKey, 'combinable');
                 const selCount = Array.isArray(selectedIds)
@@ -438,63 +435,45 @@
                 const badge = document.createElement('span');
                 badge.className = 'nov-style-popup-count-badge';
                 badge.textContent = selCount > 0 ? `${selCount}개 선택됨` : '선택 없음';
-                collapseHeader.appendChild(badge);
-
-                groupEl.appendChild(collapseHeader);
-
-                const listEl = document.createElement('div');
-                listEl.className = 'nov-style-popup-checkbox-list collapsed';
+                groupEl.appendChild(badge);
 
                 for (const mod of modulesForAxis) {
                     if (mod.id.endsWith(UNUSED_SUFFIX)) continue;
 
-                    const itemLabel = document.createElement('label');
-                    itemLabel.className = 'nov-style-popup-checkbox-item';
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = 'nov-style-comb-btn';
+                    btn.dataset.modId = mod.id;
+                    btn.textContent = mod.name;
+                    btn.title = mod.one_liner ?? '';
 
-                    const cb = document.createElement('input');
-                    cb.type = 'checkbox';
-                    cb.value = mod.id;
-                    cb.dataset.axis = axisKey;
                     const currentSel = getAxisSelection(axisKey, 'combinable');
-                    cb.checked = Array.isArray(currentSel) && currentSel.includes(mod.id);
+                    if (Array.isArray(currentSel) && currentSel.includes(mod.id)) {
+                        btn.classList.add('active');
+                    }
 
-                    cb.addEventListener('change', () => {
+                    btn.addEventListener('click', () => {
                         const arr = [...(getAxisSelection(axisKey, 'combinable') ?? [])];
-                        if (cb.checked) {
-                            if (!arr.includes(mod.id)) arr.push(mod.id);
-                        } else {
+                        const isActive = btn.classList.contains('active');
+
+                        if (isActive) {
                             const idx = arr.indexOf(mod.id);
                             if (idx >= 0) arr.splice(idx, 1);
+                            btn.classList.remove('active');
+                        } else {
+                            if (!arr.includes(mod.id)) arr.push(mod.id);
+                            btn.classList.add('active');
                         }
+
                         setAxisSelection(axisKey, arr);
                         const cnt = arr.filter(id => !id.endsWith(UNUSED_SUFFIX)).length;
                         badge.textContent = cnt > 0 ? `${cnt}개 선택됨` : '선택 없음';
                     });
 
-                    const textSpan = document.createElement('span');
-                    textSpan.className = 'nov-style-popup-mod-name';
-                    textSpan.textContent = mod.name;
-
-                    const olSpan = document.createElement('span');
-                    olSpan.className = 'nov-style-popup-mod-oneliner';
-                    olSpan.textContent = mod.one_liner ?? '';
-
-                    const textWrapper = document.createElement('span');
-                    textWrapper.appendChild(textSpan);
-                    textWrapper.appendChild(olSpan);
-
-                    itemLabel.appendChild(cb);
-                    itemLabel.appendChild(textWrapper);
-                    listEl.appendChild(itemLabel);
+                    btnGroup.appendChild(btn);
                 }
 
-                collapseHeader.addEventListener('click', () => {
-                    const isCollapsed = listEl.classList.toggle('collapsed');
-                    toggleIcon.classList.toggle('fa-chevron-right', isCollapsed);
-                    toggleIcon.classList.toggle('fa-chevron-down', !isCollapsed);
-                });
-
-                groupEl.appendChild(listEl);
+                groupEl.appendChild(btnGroup);
                 combSection.appendChild(groupEl);
             } else {
                 const currentSel = getAxisSelection(axisKey, 'mutex');
@@ -508,7 +487,7 @@
                 const initMod = modulesForAxis.find(
                     m => m.id === (currentSel ?? null)
                 );
-                oneLinerEl.textContent = initMod?.one_liner ?? '';
+                oneLinerEl.textContent = initMod?.one_liner ?? '기존 설정을 그대로 사용합니다.';
 
                 for (const mod of modulesForAxis) {
                     if (mod.id.endsWith(UNUSED_SUFFIX)) continue;
@@ -531,7 +510,7 @@
                         if (wasActive) {
                             // 해제 → null (사용하지 않음)으로 자동 복귀
                             setAxisSelection(axisKey, null);
-                            oneLinerEl.textContent = '';
+                            oneLinerEl.textContent = '기존 설정을 그대로 사용합니다.';
                         } else {
                             btn.classList.add('active');
                             setAxisSelection(axisKey, mod.id);
@@ -580,7 +559,7 @@
             const initMode = (!currentSel || currentSel.endsWith('-00'))
                 ? null
                 : modes.find(m => m.id === currentSel);
-            oneLinerEl.textContent = initMode?.one_liner ?? '';
+            oneLinerEl.textContent = initMode?.one_liner ?? '기존 설정을 그대로 사용합니다.';
 
             for (const mode of modes) {
                 // -00 (사용하지 않음)은 버튼에 표시하지 않음
@@ -605,7 +584,7 @@
                         // 해제 → -00 (사용하지 않음)으로 자동 복귀
                         const defaultMode = modes.find(m => m.id.endsWith('-00'))?.id ?? null;
                         setConfigSelection(cfgMeta.id, defaultMode);
-                        oneLinerEl.textContent = '';
+                        oneLinerEl.textContent = '기존 설정을 그대로 사용합니다.';
                     } else {
                         btn.classList.add('active');
                         setConfigSelection(cfgMeta.id, mode.id);
@@ -718,7 +697,7 @@
                     }
                 });
                 if (!sel && oneLinerEl) {
-                    oneLinerEl.textContent = '';
+                    oneLinerEl.textContent = '기존 설정을 그대로 사용합니다.';
                 }
             }
         }
@@ -726,16 +705,17 @@
         for (const [axisKey, axisMeta] of Object.entries(catalog.axes)) {
             if (axisMeta.type !== 'combinable') continue;
             const selectedIds = getAxisSelection(axisKey, 'combinable');
-            const cbs = popupEl.querySelectorAll(
-                `input[type="checkbox"][data-axis="${axisKey}"]`
+            const btnGroup = popupEl.querySelector(
+                `.nov-style-comb-btn-group[data-axis="${axisKey}"]`
             );
+            if (!btnGroup) continue;
             let cnt = 0;
-            cbs.forEach(cb => {
-                cb.checked = Array.isArray(selectedIds) && selectedIds.includes(cb.value);
-                if (cb.checked) cnt++;
+            btnGroup.querySelectorAll('.nov-style-comb-btn').forEach(btn => {
+                const isSelected = Array.isArray(selectedIds) && selectedIds.includes(btn.dataset.modId);
+                btn.classList.toggle('active', isSelected);
+                if (isSelected) cnt++;
             });
-            // badge update
-            const group = cbs[0]?.closest('.nov-style-popup-axis-group');
+            const group = btnGroup.closest('.nov-style-popup-axis-group');
             const badge = group?.querySelector('.nov-style-popup-count-badge');
             if (badge) badge.textContent = cnt > 0 ? `${cnt}개 선택됨` : '선택 없음';
         }
