@@ -531,15 +531,12 @@
             }
         }
 
-        el.appendChild(mutexSection);
-        el.appendChild(combSection);
-
         // Config 섹션
         const cfgSection = document.createElement('div');
         cfgSection.className = 'nov-style-popup-section';
         const cfgTitle = document.createElement('div');
         cfgTitle.className = 'nov-style-popup-section-title';
-        cfgTitle.textContent = '── 설정 (Config) ──';
+        cfgTitle.textContent = '── ⚙️ 기본 설정 (Config) ──';
         cfgSection.appendChild(cfgTitle);
 
         for (const cfgMeta of catalog.configs) {
@@ -554,39 +551,64 @@
             labelEl.textContent = `${cfgMeta.icon ?? ''} ${cfgMeta.name_ko}`;
             groupEl.appendChild(labelEl);
 
-            const selectEl = document.createElement('select');
-            selectEl.className = 'nov-style-popup-select';
-            selectEl.dataset.configId = cfgMeta.id;
-
             const currentSel = getConfigSelection(cfgMeta.id);
             const modes = cfgData.modes ?? [];
 
-            for (const mode of modes) {
-                const opt = document.createElement('option');
-                opt.value = mode.id;
-                opt.textContent = mode.name;
-                opt.title = mode.one_liner ?? '';
-                if (mode.id === currentSel) opt.selected = true;
-                selectEl.appendChild(opt);
-            }
+            const btnGroup = document.createElement('div');
+            btnGroup.className = 'nov-style-config-btn-group';
+            btnGroup.dataset.configId = cfgMeta.id;
 
             const oneLinerEl = document.createElement('div');
             oneLinerEl.className = 'nov-style-popup-oneliner';
             const initMode = modes.find(m => m.id === (currentSel ?? modes[0]?.id));
             oneLinerEl.textContent = initMode?.one_liner ?? '';
 
-            selectEl.addEventListener('change', () => {
-                setConfigSelection(cfgMeta.id, selectEl.value);
-                const selMode = modes.find(m => m.id === selectEl.value);
-                oneLinerEl.textContent = selMode?.one_liner ?? '';
-            });
+            for (const mode of modes) {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'nov-style-config-btn';
+                if (mode.id.endsWith('-00')) {
+                    btn.classList.add('default-mode');
+                }
+                btn.dataset.modeId = mode.id;
+                btn.textContent = mode.name;
+                btn.title = mode.one_liner ?? '';
 
-            groupEl.appendChild(selectEl);
+                if (mode.id === currentSel) {
+                    btn.classList.add('active');
+                }
+
+                btn.addEventListener('click', () => {
+                    const wasActive = btn.classList.contains('active');
+                    btnGroup.querySelectorAll('.nov-style-config-btn').forEach(b => b.classList.remove('active'));
+
+                    if (wasActive) {
+                        // 활성 버튼을 다시 누르면 해제 → -00(사용하지 않음) 모드가 있으면 그걸로, 없으면 null
+                        const defaultMode = modes[0]?.id ?? null;
+                        const newSel = (defaultMode && defaultMode.endsWith('-00')) ? defaultMode : null;
+                        setConfigSelection(cfgMeta.id, newSel);
+                        if (newSel) {
+                            btnGroup.querySelector(`[data-mode-id="${newSel}"]`)?.classList.add('active');
+                        }
+                        oneLinerEl.textContent = newSel ? (modes[0]?.one_liner ?? '') : '';
+                    } else {
+                        btn.classList.add('active');
+                        setConfigSelection(cfgMeta.id, mode.id);
+                        oneLinerEl.textContent = mode.one_liner ?? '';
+                    }
+                });
+
+                btnGroup.appendChild(btn);
+            }
+
+            groupEl.appendChild(btnGroup);
             groupEl.appendChild(oneLinerEl);
             cfgSection.appendChild(groupEl);
         }
 
         el.appendChild(cfgSection);
+        el.appendChild(mutexSection);
+        el.appendChild(combSection);
 
         // 미리보기 섹션
         const previewSection = document.createElement('div');
@@ -693,14 +715,15 @@
             if (badge) badge.textContent = cnt > 0 ? `${cnt}개 선택됨` : '선택 없음';
         }
 
-        const configSelects = popupEl.querySelectorAll(
-            'select.nov-style-popup-select[data-config-id]'
+        const configBtnGroups = popupEl.querySelectorAll(
+            '.nov-style-config-btn-group[data-config-id]'
         );
-        configSelects.forEach(sel => {
-            const cfgId = sel.dataset.configId;
+        configBtnGroups.forEach(group => {
+            const cfgId = group.dataset.configId;
             const val = getConfigSelection(cfgId);
-            sel.value = val ?? sel.options[0]?.value ?? '';
-            sel.dispatchEvent(new Event('change'));
+            group.querySelectorAll('.nov-style-config-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.modeId === val);
+            });
         });
     }
 
