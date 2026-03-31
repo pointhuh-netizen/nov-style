@@ -159,18 +159,15 @@
     border-bottom: 1px solid var(--nov-border);
 }
 
-.nov-style-popup-section-title::before {
-    margin-right: 12px;
-}
+.nov-style-popup-section-title::before { margin-right: 12px; }
+.nov-style-popup-section-title::after { margin-left: 12px; }
 
-.nov-style-popup-section-title::after {
-    margin-left: 12px;
-}
-
+/* 그룹 내 중앙 정렬 강제 및 점선 추가 */
 .nov-style-popup-axis-group {
-    margin-bottom: 20px;
+    margin-bottom: 24px;
     padding-bottom: 20px;
     border-bottom: 1px dashed var(--nov-border);
+    text-align: center; 
 }
 
 .nov-style-popup-axis-group:last-child {
@@ -179,15 +176,19 @@
     margin-bottom: 0;
 }
 
+/* 뱃지 형태의 라벨 디자인으로 변경하여 중앙 정렬 복구 */
 .nov-style-popup-axis-label {
-    font-size: 0.9em;
-    font-weight: 600;
+    font-size: 0.85em;
+    font-weight: 700;
     color: var(--nov-text-main);
-    margin-bottom: 10px;
-    padding-left: 8px;
-    border-left: 3px solid var(--nov-accent-primary);
-    display: flex;
+    margin: 0 auto 12px auto;
+    display: inline-flex;
     align-items: center;
+    justify-content: center;
+    padding: 4px 14px;
+    background: #EAE8E3;
+    border-radius: 16px;
+    letter-spacing: 0.5px;
 }
 
 /* 셀렉트 박스 */
@@ -202,6 +203,7 @@
     cursor: pointer;
     box-shadow: inset 0 1px 2px rgba(0,0,0,0.02);
     transition: var(--nov-transition);
+    text-align: center;
 }
 
 .nov-style-popup-select:focus {
@@ -216,12 +218,14 @@
     margin-top: 6px;
     min-height: 1.2em;
     line-height: 1.4;
+    text-align: center;
 }
 
-/* Combinable 접이식 섹션 */
+/* Combinable 접이식 섹션 중앙 정렬 복구 */
 .nov-style-popup-collapse-header {
     display: flex;
     align-items: center;
+    justify-content: center; 
     gap: 8px;
     padding: 10px 14px;
     background: var(--nov-bg-panel);
@@ -255,7 +259,7 @@
     border: 1px solid var(--nov-border);
 }
 
-/* 체크박스 리스트 */
+/* 체크박스 리스트 (내부 텍스트는 좌측 정렬 유지) */
 .nov-style-popup-checkbox-list {
     display: flex;
     flex-direction: column;
@@ -266,6 +270,7 @@
     background: #FFFFFF;
     border: 1px solid var(--nov-border);
     border-radius: var(--nov-radius-sm);
+    text-align: left;
 }
 
 .nov-style-popup-checkbox-list.collapsed {
@@ -335,6 +340,7 @@
     box-sizing: border-box;
     display: none;
     box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+    text-align: left;
 }
 
 .nov-style-popup-preview.visible {
@@ -346,10 +352,12 @@
     user-select: none;
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 6px;
     padding: 6px 10px;
     border-radius: 4px;
     transition: var(--nov-transition);
+    margin: 0 auto;
 }
 
 .nov-style-popup-preview-toggle:hover {
@@ -478,7 +486,7 @@
     position: fixed;
     inset: 0;
     z-index: 9999;
-    background: rgba(40, 38, 35, 0.4); /* 부드러운 다크브라운 오버레이 */
+    background: rgba(40, 38, 35, 0.4);
     backdrop-filter: blur(4px);
     display: flex;
     align-items: center;
