@@ -135,20 +135,42 @@
     margin-bottom: 20px;
 }
 
+/* 가로선 (Line-through) 스타일 구분선 */
 .nov-style-popup-section-title {
     font-size: 0.9em;
     font-weight: 700;
     color: var(--nov-text-muted);
-    margin-bottom: 12px;
-    padding-bottom: 6px;
-    border-bottom: 2px solid var(--nov-border);
+    margin-bottom: 16px;
+    padding-bottom: 0;
+    border-bottom: none;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    
+    display: flex;
+    align-items: center;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.nov-style-popup-section-title::before,
+.nov-style-popup-section-title::after {
+    content: "";
+    flex: 1;
+    border-bottom: 1px solid var(--nov-border);
+}
+
+.nov-style-popup-section-title::before {
+    margin-right: 12px;
+}
+
+.nov-style-popup-section-title::after {
+    margin-left: 12px;
 }
 
 .nov-style-popup-axis-group {
     margin-bottom: 16px;
-    padding-bottom: 12px;
+    padding-bottom: 0;
+    border-bottom: none;
 }
 
 .nov-style-popup-axis-label {
@@ -324,11 +346,12 @@
     background: var(--nov-bg-panel);
 }
 
-/* 팝업 액션 버튼 영역 */
+/* 팝업 액션 버튼 영역 (가운데 정렬) */
 .nov-style-popup-actions {
     display: flex;
     gap: 12px;
     flex-wrap: wrap;
+    justify-content: center;
     margin-top: 12px;
 }
 
@@ -381,11 +404,13 @@
     box-shadow: var(--nov-shadow-sm);
 }
 
+/* 버튼 그룹 가운데 정렬 */
 .nov-style-config-btn-group,
 .nov-style-mutex-btn-group,
 .nov-style-comb-btn-group {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     gap: 8px;
     margin-top: 8px;
 }
@@ -408,9 +433,34 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
+/* '선택없음' (Default) 버튼 완전 분리 (고스트 스타일) */
 .nov-style-config-btn.default-mode {
-    opacity: 0.6;
-    border-style: dashed;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    color: var(--nov-text-muted);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-color: var(--nov-border);
+    padding: 6px 8px;
+    opacity: 0.8;
+}
+
+.nov-style-config-btn.default-mode:hover {
+    background: transparent;
+    color: var(--nov-text-main);
+    text-decoration-color: var(--nov-text-main);
+    transform: none;
+}
+
+.nov-style-config-btn.default-mode.active {
+    background: transparent;
+    color: var(--nov-text-main);
+    font-weight: 700;
+    border: none;
+    box-shadow: none;
+    text-decoration-color: var(--nov-text-main);
+    opacity: 1;
 }
 
 /* 모달 오버레이 및 다이얼로그 (세련된 블러 및 라이트 모달) */
