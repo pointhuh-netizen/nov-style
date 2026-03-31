@@ -1,17 +1,19 @@
 <div id="nov-style-settings" class="nov-style-container">
     <div class="inline-drawer">
         <div class="inline-drawer-toggle inline-drawer-header">
-            <b>📝 Nov Style Engine</b>
+            <span class="nov-style-title"><b>📝 Nov Style Engine</b></span>
             <div class="inline-drawer-icon fa-solid fa-circle-chevron-down down"></div>
         </div>
-        <div class="inline-drawer-content">
+        <div class="inline-drawer-content nov-style-drawer-content">
             <div class="nov-style-sidebar-row">
                 <label class="nov-style-enable-label">
-                    <input type="checkbox" id="nov-style-enabled">
-                    <span>활성화</span>
+                    <input type="checkbox" id="nov-style-enabled" class="nov-style-checkbox">
+                    <span>엔진 활성화</span>
                 </label>
             </div>
-            <button id="nov-style-open-popup" class="menu_button" title="문체 설정 팝업을 엽니다">⚙️ 설정 열기</button>
+            <button id="nov-style-open-popup" class="menu_button nov-style-btn-primary" title="문체 설정 팝업을 엽니다">
+                <i class="fa-solid fa-gear"></i> 설정 열기
+            </button>
             <div id="nov-style-status" class="nov-style-status">적용된 빌드 없음</div>
         </div>
     </div>
