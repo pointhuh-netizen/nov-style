@@ -560,16 +560,18 @@
 
             const oneLinerEl = document.createElement('div');
             oneLinerEl.className = 'nov-style-popup-oneliner';
-            const initMode = modes.find(m => m.id === (currentSel ?? modes[0]?.id));
+            const initMode = (!currentSel || currentSel.endsWith('-00'))
+                ? null
+                : modes.find(m => m.id === currentSel);
             oneLinerEl.textContent = initMode?.one_liner ?? '';
 
             for (const mode of modes) {
+                // -00 (사용하지 않음)은 버튼에 표시하지 않음
+                if (mode.id.endsWith('-00')) continue;
+
                 const btn = document.createElement('button');
                 btn.type = 'button';
                 btn.className = 'nov-style-config-btn';
-                if (mode.id.endsWith('-00')) {
-                    btn.classList.add('default-mode');
-                }
                 btn.dataset.modeId = mode.id;
                 btn.textContent = mode.name;
                 btn.title = mode.one_liner ?? '';
@@ -583,14 +585,10 @@
                     btnGroup.querySelectorAll('.nov-style-config-btn').forEach(b => b.classList.remove('active'));
 
                     if (wasActive) {
-                        // 활성 버튼을 다시 누르면 해제 → -00(사용하지 않음) 모드가 있으면 그걸로, 없으면 null
-                        const defaultMode = modes[0]?.id ?? null;
-                        const newSel = (defaultMode && defaultMode.endsWith('-00')) ? defaultMode : null;
-                        setConfigSelection(cfgMeta.id, newSel);
-                        if (newSel) {
-                            btnGroup.querySelector(`[data-mode-id="${newSel}"]`)?.classList.add('active');
-                        }
-                        oneLinerEl.textContent = newSel ? (modes[0]?.one_liner ?? '') : '';
+                        // 해제 → -00 (사용하지 않음)으로 자동 복귀
+                        const defaultMode = modes.find(m => m.id.endsWith('-00'))?.id ?? null;
+                        setConfigSelection(cfgMeta.id, defaultMode);
+                        oneLinerEl.textContent = '';
                     } else {
                         btn.classList.add('active');
                         setConfigSelection(cfgMeta.id, mode.id);
