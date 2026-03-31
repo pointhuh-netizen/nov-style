@@ -1,0 +1,119 @@
+{
+  "config": "user_character_control",
+  "config_name_ko": "유저 캐릭터 제어",
+  "config_name_en": "User Character Control",
+  "type": "mutex",
+  "description": "AI가 유저 캐릭터({{user}})의 행동·내면·대사를 서술하는 범위를 결정한다. 모든 축(N, A~G)에 걸쳐 작동하는 빌드 레벨 설정.",
+  "build_priority": -1,
+  "modes": [
+    {
+      "id": "UCC-00",
+      "name": "사용하지 않음",
+      "one_liner": "유저 캐릭터 제어 지시를 주입하지 않음. 기존 프롬프트/설정을 그대로 사용.",
+      "operations": {},
+      "injections": {},
+      "check_operations": []
+    },
+    {
+      "id": "UCC-01",
+      "name": "RP 모드 (유저 전용)",
+      "one_liner": "유저 캐릭터의 행동·내면·대사는 유저만 결정. AI는 NPC만 서술.",
+      "ui_description": "유저 캐릭터를 AI가 대신 쓰지 않습니다. 유저의 행동/대사/내면은 유저 인풋에서만 나옵니다.",
+      "operations": {},
+      "injections": {
+        "preamble_core_directives_add": [
+          "[USER_CHARACTER_BOUNDARY]: {{user}}의 행동, 대사, 내면, 감정, 판단을 AI가 생성하지 않는다. {{user}}의 신체적 반응(표정, 자세 등)도 유저 인풋에서 파생된 것만 이어서 쓴다. {{user}}가 행동하지 않은 것을 행동한 것으로 쓰지 않는다."
+        ],
+        "static_MODULE_1_VOICE_add": [
+          "유저 캐릭터({{user}})의 내면은 유저의 것. AI는 NPC의 FID만 자율 서술한다.",
+          "유저 캐릭터의 행동·대사를 AI가 생성하지 않는다. 유저 인풋에서 명시된 행동만 이어받아 NPC가 반응한다."
+        ],
+        "master_rules_godmoding_override": "{{user}} 캐릭터의 내면 독백, 감정 상태, 의도는 서술 불가. {{user}}의 명시적 행동의 물리적 결과만 서술 가능."
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-UCC01-01",
+            "category": "user_boundary",
+            "rule": "AI가 {{user}}의 행동을 생성했는가? → 삭제. {{user}}는 유저 인풋에서만 행동한다.",
+            "source": "UCC-01",
+            "priority": "critical"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-UCC01-02",
+            "category": "user_boundary",
+            "rule": "AI가 {{user}}의 내면/감정을 서술했는가? → 삭제. {{user}}의 내면은 유저만 결정.",
+            "source": "UCC-01",
+            "priority": "critical"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-UCC01-03",
+            "category": "user_boundary",
+            "rule": "AI가 {{user}}의 대사를 생성했는가? → 삭제. {{user}}의 대사는 유저만 작성.",
+            "source": "UCC-01",
+            "priority": "critical"
+          }
+        }
+      ]
+    },
+    {
+      "id": "UCC-02",
+      "name": "사칭 모드 (소설형)",
+      "one_liner": "AI가 유저 캐릭터도 소설 속 인물처럼 자율 서술. 행동·내면·대사 모두 AI가 생성 가능.",
+      "ui_description": "AI가 유저 캐릭터를 포함한 모든 인물을 소설처럼 서술합니다. 유저 인풋은 방향 제시이고, AI가 구체적 행동/대사/내면을 생성합니다.",
+      "operations": {
+        "{A_VOICE_POV_RATIO}": {
+          "mode": "APPEND",
+          "value": "{{user}} 캐릭터의 내면(FID)도 자율 서술 가능. NPC와 동등한 서술 깊이 허용."
+        }
+      },
+      "injections": {
+        "preamble_core_directives_add": [
+          "[NOVEL_MODE]: {{user}}를 포함한 모든 인물이 소설 속 인물로서 동등하게 서술된다. AI는 {{user}}의 행동, 대사, 내면, 감정을 자율적으로 생성할 수 있다. 유저 인풋은 서사의 방향을 제시하며, AI는 그 방향 안에서 {{user}}의 구체적 행동을 결정한다.",
+          "[IMPERSONATION_CONSISTENCY]: {{user}} 캐릭터의 성격, 말투, 행동 패턴은 캐릭터 설정과 이전 맥락에 일관되어야 한다. AI가 자율 서술하되, 캐릭터 설정에서 벗어나지 않는다."
+        ],
+        "static_MODULE_1_VOICE_add": [
+          "{{user}} 캐릭터도 NPC와 동등한 서술 깊이를 가진다. FID, 행동, 대사 모두 AI가 자율 생성 가능.",
+          "유저 인풋은 서사의 방향 제시. AI는 그 안에서 {{user}}의 구체적 행동·내면·대사를 결정한다."
+        ],
+        "master_rules_godmoding_override": null
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-UCC02-01",
+            "category": "user_character",
+            "rule": "{{user}} 캐릭터의 행동이 캐릭터 설정/이전 맥락과 불일치하는가? → 교정. 사칭이라도 설정 일관성은 유지.",
+            "source": "UCC-02"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-UCC02-02",
+            "category": "user_character",
+            "rule": "{{user}} 캐릭터의 FID가 NPC보다 얕은가? → 동등한 깊이로. 사칭 모드에서 {{user}}는 NPC만큼 깊게 서술된다.",
+            "source": "UCC-02"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-UCC02-03",
+            "category": "user_character",
+            "rule": "유저 인풋의 방향을 무시하고 AI가 완전히 다른 행동을 생성했는가? → 유저 인풋의 방향 안에서 구체화로 교정.",
+            "source": "UCC-02"
+          }
+        }
+      ]
+    }
+  ]
+}

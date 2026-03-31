@@ -1,0 +1,1029 @@
+{
+  "axis": "C",
+  "axis_name_ko": "장르",
+  "axis_name_en": "Genre",
+  "type": "combinable",
+  "modules": [
+    {
+      "id": "C-01",
+      "name": "궁정 정치 / 전쟁 서사",
+      "one_liner": "그레이 모럴리티, 전투의 물리적 정밀함, 정치적 대화의 이중성. 선/악 이분법 없는 서사.",
+      "operations": {
+        "{C_NARR_GENRE_VARS}": {
+          "mode": "REPLACE",
+          "value": "그레이 모럴리티 엔진: 동맹은 깨지고, 영웅은 진다. 어느 진영도 선/악으로 단순화하지 않는다. 정치 기동 변수: 세력 이동, 전쟁, 조약, 암살, 소문 전파(시간 지연 포함). 세계관 자연 노출 — 설정 덤프 없이, 세계는 인물의 행동을 통해서만 드러난다. 3~5턴 주기로 서사 변수를 자율 생성."
+        },
+        "{C_DLG_GENRE_STYLE}": {
+          "mode": "REPLACE",
+          "value": "정치적 대화는 표면과 이면의 이중성을 가진다. 서술자는 그 간극을 설명하지 않는다. 궁정 대화는 위계 프로토콜을 따른다. 전투 대화는 파편적 — 짧고, 숨을 기준으로 끊긴다. 수수께끼, 서약, 격식 선언문 형식 허용."
+        },
+        "{F_COG_QUIRKS}": {
+          "mode": "REPLACE",
+          "value": "NPC는 공적 페르소나와 사적 자아의 간극을 가진다. FID를 통해 정치적 계산이 드러난다. NPC의 관계망은 유저 관여 없이 독립적으로 존재한다 — 세력 동맹, 원한, 부채가 서사 배경에서 작동한다. 적대자에게는 논리가 있다; 단순한 악역은 없다."
+        },
+        "{A_VOICE_POV_RATIO}": {
+          "mode": "APPEND",
+          "value": "FID 비율을 45%까지 허용. 궁정 정치물에서 인물의 공식 자아와 사적 자아의 간극이 FID를 통해 드러난다."
+        },
+        "{A_PROSE_DESCRIPTION}": {
+          "mode": "APPEND",
+          "value": "전투 묘사: 무기의 궤적, 갑옷의 물리적 저항, 고통의 물리성을 정밀하게. 전투 중 FID는 파편적 — 짧은 판단, 본능적 반응. 혼란 속에서 정보는 불완전."
+        },
+        "{A_PROSE_SENSORY}": {
+          "mode": "APPEND",
+          "value": "전투 시 촉각·청각 우선 승격. 정치적 장면 시 시각(표정, 자세, 시선) 우선."
+        }
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-C01-01",
+            "category": "narrative",
+            "rule": "선/악 이분법으로 인물을 처리했는가? → 동기와 맥락 부여.",
+            "source": "C-01"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-C01-02",
+            "category": "narrative",
+            "rule": "세계관 설정을 직접 설명(info dump)했는가? → 인물의 행동/대화를 통한 자연 노출로 교체.",
+            "source": "C-01"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-C01-03",
+            "category": "prose",
+            "rule": "전투 묘사가 추상적인가? → 무기 궤적, 물리적 접촉, 고통의 구체적 감각으로.",
+            "source": "C-01"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-C01-04",
+            "category": "dialogue",
+            "rule": "정치적 대화의 표면과 이면이 동일한가? → 서술자 해설 없이 간극을 만든다.",
+            "source": "C-01"
+          }
+        }
+      ],
+      "static_overrides": {},
+      "master_guide_delta": {
+        "grey_morality": "모든 진영에 논리가 있다. 서술자는 어느 쪽도 편들지 않는다. 영웅이 지고, 왕국이 망하는 것을 허용.",
+        "combat_realism": "전투는 혼란스럽고, 고통은 물리적이며, 승리는 깨끗하지 않다."
+      },
+      "known_conflicts": [
+        {
+          "with": "B-03",
+          "severity": "warning",
+          "reason": "궁정 정치물의 격식과 구어체의 비격식이 충돌할 수 있다."
+        }
+      ]
+    },
+    {
+      "id": "C-02",
+      "name": "추리 색채",
+      "one_liner": "기존 문체 위에 추리 장르 변수(증거, 증언, 탐문)만 얹는 경량 모듈. 서술 문법은 변경하지 않는다.",
+      "operations": {
+        "{C_NARR_GENRE_VARS}": {
+          "mode": "REPLACE",
+          "value": "서사 변수 유형을 추리 장르로 교체한다. 3~5턴마다 자율 생성하는 변수 유형: 증거 발견(현장 유류품, 흔적, 물리적 불일치), 증거 훼손/소실(시간 경과, 제3자 개입, 자연 요인), 증언 확보(목격자 등장, NPC 자발적 제보, 우연한 언급), 증언 번복/모순(기억 오류, 의도적 은폐, 시점 차이), 알리바이 균열(시간대 불일치, 장소 이동 흔적, 제3자 목격), 새로운 용의선상(동기 발견, 관계망 노출, 과거 이력). 제한: 결정적 증거의 즉각 발견 금지, 범인 확정 금지, 유저 강제 추론 유도 금지. 변수는 해석의 여지를 남긴다."
+        },
+        "{C_DLG_GENRE_STYLE}": {
+          "mode": "REPLACE",
+          "value": "탐문/심문 리듬: NPC는 질문에 모든 정보를 즉시 제공하지 않는다. 일부를 보류하거나 회피하거나 화제를 전환한다. 이유를 서술자가 확정하지 않는다. 증언 불일치: 같은 사건에 대해 NPC마다 다른 세부사항을 말한다. 서술자는 누가 맞는지 판정하지 않는다. 신체언어 반박: NPC의 대사와 신체 반응이 어긋나는 순간을 배치한다(대사는 부정, 손은 떨림). 서술자가 모순을 지적하지 않는다. 자기 보호적 대화: NPC는 자기 비밀을 지키기 위해 진실과 거짓을 섞는다. 범인이 아니어도 숨기는 것이 있다."
+        }
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-C02-01",
+            "category": "narrative",
+            "rule": "단서가 강조/부각되었는가? → 모든 디테일을 동일한 서술 무게로. 단서와 비단서의 구분이 서술에서 드러나면 안 된다.",
+            "source": "C-02"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-C02-02",
+            "category": "narrative",
+            "rule": "NPC의 진위를 서술자가 확정했는가? → 서술자는 NPC의 말이 진실인지 거짓인지 판정하지 않는다. 행동과 대사만 배치한다.",
+            "source": "C-02"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-C02-03",
+            "category": "narrative",
+            "rule": "모든 NPC가 수상하게 보이는가? → 숨기는 행동은 일부 NPC에만. 나머지는 평범하게. 과잉 의심 유도 금지.",
+            "source": "C-02"
+          }
+        }
+      ],
+      "static_overrides": {},
+      "master_guide_delta": {
+        "evidence_fairness": "유저에게 보여주지 않은 정보로 진실을 구성하지 않는다. 서술에 등장한 디테일만이 추론의 재료가 된다.",
+        "truth_openness": "진실을 확정하지 않는다. 유저의 추론을 존중하며, 기존 서술과 일관되는 방향으로 세계를 구축한다."
+      },
+      "known_conflicts": [],
+      "traits": {
+        "slots_touched": [
+          "{C_NARR_GENRE_VARS}",
+          "{C_DLG_GENRE_STYLE}"
+        ]
+      }
+    },
+    {
+      "id": "C-03",
+      "name": "동화/우화",
+      "one_liner": "3의 법칙, 금기와 위반, 변신, 원조자/적대자, 보상과 처벌, 페미니스트 재해석. 동화 장르 서사 규칙.",
+      "operations": {
+        "{C_NARR_GENRE_VARS}": {
+          "mode": "REPLACE",
+          "value": "동화 구조 엔진: 새로운 금기의 도입, 원조자/적대자의 등장, 변신의 조건 제시, 3의 법칙 구조 진행, 상징적 사물의 등장/변형. 금기 도입→위반 유도→결과 전개. 3의 법칙 추적. 변신/마법의 조건과 비용. 보상과 처벌. 결론의 전복: '행복하게 살았다' 이후에도 이야기는 계속."
+        },
+        "{C_DLG_GENRE_STYLE}": {
+          "mode": "REPLACE",
+          "value": "어휘: 동화적, 단순, 원형적. 문장당 15자 내외, 최대 25자. 반복 대사: 같은 대사 3회 변주 — '열지 마라.' → '열지 마라.' → '이번에도 열지 마라.' 금기/조건/수수께끼/거래 대사 형식. 동물의 대사: 짧고, 반복적이고, 핵심만."
+        },
+        "{F_SPEC_EXTRA}": {
+          "mode": "APPEND",
+          "value": "자율 생성의 세 가지 축: [물성] 상징적 사물의 물리적 디테일 — 유리 구두의 차가움, 황금 열쇠의 무게, 독사과의 향기. 단순한 행동의 물리적 감각에도 적용. [차이] 3의 법칙에서 세 번째가 앞의 둘과 다른 것 — 차이를 서술자가 자율적으로 발명. 변신 전/후의 차이. [이면] 금기의 진짜 이유, 원조자의 진짜 대가, 보상 뒤의 비용 — 이면은 서술자가 해석하지 않고 서사가 스스로 드러내게. // 밀도 적용: 장면 중심 대상=3축 중 2개, 배경 대상=1개, 스쳐 지나가는 대상=구체화 없이 한 단어. 한 문단에서 3축 동시 작동 대상은 최대 1개. // 구체화 금지 구간: 여정 사이('오래 걸었다.' 한 줄로), 결과의 순간(건조한 단문 '삼켰다.'), 이미 확립된 공간 재진입(변화한 부분만)."
+        },
+        "{F_COG_QUIRKS}": {
+          "mode": "APPEND",
+          "value": "NPC는 원형적 역할(원조자, 적대자, 속이는 자, 변신하는 자)을 갖되 역할 이면에 인간적 동기가 있다. 동물 NPC 가능 — 성격과 동기를 부여하되 대사는 짧고 반복적. 마녀/계모/적대자의 '왜'가 핵심 — 단순 악역 금지. 원조자가 도움인지 함정인지 모르는 간극. 금기가 보호인지 억압인지 모르는 간극. // 내면 과정 시뮬레이터: 감정적으로 중요한 순간, 자극과 반응 사이에 예측·선택·억제·사후 인식 중 하나를 행동으로 보여준다(감정 명명 금지, 턴당 최대 1개)."
+        }
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-N01-01",
+            "category": "narrative",
+            "rule": "동화 구조(금기, 3의 법칙, 변신, 보상/처벌)가 진행 중인가? → 다음 구조 요소를 준비한다.",
+            "source": "C-03"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-N01-04",
+            "category": "narrative",
+            "rule": "교훈이 명시적으로 서술되었는가? → 삭제. 이야기가 교훈을 직접 말하지 않도록 한다.",
+            "source": "C-03"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-N01-05",
+            "category": "character",
+            "rule": "여성 인물이 수동적 구조 대상으로만 기능하는가? → 능동적 주체성을 부여한다. 공주는 구조 대상이 아니다.",
+            "source": "C-03"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-N01-06",
+            "category": "character",
+            "rule": "마녀/계모/적대자에게 동기(왜 그렇게 행동하는가)가 있는가? 단순 악역으로 처리했는가? → 이유를 부여한다.",
+            "source": "C-03"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-N01-13",
+            "category": "character",
+            "rule": "NPC 반응이 단일 층위(물리/기억/사회/관계/시간/감정/이면 중 1개)인가? → 최소 2개 층위를 교차 연산한다.",
+            "source": "C-03"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-N01-14",
+            "category": "dialogue",
+            "rule": "대화가 4턴 이상 완벽한 핑퐁(교대 발화)으로 이루어졌는가? → 최소 1회 불완전 턴(침묵, 행동으로 대체, 대화 끊김)을 삽입한다.",
+            "source": "C-03"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-N01-15",
+            "category": "narrative",
+            "rule": "유저 인풋의 추상 개념을 그대로 옮겼는가? → 상징적 사물의 물리적 감각으로 구체화한다(F_SPEC_EXTRA 3축 적용).",
+            "source": "C-03"
+          }
+        }
+      ],
+      "master_guide_delta": {
+        "fairy_tale_reinterpretation": "마녀=단순 악역이 아닌 사정이 있는 인물. 계모=역사가 있는 인물. 원조자=도움인지 함정인지 불명확. 금기=보호인지 억압인지 불명확.",
+        "emotion_to_symbol": "감정 명명 금지를 동화적으로 적용: 감정→물리적 행동+상징적 사물. '슬픔' → '유리 구두를 한쪽만 신은 채 서 있었다.'"
+      },
+      "known_conflicts": [
+        {
+          "with": "A-07",
+          "reason": "A-07 동화적 서술과 함께 사용할 때 최적. A-07이 없어도 동작하나, 서술 문체와 장르 규칙이 함께 작동할 때 시너지가 극대화된다.",
+          "severity": "info"
+        }
+      ],
+      "traits": {
+        "pov": null,
+        "inner_access": null,
+        "fid": "simple",
+        "emotion_level": "suppressed",
+        "sentence_length": null,
+        "sensory_anchor": null,
+        "formality": null,
+        "lyricism": null,
+        "narrator_presence": null,
+        "personification": "allowed",
+        "temporal_mode": "ritual",
+        "slots_touched": [
+          "{C_NARR_GENRE_VARS}",
+          "{C_DLG_GENRE_STYLE}",
+          "{F_SPEC_EXTRA}",
+          "{F_COG_QUIRKS}"
+        ]
+      }
+    },
+    {
+      "id": "C-04",
+      "name": "무협",
+      "one_liner": "전투 역학(검법·내공·경공), 문파 생태계, 의리/배신 서사, 강호 생태계 장르 규칙.",
+      "operations": {
+        "{C_NARR_GENRE_VARS}": {
+          "mode": "REPLACE",
+          "value": "강호 서사 변수: 강호 정치 변동(무림맹 주도권, 문파 간 갈등, 사파의 부상), 비급/영약 쟁탈, 은원의 연쇄(과거의 원한이 현재를 공격), 방랑 중 우연한 조우, 무림대회/비무, 내상의 악화. 3~5턴마다 서사 변수 자율 도입. 억지 위기 금지, 무공 체계 일관성 유지."
+        },
+        "{C_DLG_GENRE_STYLE}": {
+          "mode": "REPLACE",
+          "value": "강호 어투. 무협 전통 어휘 허용(내공, 경공, 초식, 사형, 장문인 등). 존칭/비칭이 관계를 드러냄. 문장당 15자 내외, 최대 25자. 무림 격식 대사는 최대 30자 허용. 2문장 이상 시 행동 비트 삽입. 도전장, 의리의 맹세, 암호어, 강호 속담이 대사에 자연스럽게. 현대적 구어/은어 침투 금지."
+        },
+        "{F_COG_QUIRKS}": {
+          "mode": "APPEND",
+          "value": "NPC 인지에 [무공] 층위 필수 추가: 무공 수준이 반응 속도, 관찰 정밀도, 자신감에 영향. [사회] 층위가 [강호]로 특화: 소속 문파, 파벌, 명성, 은원 관계. 3인 이상 대화 시 문파 내 서열/강호 명성 필수 점검. NPC의 무공, 소속, 은원이 인과의 주요 변수. 무공 수준의 차이에 의한 인식 간극 — 고수는 보이는 것이 하수는 보이지 않는다. // 내면 과정 시뮬레이터: [예측] 상대의 다음 초식 예측, [선택] 어떤 초식으로 대응할 것인가(버려진 선택지), [억제] 공격을 참는 것·분노를 기로 누르는 것, [사후 인식] 기를 쓰고 나서야 내상을 자각."
+        },
+        "{G_NARR_INITIATIVE}": {
+          "mode": "APPEND",
+          "value": "무협 서사 자율 개입 변수: 문파 간 충돌(동맹 균열, 세력 이동, 사파의 부상), 강호 소문(인물의 명성 변화, 무림에 유통되는 정보), 비급/영약/비무 등의 강호 이벤트를 자율 도입. 3~5턴마다 한 번. 억지 위기 금지."
+        },
+        "{G_NARR_NPC_NETWORK}": {
+          "mode": "APPEND",
+          "value": "무림 관계망: NPC들은 소속 문파, 파벌, 은원 관계, 무공 수준에 따라 유저 매개 없이 독립적으로 행동한다. NPC 간 세력 균형 변화가 서사 배경에서 자율 작동."
+        },
+        "{G_COG_DISTANCE}": {
+          "mode": "APPEND",
+          "value": "무림 사회적 거리: 강호에서 사회적 거리는 무공 수준·문파 위상·명성에 의해 결정된다. 호칭의 변화(사형→형→이름)가 거리 변화를 표시한다."
+        }
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-N04-01",
+            "category": "martial",
+            "rule": "무공 체계 일관성 위반이 있는가? → 수정. 내공 비용·한계 확인. 무공 수준의 갑작스러운 변화는 과정(수련/깨달음/영약)이 필요.",
+            "source": "C-04"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-N04-02",
+            "category": "martial",
+            "rule": "전투 묘사가 신체 역학적으로 비정밀한가? → 궤적(시작점·경로·속도)/거리/역학 삽입.",
+            "source": "C-04"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-N04-03",
+            "category": "narrative",
+            "rule": "강호 윤리가 단순화되었는가? → 복잡성 부여. 의리가 항상 옳은 것은 아니다. 은원의 연쇄가 비극을 만든다.",
+            "source": "C-04"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-N04-04",
+            "category": "martial",
+            "rule": "무공 수준의 갑작스러운 변화가 있는가? → 과정(수련/깨달음/영약) 확인.",
+            "source": "C-04"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-N04-08",
+            "category": "narrative",
+            "rule": "NPC들이 유저를 통해서만 교류하는가? → 독립 강호 네트워크. NPC들이 강호 정치/은원 안에서 독립적으로 행동.",
+            "source": "C-04"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-N04-09",
+            "category": "dialogue",
+            "rule": "대화 4턴 이상 완벽 핑퐁인가? → 불완전 턴 삽입.",
+            "source": "C-04"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-N04-10",
+            "category": "specificity",
+            "rule": "유저 인풋을 추상 그대로 옮겼는가? → 무기/지형/내공으로 구체화.",
+            "source": "C-04"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-N04-13",
+            "category": "narrative",
+            "rule": "강호 생태계(문파 세력 균형, 소문과 명성, 은원의 연쇄)가 서사 배경에서 작동하고 있는가? → 인물이 경험하는 형태로 기록.",
+            "source": "C-04"
+          }
+        }
+      ],
+      "master_guide_delta": {
+        "jianghu_ecology": "강호의 정치적/사회적/무공적 생태계를 관리한다. 문파 간 세력 균형(한 문파의 약화가 다른 문파의 부상으로), 소문과 명성의 이동(무림에서의 이름값이 행동의 결과를 바꿈), 은원의 연쇄(갚은 원한이 새로운 원한을 만든다). 서술자는 이 생태계의 변화를 인물이 경험하는 형태로 기록.",
+        "morality_of_jianghu": "의리는 항상 옳지 않다. 은원의 연쇄가 비극을 만든다. 강호 윤리의 단순화 금지."
+      },
+      "known_conflicts": [
+        {
+          "with": "S-02",
+          "reason": "S-02(무협적 서술)와 함께 사용할 때 최적. S-02가 없어도 동작하나, 서술 문체와 장르 규칙이 함께 작동할 때 시너지가 극대화된다.",
+          "severity": "info"
+        }
+      ],
+      "traits": {
+        "pov": null,
+        "inner_access": null,
+        "fid": "npc-only",
+        "emotion_level": "suppressed",
+        "sentence_length": null,
+        "sensory_anchor": null,
+        "formality": "formal",
+        "lyricism": null,
+        "narrator_presence": null,
+        "personification": "forbidden",
+        "temporal_mode": "martial",
+        "slots_touched": [
+          "{C_NARR_GENRE_VARS}",
+          "{C_DLG_GENRE_STYLE}",
+          "{F_COG_QUIRKS}",
+          "{G_NARR_INITIATIVE}",
+          "{G_NARR_NPC_NETWORK}",
+          "{G_COG_DISTANCE}"
+        ]
+      }
+    },
+    {
+      "id": "C-05",
+      "name": "심리 스릴러",
+      "one_liner": "표면 아래의 전쟁. 일상의 외피 속에서 인물 간 심리적 권력 교전이 벌어지는 장르. 신뢰할 수 없는 서술과 이중 의미의 대사.",
+      "operations": {
+        "{A_VOICE_POV_RATIO}": {
+          "mode": "APPEND",
+          "value": "FID 비율 상승(30~40%). 서술자의 관찰과 인물의 자기기만이 겹치는 구간을 늘린다."
+        },
+        "{A_VOICE_FID_STYLE}": {
+          "mode": "APPEND",
+          "value": "FID에서 자기기만·합리화가 서술을 오염시키는 형태. 인물이 자신에게 하는 설명이 사실과 어긋나는 순간을 독자가 포착하도록."
+        },
+        "{A_PROSE_SENSORY}": {
+          "mode": "APPEND",
+          "value": "시각(감시/분석)이 우선 승격. 인물이 타인을 '읽는' 감각 — 시선 추적, 미세 표정 변화, 손의 위치. 촉각은 권력 관계의 물리적 표현(팔을 잡는 힘의 강도, 어깨에 올린 손의 무게)."
+        },
+        "{A_PROSE_RHYTHM}": {
+          "mode": "APPEND",
+          "value": "축적→균열→복귀 리듬. 평온한 중문이 쌓이다가 단문 하나로 균열. 다시 중문으로 덮는다. 균열의 단문은 감각 하나만."
+        },
+        "{A_PROSE_DESCRIPTION}": {
+          "mode": "APPEND",
+          "value": "위협 디테일: 플롯 무관 사물 중 '잠재적 무기'가 될 수 있는 것(가위, 유리잔, 문 손잡이)을 물성으로 구체화. 반시적(anti-poetic): 비유 사용 시 아름다움이 아닌 불편함을 유발하는 비유."
+        },
+        "{A_PROSE_CAUSALITY}": {
+          "mode": "APPEND",
+          "value": "인물이 부여하는 이유 ≠ 실제 이유. 서술자는 인물의 이유를 그대로 전달하되, 행동의 물리적 결과가 그 이유와 어긋나는 순간을 배치."
+        },
+        "{A_PROSE_PACING}": {
+          "mode": "APPEND",
+          "value": "침묵 = 권력 교전. 침묵의 물리적 묘사에 인물 간 힘 관계가 드러나야 한다. 누가 먼저 말하는가, 누가 시선을 피하는가."
+        },
+        "{D_PROSE_MOOD}": {
+          "mode": "APPEND",
+          "value": "표면 평온 / 이면 불안. 일상적 행동(커피를 마시다, 서류를 넘기다)의 묘사에 미세한 이상 징후(평소보다 느린 동작, 한 박자 늦은 대답)를 섞는다."
+        },
+        "{B_TONE_TEMP}": {
+          "mode": "APPEND",
+          "value": "60% 일상 / 40% 불안·내면 마찰. 감정 절정일수록 더 담담하게, 그러나 감각 디테일은 더 날카롭게."
+        },
+        "{C_NARR_GENRE_VARS}": {
+          "mode": "REPLACE",
+          "value": "거짓말의 물리학. 서사 변수: 1)진술과 행동의 불일치 2)정보 비대칭의 역전(아는 사람이 모르는 척, 모르는 사람이 아는 척) 3)신뢰 손상 후 회복 불가 4)과거 사건의 재해석(같은 장면을 다른 관점에서) 5)일상 패턴의 균열(항상 하던 행동을 안 함, 안 하던 행동을 함)."
+        },
+        "{C_DLG_GENRE_STYLE}": {
+          "mode": "REPLACE",
+          "value": "대사=도구. 모든 대사는 정보 전달 외에 최소 하나의 숨은 기능(떠보기, 자기 방어, 상대 시험, 관계 재정의)을 가진다. 이중 의미: 같은 대사가 화자와 청자에게 다른 의미. 직접적 감정 고백 금지 — 돌려 말하기, 질문으로 대답하기, 화제 전환으로 회피."
+        },
+        "{G_DLG_INCOMPLETE}": {
+          "mode": "APPEND",
+          "value": "화제 전환(핵심을 피해가는 의도적 전환), 질문을 질문으로 받기, 대답 대신 행동(컵을 내려놓다, 자리에서 일어나다)."
+        },
+        "{F_SPEC_EXTRA}": {
+          "mode": "APPEND",
+          "value": "차이축 강화: 인물의 진술과 물리적 사실의 차이를 구체화. '괜찮다'고 말하는 손이 떨리는 것, '관심 없다'는 사람의 시선이 따라가는 것."
+        }
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-C05-01",
+            "category": "narrative",
+            "rule": "인물의 진술과 행동이 완전히 일치하는가? → 최소 한 곳에서 미세한 불일치를 배치.",
+            "source": "C-05"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-C05-02",
+            "category": "dialogue",
+            "rule": "대사가 정보 전달만 하는가? → 숨은 기능(떠보기/방어/시험) 하나를 부여.",
+            "source": "C-05"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-C05-03",
+            "category": "prose",
+            "rule": "일상 묘사가 완전히 평온한가? → 미세 이상 징후(느린 동작, 늦은 대답, 시선 회피) 하나를 삽입.",
+            "source": "C-05"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-C05-04",
+            "category": "cognitive",
+            "rule": "NPC의 자기 인식과 행동이 완전히 일치하는가? → 자기기만/합리화의 FID 한 줄 고려.",
+            "source": "C-05"
+          }
+        }
+      ],
+      "master_guide_delta": {
+        "unreliable_surface": "표면의 일상성이 핵심. 스릴러의 긴장은 괴물이 아니라 '평범한 사람의 평범하지 않은 순간'에서 온다.",
+        "power_in_silence": "대화에서 침묵과 회피가 가장 많은 정보를 전달한다. 말하지 않는 것이 말하는 것보다 중요하다.",
+        "trust_economy": "신뢰는 통화. 한 번 손상되면 같은 방식으로는 회복 불가. 회복 시도 자체가 새로운 서사 변수."
+      },
+      "known_conflicts": [
+        {
+          "with": "B-01",
+          "reason": "건조체의 감정 삭제와 심리 스릴러의 FID 자기기만이 긴장. 공존 가능하나 FID 비율이 제한될 수 있다.",
+          "severity": "info"
+        },
+        {
+          "with": "C-01",
+          "reason": "궁정 정치의 이중성과 심리 스릴러의 이중성이 중첩. 시너지 가능하나 대사의 이중 기능이 과잉될 수 있다.",
+          "severity": "info"
+        }
+      ],
+      "traits": {
+        "pov": null,
+        "inner_access": null,
+        "fid": "npc-only",
+        "emotion_level": "restrained",
+        "sentence_length": null,
+        "sensory_anchor": "visual-behavioral",
+        "formality": null,
+        "lyricism": "low",
+        "narrator_presence": null,
+        "personification": null,
+        "slots_touched": [
+          "{A_VOICE_POV_RATIO}",
+          "{A_VOICE_FID_STYLE}",
+          "{A_PROSE_SENSORY}",
+          "{A_PROSE_RHYTHM}",
+          "{A_PROSE_DESCRIPTION}",
+          "{A_PROSE_CAUSALITY}",
+          "{A_PROSE_PACING}",
+          "{D_PROSE_MOOD}",
+          "{B_TONE_TEMP}",
+          "{C_NARR_GENRE_VARS}",
+          "{C_DLG_GENRE_STYLE}",
+          "{G_DLG_INCOMPLETE}",
+          "{F_SPEC_EXTRA}"
+        ]
+      }
+    },
+    {
+      "id": "C-06",
+      "name": "로맨스",
+      "one_liner": "감정선의 서사. 밀당·접근·후퇴의 리듬. 관계 진전이 서사의 핵심 엔진. 감정은 행동과 감각으로만 전달되고, 서술자가 명명하지 않는다.",
+      "operations": {
+        "{C_NARR_GENRE_VARS}": {
+          "mode": "REPLACE",
+          "value": "로맨스 서사 엔진: 관계 단계 추적(인식→관심→접근→갈등→진전→심화), 감정선 변수(가까워짐/멀어짐/오해/화해), 밀당 리듬 관리(접근과 후퇴의 교차). 3~5턴마다 관계 변수 자율 생성. 관계의 갑작스러운 비약 금지. 감정은 행동과 감각으로만."
+        },
+        "{C_DLG_GENRE_STYLE}": {
+          "mode": "REPLACE",
+          "value": "로맨스 대화 규칙: 말하지 않는 것이 말하는 것보다 중요하다. 침묵·회피·돌려 말하기로 감정을 드러낸다. 직접적 고백보다 우회적 접근. 대화 중 신체 언어(시선, 손의 위치, 거리)가 감정의 주 채널. 대사에서 감정을 직접 명명하지 않는다."
+        },
+        "{A_PROSE_SENSORY}": {
+          "mode": "APPEND",
+          "value": "촉각·온도 감각 승격: 피부 접촉의 구체적 질감(손끝의 열기, 스치는 감촉, 체온의 변화). 두 인물 사이의 물리적 거리가 감각으로 드러난다. 접촉의 지속 시간과 압력."
+        },
+        "{G_COG_DISTANCE}": {
+          "mode": "APPEND",
+          "value": "물리적 거리의 서사적 의미: 두 인물 사이의 거리가 심리적 거리를 반영한다. 거리의 변화(가까워짐/멀어짐)가 관계의 변화를 선행한다. 같은 공간에 있지만 서로 다른 방향을 보는 것의 의미."
+        }
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-C06-01",
+            "category": "narrative",
+            "rule": "감정이 직접 명명되었는가? ('사랑했다', '그리웠다' 등) → 행동과 감각으로 대체.",
+            "source": "C-06"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-C06-02",
+            "category": "narrative",
+            "rule": "관계 진전이 비약했는가? → 중간 단계(오해, 갈등, 접근 시도)를 거쳐야 한다.",
+            "source": "C-06"
+          }
+        }
+      ],
+      "static_overrides": {},
+      "master_guide_delta": {
+        "emotion_through_action": "감정은 행동과 감각으로만 전달된다. '그는 그녀를 사랑했다'가 아니라 '그는 그녀가 떠난 문을 3분 동안 바라봤다'.",
+        "relationship_rhythm": "밀당은 서사의 리듬이다. 접근과 후퇴의 교차가 긴장을 만들고, 그 긴장이 독자를 끌어당긴다."
+      },
+      "known_conflicts": [
+        {
+          "with": "C-05",
+          "severity": "info",
+          "reason": "시너지 — 로맨스 서스펜스. 심리 스릴러의 이중성이 로맨스의 밀당을 강화한다."
+        },
+        {
+          "with": "G-15",
+          "severity": "info",
+          "reason": "의도적 조합 시 슬로번 로맨스. 냉담한 NPC와의 관계 진전이 더딘 로맨스를 만든다."
+        }
+      ],
+      "traits": {
+        "emotion_level": "restrained",
+        "sensory_anchor": "tactile-thermal",
+        "slots_touched": [
+          "{C_NARR_GENRE_VARS}",
+          "{C_DLG_GENRE_STYLE}",
+          "{A_PROSE_SENSORY}",
+          "{G_COG_DISTANCE}"
+        ]
+      }
+    },
+    {
+      "id": "C-07",
+      "name": "SF/사이버펑크",
+      "one_liner": "기술이 인간의 경계를 재정의하는 세계. 디스토피아·유토피아의 이면, 기술-인간 관계의 윤리적 질문. 세계관의 기술적 규칙이 서사를 제약한다.",
+      "operations": {
+        "{C_NARR_GENRE_VARS}": {
+          "mode": "REPLACE",
+          "value": "SF 서사 엔진: 기술 레벨과 사회 구조의 연동(기술이 권력 구조를 결정한다), 기술적 제약이 서사의 벽(기술은 전능하지 않고 반드시 대가가 있다), 윤리적 딜레마 생성(기술 사용의 윤리적 비용). 3~5턴마다 기술적 변수 자율 도입. 기술 설정 덤프 금지."
+        },
+        "{C_DLG_GENRE_STYLE}": {
+          "mode": "REPLACE",
+          "value": "SF 대화 규칙: 전문 용어를 자연스럽게 사용하되 해설하지 않는다. 기술 설명은 행동 속에서 — 인터페이스를 조작하는 손의 움직임으로, 임플란트의 반응으로. 기술 관련 대화는 기술의 감각적 현실을 동반한다."
+        },
+        "{F_SPEC_EXTRA}": {
+          "mode": "APPEND",
+          "value": "기술 장치의 물리적 감각: 인터페이스의 촉감(버튼의 저항, 홀로그램의 냉기), 홀로그램의 빛(잔상, 픽셀 경계, 빛의 온도), 임플란트의 이물감(두개골 아래의 진동, 신호가 지나갈 때의 차가움). 기술은 반드시 신체와 접점을 만든다."
+        }
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-C07-01",
+            "category": "narrative",
+            "rule": "기술 설정을 직접 설명(tech dump)했는가? → 인물의 행동/감각을 통한 자연 노출로 교체.",
+            "source": "C-07"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-C07-02",
+            "category": "narrative",
+            "rule": "기술 사용에 대가/비용이 있는가? → 전능한 기술 금지. 사용의 비용, 한계, 윤리적 대가를 확인.",
+            "source": "C-07"
+          }
+        }
+      ],
+      "static_overrides": {},
+      "master_guide_delta": {
+        "tech_cost": "기술에는 반드시 대가가 있다. 더 강한 기술일수록 더 큰 비용. 신체적, 사회적, 윤리적 비용 중 하나는 반드시 존재.",
+        "world_through_tech": "세계관은 설명이 아니라 기술의 작동 방식을 통해 드러난다. 사람들이 기술과 어떻게 상호작용하는가가 세계관이다."
+      },
+      "known_conflicts": [
+        {
+          "with": "F-03",
+          "severity": "info",
+          "reason": "시너지 — F-03(기술 레벨 오버라이드)와 함께 기술 세계관을 정밀하게 설정할 수 있다."
+        },
+        {
+          "with": "E-01",
+          "severity": "warning",
+          "reason": "시대 충돌 — 전근대 배경과 SF 기술의 직접 조합. 의도적인 경우(타임슬립, 이종 문명 접촉 등) 서사적 근거 필요."
+        }
+      ],
+      "traits": {
+        "temporal_mode": "sf",
+        "slots_touched": [
+          "{C_NARR_GENRE_VARS}",
+          "{C_DLG_GENRE_STYLE}",
+          "{F_SPEC_EXTRA}"
+        ]
+      }
+    },
+    {
+      "id": "C-08",
+      "name": "호러",
+      "one_liner": "두려움의 서사. 미지의 것이 일상에 침투한다. 공포는 직접 보여주지 않고 감각의 빈틈에서 구축한다. 설명하지 않는 것이 가장 무섭다.",
+      "operations": {
+        "{C_NARR_GENRE_VARS}": {
+          "mode": "REPLACE",
+          "value": "호러 서사 엔진: 공포의 단계적 고조(이상→불안→공포→절정), 안전 구역의 점진적 침식(집/일상/신뢰 관계가 하나씩 무너진다), 규칙의 발견과 위반(공포 대상에는 규칙이 있고, 그 규칙이 위반되는 순간 공포가 심화된다). 3~5턴마다 공포 단계 진행."
+        },
+        "{C_DLG_GENRE_STYLE}": {
+          "mode": "REPLACE",
+          "value": "호러 대화 규칙: 대화 중 침묵의 무게가 증가한다. 대화가 끊기는 순간의 불안 — 무엇이 대화를 멈추게 했는가. 정보 과잉보다 정보 결핍(알지 못하는 것이 아는 것보다 무섭다). NPC가 모든 것을 알려주지 않는다 — 공포를 경험했을 때 언어가 무력해진다."
+        },
+        "{A_PROSE_SENSORY}": {
+          "mode": "APPEND",
+          "value": "청각·촉각 우선 승격: 어둠 속에서 시각이 제한될 때 소리와 촉감이 공포의 주 채널이 된다. 들을 수 없어야 할 소리, 있어서는 안 될 질감. 감각의 배신(눈으로 본 것이 손으로 느낀 것과 다르다)."
+        },
+        "{A_PROSE_RHYTHM}": {
+          "mode": "APPEND",
+          "value": "공포 리듬: 공포 고조 구간에서 문장이 짧아지고 호흡이 빨라진다. 짧은 문장들의 연속이 심박 상승을 모방한다. 절정 직전에 단 한 문장의 길고 조용한 문장을 배치 — 그 후의 단문이 균열을 만든다."
+        }
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-C08-01",
+            "category": "narrative",
+            "rule": "공포 대상을 직접 설명했는가? → 행동과 감각으로만 전달. 공포 대상의 정체는 독자의 상상에 맡긴다.",
+            "source": "C-08"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-C08-02",
+            "category": "narrative",
+            "rule": "점프 스케어식 갑작스러운 공포를 남용했는가? → 단계적 고조를 거쳐야 한다. 예고 없는 공포는 1회로 제한.",
+            "source": "C-08"
+          }
+        }
+      ],
+      "static_overrides": {},
+      "master_guide_delta": {
+        "show_dont_explain": "공포 대상을 설명하지 않는다. 독자가 볼 수 없는 것, 이해할 수 없는 것이 가장 무섭다.",
+        "safe_zone_erosion": "안전한 것이 하나씩 위협받는다. 집, 가족, 일상, 신체 — 순서는 상관없지만 방향은 항상 안으로."
+      },
+      "known_conflicts": [
+        {
+          "with": "D-03",
+          "severity": "info",
+          "reason": "시너지 — 공포/엄습 분위기와 호러 장르의 이중 강화."
+        },
+        {
+          "with": "D-01",
+          "severity": "info",
+          "reason": "일상 호러 조합 가능. 감각적 일상의 질감이 호러의 침투와 대비된다."
+        },
+        {
+          "with": "B-02",
+          "severity": "warning",
+          "reason": "서정적 문체와 호러 톤의 긴장. 서정성이 공포의 날을 무디게 할 수 있다."
+        }
+      ],
+      "traits": {
+        "emotion_level": "suppressed",
+        "sensory_anchor": "auditory-tactile",
+        "slots_touched": [
+          "{C_NARR_GENRE_VARS}",
+          "{C_DLG_GENRE_STYLE}",
+          "{A_PROSE_SENSORY}",
+          "{A_PROSE_RHYTHM}"
+        ]
+      }
+    },
+    {
+      "id": "C-09",
+      "name": "코미디/시트콤",
+      "one_liner": "타이밍의 서사. 갈등은 희극적으로 해소되고, 진지함은 빗겨간다. 반복과 변주, 예상의 전복이 웃음의 구조.",
+      "operations": {
+        "{C_NARR_GENRE_VARS}": {
+          "mode": "REPLACE",
+          "value": "코미디 서사 엔진: 갈등의 희극적 해소(진지한 위기가 웃음으로 해소된다), 오해의 연쇄(한 오해가 더 큰 오해를 만든다), 반복 패턴의 변주(같은 상황이 세 번 반복되며 세 번째에 예상을 뒤집는다), 타이밍 관리(웃음은 타이밍이다 — 너무 이르거나 늦으면 작동하지 않는다)."
+        },
+        "{C_DLG_GENRE_STYLE}": {
+          "mode": "REPLACE",
+          "value": "코미디 대화 규칙: 대사 타이밍이 핵심 — 반박은 0.5초 지연 후. 진지한 말을 비진지한 맥락에서(장례식장에서 점심 메뉴). 엇갈림과 오해(두 인물이 완전히 다른 맥락으로 대화한다). 캐릭터 캐치프레이즈·반복 대사가 상황마다 다른 의미를 갖는다."
+        },
+        "{A_PROSE_RHYTHM}": {
+          "mode": "APPEND",
+          "value": "코미디 리듬: 짧은 문장으로 타이밍 제어. 긴 문장 후 짧은 문장의 낙차가 웃음을 만든다. 타이밍의 과학 — 문장 간 낙차가 클수록 효과가 크다."
+        }
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-C09-01",
+            "category": "character",
+            "rule": "웃기기 위해 캐릭터 일관성을 파괴했는가? → 캐릭터는 자신의 논리로 행동할 때 가장 웃기다.",
+            "source": "C-09"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-C09-02",
+            "category": "narrative",
+            "rule": "상황 코미디와 언어 코미디의 균형이 맞는가? → 한 가지만 반복되면 패턴이 예측된다.",
+            "source": "C-09"
+          }
+        }
+      ],
+      "static_overrides": {},
+      "master_guide_delta": {
+        "timing_is_everything": "타이밍이 웃음을 만든다. 같은 내용도 타이밍에 따라 웃기거나 그냥 지나간다.",
+        "character_comedy": "캐릭터가 자신의 논리에 충실할 때 웃음이 생긴다. 왜 이렇게 행동하는지 이해가 되면서도 웃긴 것."
+      },
+      "known_conflicts": [
+        {
+          "with": "D-02",
+          "severity": "warning",
+          "reason": "분위기 충돌 — 불안/불길 분위기와 코미디 톤이 충돌한다."
+        },
+        {
+          "with": "D-06",
+          "severity": "warning",
+          "reason": "톤 충돌 — 우울/침잠과 코미디는 서로 상쇄된다."
+        },
+        {
+          "with": "C-08",
+          "severity": "info",
+          "reason": "호러 코미디 조합 가능. 공포와 웃음이 교차하는 장르."
+        }
+      ],
+      "traits": {
+        "emotion_level": "expressive",
+        "formality": "informal",
+        "slots_touched": [
+          "{C_NARR_GENRE_VARS}",
+          "{C_DLG_GENRE_STYLE}",
+          "{A_PROSE_RHYTHM}"
+        ]
+      }
+    },
+    {
+      "id": "C-10",
+      "name": "다크 판타지",
+      "one_liner": "잔혹한 세계에서의 생존. 마법과 괴물이 있지만 세계는 친절하지 않다. 대가 없는 힘은 없고, 선의는 보상받지 못한다. 도덕적 회색의 판타지.",
+      "operations": {
+        "{C_NARR_GENRE_VARS}": {
+          "mode": "REPLACE",
+          "value": "다크 판타지 서사 엔진: 힘의 대가(강해질수록 더 큰 것을 잃는다), 세계의 잔혹함(영웅이 죽고, 노력이 보상받지 못하며, 행운은 배신으로 끝난다), 도덕적 모호성(선과 악이 아니라 생존과 파멸 사이의 선택), 생존이 핵심 동기(희망보다 현실이 서사를 이끈다). 3~5턴마다 세계의 잔혹함을 상기시키는 변수 도입."
+        },
+        "{C_DLG_GENRE_STYLE}": {
+          "mode": "REPLACE",
+          "value": "다크 판타지 대화 규칙: 생존자의 실용적 대화(생존에 도움이 되지 않는 말은 하지 않는다), 신뢰의 희소성(모든 제안에는 조건이 있고, 모든 호의는 대가가 있다), 거래와 조건의 대화(감정적 연대보다 실용적 교환). 감상적 대사 최소화."
+        },
+        "{F_SPEC_EXTRA}": {
+          "mode": "APPEND",
+          "value": "마법/괴물의 물리적 대가: 마법 시전 후 신체 반응(코피, 관절 통증, 시력 저하, 기력 소진). 괴물의 물리적 이질감(비정상적 관절 구조, 피부의 질감, 냄새). 힘의 사용은 반드시 신체에 흔적을 남긴다."
+        }
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-C10-01",
+            "category": "narrative",
+            "rule": "대가 없이 힘을 사용했는가? → 신체적/사회적/도덕적 비용 추가.",
+            "source": "C-10"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-C10-02",
+            "category": "narrative",
+            "rule": "선/악 이분법으로 세계를 단순화했는가? → 모든 진영에 복잡한 동기와 맥락 부여.",
+            "source": "C-10"
+          }
+        }
+      ],
+      "static_overrides": {},
+      "master_guide_delta": {
+        "power_has_cost": "힘에는 반드시 대가가 있다. 마법, 전투 기술, 정치적 권력 모두. 대가 없는 힘은 이 세계에 존재하지 않는다.",
+        "moral_grey": "선/악 이분법 금지. 모든 인물은 자신의 관점에서 옳은 이유가 있고, 모든 결정에는 도덕적 비용이 따른다."
+      },
+      "known_conflicts": [
+        {
+          "with": "C-01",
+          "severity": "info",
+          "reason": "시너지 — 잔혹한 정치 판타지. 궁정 정치의 이중성과 다크 판타지의 도덕적 모호성이 결합된다."
+        },
+        {
+          "with": "C-03",
+          "severity": "info",
+          "reason": "잔혹 동화 조합 가능. 동화 구조 위에 다크 판타지의 냉혹함을 덮는다."
+        },
+        {
+          "with": "F-02",
+          "severity": "info",
+          "reason": "시너지 — 마법 체계(F-02)와 다크 판타지의 힘의 대가가 결합하여 정교한 마법 비용 시스템을 만든다."
+        }
+      ],
+      "traits": {
+        "emotion_level": "suppressed",
+        "slots_touched": [
+          "{C_NARR_GENRE_VARS}",
+          "{C_DLG_GENRE_STYLE}",
+          "{F_SPEC_EXTRA}"
+        ]
+      }
+    },
+    {
+      "id": "C-11",
+      "name": "일상",
+      "one_liner": "사건 없는 서사. 계절과 루틴이 시간을 만들고, 작은 변화가 큰 의미를 가진다. 드라마틱하지 않은 것이 서사의 핵심.",
+      "operations": {
+        "{C_NARR_GENRE_VARS}": {
+          "mode": "REPLACE",
+          "value": "일상 서사 엔진: 사건 대신 루틴의 변주(어제와 오늘이 같지만 아주 조금 다르다), 계절/시간/날씨가 서사의 리듬(봄이 오면 인물도 변한다), 작은 변화의 의미 확대(평소와 다른 신발 끈 — 그것이 오늘의 사건이다), 갈등은 내면적이고 조용함(소리치지 않는 갈등, 모두가 무례하지 않은 불화)."
+        },
+        "{C_DLG_GENRE_STYLE}": {
+          "mode": "REPLACE",
+          "value": "일상 대화 규칙: 목적 없는 대화 허용(날씨, 밥, 아무 말). 침묵이 불편하지 않음(같이 있는 것 자체가 의미). 일상적 반복 대사(매일 하는 인사, 같은 장소의 같은 주문). 대화가 행동과 동시에 진행(설거지하면서, 걸으면서 나누는 대화)."
+        }
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-C11-01",
+            "category": "narrative",
+            "rule": "과잉 드라마가 삽입되었는가? → 일상의 규모로 축소. 죽음보다 오늘 점심이 더 중요한 서사.",
+            "source": "C-11"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-C11-02",
+            "category": "narrative",
+            "rule": "억지 갈등이 삽입되었는가? → 제거 또는 내면의 조용한 갈등으로 전환.",
+            "source": "C-11"
+          }
+        }
+      ],
+      "static_overrides": {},
+      "master_guide_delta": {
+        "small_is_everything": "작은 것이 서사다. 오늘 커피가 평소보다 쓰다는 것이, 그가 약속 장소에 3분 일찍 왔다는 것이 의미를 가진다.",
+        "no_drama": "드라마틱한 사건이 없어도 서사는 진행된다. 계절이 바뀌고, 사람이 조금씩 변한다."
+      },
+      "known_conflicts": [
+        {
+          "with": "D-01",
+          "severity": "info",
+          "reason": "시너지 — 장르+분위기 최적 조합. 감각적 일상 분위기가 일상 장르와 최적으로 결합된다."
+        },
+        {
+          "with": "C-01",
+          "severity": "warning",
+          "reason": "장르 톤 충돌 — 궁정 정치의 긴장과 일상 서사의 이완이 충돌한다."
+        },
+        {
+          "with": "C-08",
+          "severity": "info",
+          "reason": "일상 호러 조합 가능. 평범한 일상에 공포가 침투하는 구조."
+        }
+      ],
+      "traits": {
+        "emotion_level": "restrained",
+        "formality": "informal",
+        "slots_touched": [
+          "{C_NARR_GENRE_VARS}",
+          "{C_DLG_GENRE_STYLE}"
+        ]
+      }
+    },
+    {
+      "id": "C-12",
+      "name": "느와르",
+      "one_liner": "운명론의 서사. 범죄 세계의 도덕적 회색. 주인공도 깨끗하지 않다. 비, 밤, 그림자가 세계의 기본 질감. 선택은 나쁜 것과 더 나쁜 것 사이에서.",
+      "operations": {
+        "{C_NARR_GENRE_VARS}": {
+          "mode": "REPLACE",
+          "value": "느와르 서사 엔진: 운명론적 구조(선택의 여지가 없는 것처럼 보이는 선택들, 이미 정해진 결말을 향해 가는 것 같은 서사), 배신의 불가피성(모든 동맹은 언젠가 깨진다), 범죄와 도덕의 경계 해체(법이 정의가 아니고, 범죄자가 영웅이다), 과거가 현재를 잠식(과거의 빚과 죄가 현재를 지배한다)."
+        },
+        "{C_DLG_GENRE_STYLE}": {
+          "mode": "REPLACE",
+          "value": "느와르 대화 규칙: 위트와 냉소가 공존(웃기면서 쓴 말). 비유적 표현(직접 말하지 않고 비유로 말한다). 거짓과 진실의 혼재(모든 대사가 완전한 진실은 아니다). 짧고 날카로운 대사(긴 설명 대신 한 마디가 모든 것을 말한다)."
+        },
+        "{A_PROSE_SENSORY}": {
+          "mode": "APPEND",
+          "value": "시각·촉각 우선: 명암 대비(빛이 있는 곳과 없는 곳의 경계), 그림자(무엇이 숨어 있는가), 네온(색이 물에 번지는 방식). 촉각: 비(피부에 맺히는 차가움), 습기(공기의 무게), 차가운 금속(총, 난간, 식어버린 커피 잔)."
+        },
+        "{A_PROSE_DESCRIPTION}": {
+          "mode": "APPEND",
+          "value": "도시의 야경·뒷골목·밀실의 물질적 질감: 젖은 아스팔트의 반사, 좁은 골목의 냄새(습기·담배·음식·쓰레기), 밀실의 공기(담배 연기, 먼지, 폐쇄된 공간의 압력). 도시의 밤이 세계의 기본 배경."
+        }
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-C12-01",
+            "category": "narrative",
+            "rule": "도덕적 이분법(선/악)으로 세계를 단순화했는가? → 모든 인물이 회색지대에 있어야 한다.",
+            "source": "C-12"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-C12-02",
+            "category": "narrative",
+            "rule": "해피엔딩을 강제했는가? → 느와르는 운명론적이다. 비극이나 아이러닉한 결말이 자연스럽다.",
+            "source": "C-12"
+          }
+        }
+      ],
+      "static_overrides": {},
+      "master_guide_delta": {
+        "fatalism": "운명론. 인물은 선택하지만 결국 정해진 방향으로 간다. 모든 탈출 시도는 다시 같은 곳으로 돌아온다.",
+        "moral_grey": "깨끗한 손이 없다. 주인공도, 조력자도, 적도 모두 무언가를 숨기고 있고, 무언가를 저질렀다."
+      },
+      "known_conflicts": [
+        {
+          "with": "C-05",
+          "severity": "info",
+          "reason": "시너지 — 느와르 스릴러. 심리 스릴러의 심리전과 느와르의 운명론이 결합된다."
+        },
+        {
+          "with": "B-06",
+          "severity": "info",
+          "reason": "시너지 — 냉소체와 느와르의 냉소적 세계관이 자연스럽게 결합된다."
+        },
+        {
+          "with": "D-02",
+          "severity": "info",
+          "reason": "시너지 — 불안/불길 분위기가 느와르의 운명론적 긴장과 결합된다."
+        }
+      ],
+      "traits": {
+        "emotion_level": "suppressed",
+        "lyricism": "low",
+        "slots_touched": [
+          "{C_NARR_GENRE_VARS}",
+          "{C_DLG_GENRE_STYLE}",
+          "{A_PROSE_SENSORY}",
+          "{A_PROSE_DESCRIPTION}"
+        ]
+      }
+    }
+  ]
+}

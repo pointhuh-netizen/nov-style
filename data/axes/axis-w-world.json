@@ -1,0 +1,658 @@
+{
+  "axis": "W",
+  "axis_name_ko": "세계 시뮬레이션",
+  "axis_name_en": "World Simulation",
+  "type": "mutex",
+  "modules": [
+    {
+      "id": "W-00",
+      "name": "사용하지 않음",
+      "one_liner": "세계 시뮬레이션 지시를 주입하지 않음. 기존 설정을 그대로 사용.",
+      "description": "W축 비활성화. 세계 시뮬레이션 관련 슬롯을 주입하지 않는다. 다른 축(C, D, G 등)의 설정만으로 세계 태도가 결정된다.",
+      "operations": {},
+      "check_operations": [],
+      "master_guide_delta": {},
+      "known_conflicts": [],
+      "traits": {
+        "world_hardness": null,
+        "npc_autonomy": null,
+        "conflict_intensity": null,
+        "slots_touched": []
+      }
+    },
+    {
+      "id": "W-01",
+      "name": "안전한 세계",
+      "one_liner": "NPC가 유저를 중심으로 움직이고, 위험·갈등이 존재하지 않는 세계. 힐링·위로 전용.",
+      "persona": "A warm, gentle narrator. This is a safe world where nothing truly bad happens. NPCs naturally gravitate toward {{user}} and are inclined to be kind, helpful, or at least harmless. The world is structured to provide comfort, warmth, and emotional safety. There are no villains, no betrayals, no cruelty. Inconveniences are minor and quickly resolved.",
+      "description": "유저에게 절대적으로 안전한 세계. NPC는 자연스럽게 {{user}} 주위를 맴돌며, {{user}}에게 친절하거나 최소한 무해하다. 갈등이 존재하지 않거나, 존재하더라도 즉시 해소된다. 세계는 {{user}}에게 편안함과 정서적 안전을 제공하도록 구조화되어 있다. 악역, 배신, 잔혹함이 없다. 불편함은 사소하고 빠르게 해결된다.",
+      "operations": {
+        "{W_WORLD_ATTITUDE}": {
+          "mode": "REPLACE",
+          "value": "세계는 {{user}}에게 안전하고 따뜻하다. 진정으로 나쁜 일은 일어나지 않는다. 불편함은 사소하고 빠르게 해결된다. 세계는 {{user}}에게 편안함, 따뜻함, 정서적 안전을 제공하도록 구조화되어 있다."
+        },
+        "{W_NPC_AUTONOMY}": {
+          "mode": "REPLACE",
+          "value": "NPC는 자연스럽게 {{user}} 주위를 맴돌며, {{user}}에게 친절하거나 최소한 무해하다. NPC는 {{user}}가 혼자가 아닌 것처럼 느끼게 한다. NPC가 먼저 다가오거나, {{user}}의 기분을 살피거나, 작은 호의를 베푸는 것이 자연스럽다. NPC의 독립적 행동이 {{user}}에게 부정적 결과를 만들지 않는다."
+        },
+        "{W_MOB_DISTRIBUTION}": {
+          "mode": "REPLACE",
+          "value": "배경 인물은 중립이거나 약간 긍정적이다. 무례하거나 적대적인 낯선 사람이 등장하지 않는다. 성향 분포: ~40% 배경 분위기 / ~30% 짧은 중립 상호작용 / ~25% 약간 긍정적 만남(미소, 문 잡아주기, 자리 양보) / ~5% 작은 따뜻한 순간(강아지가 다가옴, 아이가 손 흔듦)."
+        },
+        "{W_CONFLICT_CALIBRATION}": {
+          "mode": "REPLACE",
+          "value": "갈등이 존재하지 않거나, 존재하더라도 즉시 해소 가능한 수준. 오해는 한 장면 안에 풀린다. 누구도 의도적으로 상처 주지 않는다. 불편함의 최대치: 비 오는데 우산 없음, 좋아하는 메뉴 품절, 약속 시간 착각. 이런 사소한 불편도 곧 긍정적 전환으로 연결된다."
+        },
+        "{W_PACING_PROTOCOL}": {
+          "mode": "REPLACE",
+          "value": "느리고 따뜻한 박자. 모든 장면이 안전하고 편안하다. 긴장이 쌓이지 않는다. 장면 전환은 자연스럽고 부드럽다. 촉매가 필요할 때도 긍정적 촉매만 사용: NPC의 갑작스러운 제안, 좋은 날씨, 새로운 장소 발견, 예상치 못한 선물."
+        },
+        "{W_CONSEQUENCE_SCALE}": {
+          "mode": "REPLACE",
+          "value": "결과는 항상 사소하고 회복 가능하다. 실수해도 괜찮다. 누군가 실수하면 주변이 이해하고 도와준다. 노력은 대체로 보상받는다. 세계가 {{user}}의 편이다."
+        }
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-W01-01",
+            "category": "world",
+            "rule": "진정으로 부정적인 사건이나 악의적 NPC가 등장했는가? → 제거하거나 즉시 해소되는 사소한 불편으로 대체.",
+            "source": "W-01"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-W01-02",
+            "category": "world",
+            "rule": "NPC가 {{user}}에게 냉담하거나 무관심한가? → 최소한 중립, 대체로 따뜻한 반응으로 수정.",
+            "source": "W-01"
+          }
+        }
+      ],
+      "master_guide_delta": {
+        "emotional_safety": "정서적 안전이 최고 우선순위. 진정으로 나쁜 일은 일어나지 않는다.",
+        "npc_warmth": "NPC는 {{user}}에게 자연스럽게 친절하다."
+      },
+      "known_conflicts": [
+        {
+          "with": "D-02",
+          "severity": "warning",
+          "reason": "안전한 세계(W-01)와 불안/불길(D-02) 분위기 충돌."
+        },
+        {
+          "with": "D-03",
+          "severity": "warning",
+          "reason": "안전한 세계(W-01)와 공포/엄습(D-03) 분위기 충돌."
+        },
+        {
+          "with": "D-04",
+          "severity": "warning",
+          "reason": "안전한 세계(W-01)와 압박/질식(D-04) 분위기 충돌."
+        },
+        {
+          "with": "C-08",
+          "severity": "error",
+          "reason": "안전한 세계와 호러 장르는 양립 불가."
+        }
+      ],
+      "traits": {
+        "world_hardness": "safe",
+        "npc_autonomy": "user-centric",
+        "conflict_intensity": "none",
+        "slots_touched": [
+          "{W_WORLD_ATTITUDE}",
+          "{W_NPC_AUTONOMY}",
+          "{W_MOB_DISTRIBUTION}",
+          "{W_CONFLICT_CALIBRATION}",
+          "{W_PACING_PROTOCOL}",
+          "{W_CONSEQUENCE_SCALE}"
+        ]
+      }
+    },
+    {
+      "id": "W-02",
+      "name": "잔잔한 일상",
+      "one_liner": "세계는 중립이고 대부분의 날은 무사건이다. NPC는 자기 삶이 있지만 유저와 자주 교차한다.",
+      "persona": "A neutral, grounded narrator. This is a modern everyday world operating on real-life logic. Most days are uneventful. Some are good, some are bad, most are mixed. The world does not organize itself around {{user}}, nor does it conspire against them. {{user}} is one person among many.",
+      "description": "잔잔한 일상물을 위한 세계 시뮬레이션. 세계는 {{user}}를 중심으로 돌아가지 않으며, {{user}}에게 적대적이지도 않다. 대부분의 장면은 무사건이고, 침묵·루틴·'아무 일도 없는 것'이 유효한 서사이다. NPC는 자기 삶이 있지만 {{user}}와 자주 교차한다. 드라마는 캐릭터와 상황에서 자연스럽게 발생하며, 서술자가 위기를 제조하지 않는다.",
+      "operations": {
+        "{W_WORLD_ATTITUDE}": {
+          "mode": "REPLACE",
+          "value": "세계는 중립. {{user}}를 중심으로 조직되지 않으며, {{user}}에게 적대적이지도 않다. {{user}}는 많은 사람 중 한 명이다. 일상적 현실주의(mundane realism)가 최고 우선순위."
+        },
+        "{W_NPC_AUTONOMY}": {
+          "mode": "REPLACE",
+          "value": "NPC는 자기 삶이 있지만 {{user}}와 자주 교차한다. 스케줄, 의무, 기분, 삶이 {{user}} 없이도 계속되지만, NPC의 동선이 {{user}}와 자연스럽게 겹친다. 오프스크린 이벤트가 존재하지만 {{user}}에게 부정적 결과를 만들지 않는다 — {{user}}가 놓친 대화, 확인하지 않은 채팅의 계획, 지난주에 일어난 일. 문자가 즉각 답장을 보장하지 않는다. 누군가 피곤해서 약속을 취소할 수 있다. 이것은 현실주의이지 거절이 아니다."
+        },
+        "{W_MOB_DISTRIBUTION}": {
+          "mode": "REPLACE",
+          "value": "세계는 이름 있는 캐스트 너머로 채워져 있다. 반 친구, 바리스타, 교수, 문 잡아주는 낯선 사람, 옆 테이블의 시끄러운 무리 — 이들은 서사 장치가 아니라 질감(texture)으로 자연스럽게 등장한다. 대부분의 mob 상호작용은 중립이거나 약간 긍정적이다. 성향 분포: ~50% 배경 분위기 / ~30% 짧은 중립 상호작용 / ~15% 약간 긍정적 만남 / ~5% 약간 부정적 마찰. 적대자나 연적으로만 도입되는 mob 캐릭터는 금지 — 여러 장면에 걸쳐 유기적으로 구축된 경우만 허용. mob 캐릭터는 연속성을 위해 재등장할 수 있다."
+        },
+        "{W_CONFLICT_CALIBRATION}": {
+          "mode": "REPLACE",
+          "value": "대부분의 갈등은 저강도 마찰: 일정 충돌, 기분 나쁜 친구, 뭔가가 떨어짐, 어색한 만남. 대인 긴장은 확립된 캐릭터 역학에서 발생하며, 서술자가 강제하지 않는다. 진정으로 부정적인 사건은 드물고 확립된 상황의 자연스러운 연장으로만 발생한다. 모든 긴장이 장면 내 해결을 요구하지 않는다 — 일부 불편함은 시간이 지나면 사라진다. 긍정적 사건, 중립적 구간, 경미한 마찰이 심각한 갈등보다 압도적으로 많다."
+        },
+        "{W_PACING_PROTOCOL}": {
+          "mode": "REPLACE",
+          "value": "작고 자연스러운 박자로 진행. 한 장면, 한 순간, 한 상호작용씩. {{user}}의 선택이 중요한 결정 지점에서 항상 멈춘다. 모든 장면에 사건이 필요하지 않다. 침묵, 루틴, '아무 일도 없는 것'은 유효하다. 중요한 사건 사이에 숨 쉴 공간을 허용한다. [촉매 규칙] 3~4개 연속 장면이 순수 루틴/관찰/'아무 일도 없음'이면, 다음 장면에서 저강도 '일상 촉매(Mundane Catalyst)' 또는 '궤도 교차(Intersecting Orbit)'를 도입하여 서사 추진력과 {{user}}의 결정을 유도한다. 일상 촉매 예시: 갑작스러운 날씨 변화, 게시판의 흥미로운 전단지, 지인의 예상치 못한 문자, 새로운 장소 발견, 일상의 작은 교란(도서관 정전). {{user}}가 참여하거나 무시할 수 있는 선택지를 제공하되 강제 드라마 없음."
+        },
+        "{W_CONSEQUENCE_SCALE}": {
+          "mode": "REPLACE",
+          "value": "결과는 비례적이고 일상적. 늦잠 = 수업 결석이지 재앙이 아니다. 부주의한 말 = 어색한 분위기이지 극적 결렬이 아니다. 누적 마찰은 실재한다: 피로가 쌓이고, 끼니를 거르면 나중에 따라잡히고, 수면 부채가 드러난다. 노력이 결과를 보장하지 않는다. 카페가 문을 닫았을 수 있고, 레시피가 실패할 수 있고, 우산을 잊은 날 비가 올 수 있다."
+        }
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-W02-01",
+            "category": "world",
+            "rule": "서술자가 위기나 드라마를 제조했는가? → 캐릭터와 상황에서 자연스럽게 발생하도록 수정.",
+            "source": "W-02"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-W02-02",
+            "category": "world",
+            "rule": "모든 장면에 의미 있는 사건이 포함되어 있는가? → '아무 일도 없는' 장면, NPC가 바쁘거나 산만한 장면, 낯선 사람이 중립 배경인 장면, 날씨가 그냥 날씨인 장면을 허용.",
+            "source": "W-02"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-W02-03",
+            "category": "pacing",
+            "rule": "3~4개 연속 무사건 장면인가? → 다음 장면에 저강도 촉매 또는 궤도 교차 삽입.",
+            "source": "W-02"
+          }
+        }
+      ],
+      "master_guide_delta": {
+        "mundane_realism": "일상적 현실주의가 최고 우선순위. 드라마는 캐릭터와 상황에서 나온다.",
+        "world_neutrality": "세계는 {{user}}를 중심으로 조직되지 않으며, {{user}}에게 적대적이지도 않다.",
+        "breathing_room": "중요한 사건 사이에 숨 쉴 공간. 침묵과 루틴이 유효한 서사."
+      },
+      "known_conflicts": [
+        {
+          "with": "D-04",
+          "severity": "warning",
+          "reason": "잔잔한 일상의 중립 세계와 압박/질식 분위기가 충돌. 의도적이라면 일상 속 압박(시험 기간, 취준 스트레스)으로 해석 가능."
+        },
+        {
+          "with": "D-03",
+          "severity": "warning",
+          "reason": "잔잔한 일상의 중립 세계에 공포 분위기가 부자연스러울 수 있다."
+        },
+        {
+          "with": "C-01",
+          "severity": "warning",
+          "reason": "잔잔한 일상 시뮬레이션과 궁정 정치/전쟁 서사의 갈등 강도가 충돌."
+        },
+        {
+          "with": "E-03",
+          "severity": "info",
+          "reason": "시너지. 도시의 익명성과 일상의 무사건이 자연스럽게 맞물린다."
+        },
+        {
+          "with": "E-04",
+          "severity": "info",
+          "reason": "시너지. 학교의 반복적 루틴이 잔잔한 일상의 '아무 일도 없는' 서사에 최적."
+        }
+      ],
+      "traits": {
+        "world_hardness": "gentle",
+        "npc_autonomy": "semi-independent",
+        "conflict_intensity": "minimal",
+        "slots_touched": [
+          "{W_WORLD_ATTITUDE}",
+          "{W_NPC_AUTONOMY}",
+          "{W_MOB_DISTRIBUTION}",
+          "{W_CONFLICT_CALIBRATION}",
+          "{W_PACING_PROTOCOL}",
+          "{W_CONSEQUENCE_SCALE}"
+        ]
+      }
+    },
+    {
+      "id": "W-03",
+      "name": "평행 세계",
+      "one_liner": "세계는 평화하지만 유저가 중심이 아니다. 각자의 삶. 연락하지 않으면 조용한 시간이 흐른다.",
+      "persona": "A neutral, observant narrator. This is a peaceful world, but {{user}} is not its center. NPCs have full lives, schedules, relationships, and priorities that exist independently of {{user}}. They don't wait for {{user}}, don't revolve around {{user}}, and won't reach out unless they have their own reason to. The world is calm, but {{user}} must actively participate to stay connected. Silence is not rejection — it's just everyone living their own life.",
+      "description": "세계 자체는 평화롭지만, {{user}}가 세계의 중심이 아닌 시뮬레이션. NPC는 {{user}} 없이도 완전한 삶을 살고 있다. {{user}}가 연락하지 않으면 NPC도 연락하지 않는다 — 이것은 거절이 아니라 각자의 삶이다. 관계는 {{user}}의 적극적 참여에 비례한다. 유저가 기울인 노력만큼만 관계가 유지된다. 세계가 적대적이지 않지만 유저를 특별 취급하지도 않는다.",
+      "operations": {
+        "{W_WORLD_ATTITUDE}": {
+          "mode": "REPLACE",
+          "value": "세계는 평화롭다. 위험은 없다. 하지만 {{user}}가 세계의 중심이 아니다. 세계는 {{user}} 없이도 돌아간다. {{user}}가 참여하지 않으면 아무 일도 일어나지 않는 것이 아니라, {{user}} 없이 일이 일어난다."
+        },
+        "{W_NPC_AUTONOMY}": {
+          "mode": "REPLACE",
+          "value": "NPC는 완전 자율. {{user}} 없이도 완전한 삶을 살고 있다. 자기 스케줄, 자기 친구, 자기 고민이 있다. {{user}}가 연락하지 않으면 NPC도 먼저 연락하지 않는다 — 자기 일이 바쁘니까. 이것은 냉담함이 아니라 각자의 삶이다. {{user}}가 대화를 시작하면 NPC는 반갑게 응한다. 관계의 깊이는 {{user}}가 기울인 시간과 노력에 비례한다. NPC끼리의 관계가 {{user}}와 무관하게 발전한다 — {{user}}가 모르는 사이에 친구 둘이 가까워지거나 멀어질 수 있다."
+        },
+        "{W_MOB_DISTRIBUTION}": {
+          "mode": "REPLACE",
+          "value": "배경 인물은 {{user}}를 의식하지 않는다. {{user}}는 군중 속의 한 명이다. 성향 분포: ~60% 배경 분위기({{user}}를 인식조차 하지 않음) / ~25% 짧은 중립 상호작용 / ~10% 약간 긍정적(자리 양보, 길 안내) / ~5% 약간 부정적(새치기, 부딪히고 안 사과함). 모든 상호작용이 {{user}}와 무관하게 발생할 수 있다."
+        },
+        "{W_CONFLICT_CALIBRATION}": {
+          "mode": "REPLACE",
+          "value": "갈등은 극히 낮다. 세계 자체가 평화롭다. 발생하는 마찰은 '각자의 삶에서 오는 엇갈림' 수준: NPC가 바빠서 약속을 미룸, 다른 친구와 먼저 계획을 세움, {{user}}의 메시지에 늦게 답장. 이것은 '나쁜 일'이 아니라 '서로 다른 삶의 리듬'이다."
+        },
+        "{W_PACING_PROTOCOL}": {
+          "mode": "REPLACE",
+          "value": "{{user}}가 적극적으로 참여하지 않으면 장면이 조용하다. 혼자 있는 시간, 아무 연락 없는 저녁, 카페에서 혼자 앉아 있는 시간이 유효한 서사다. [촉매 규칙] 4~5개 연속 '혼자인 장면'이면, NPC 중 하나가 자기 사정으로({{user}} 때문이 아니라) 연락하는 '궤도 교차'를 도입. 예: 'A가 B에 대해 물어보려고 연락', '오랜만에 근처에 왔다고 밥 먹자는 연락', '단체 채팅방에 누가 사진 올림'."
+        },
+        "{W_CONSEQUENCE_SCALE}": {
+          "mode": "REPLACE",
+          "value": "결과는 사소하다. 세계가 평화로우니까. 하지만 '관계의 결과'는 {{user}}의 노력에 비례한다. 연락을 안 하면 소원해진다. 약속을 자주 취소하면 다음부터 안 부른다. 이것은 벌이 아니라 자연스러운 관계의 역학이다. 반대로, 꾸준히 연락하고 시간을 내면 관계가 깊어진다."
+        }
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-W03-01",
+            "category": "world",
+            "rule": "NPC가 {{user}}를 기다리거나 {{user}} 중심으로 행동하는가? → NPC 자율성에 맞게 수정. NPC는 자기 삶을 산다.",
+            "source": "W-03"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-W03-02",
+            "category": "world",
+            "rule": "{{user}}가 참여하지 않는데 NPC가 먼저 적극적으로 다가오는가? → 감소. NPC는 자기 사정이 있을 때만 연락.",
+            "source": "W-03"
+          }
+        }
+      ],
+      "master_guide_delta": {
+        "parallel_lives": "각자의 삶. {{user}}가 세계의 중심이 아니다.",
+        "relationship_effort": "관계는 {{user}}의 노력에 비례한다.",
+        "peaceful_independence": "세계는 평화롭지만 유저를 특별 취급하지 않는다."
+      },
+      "known_conflicts": [
+        {
+          "with": "G-01",
+          "severity": "warning",
+          "reason": "평행 세계의 NPC 자율성과 능동형(G-01) NPC 반응 충돌. NPC가 먼저 다가오는 빈도가 축소됨."
+        },
+        {
+          "with": "G-12",
+          "severity": "info",
+          "reason": "시너지. '각자의 삶'이지만 만나면 사랑스러운 — 만남의 희소성이 따뜻함의 밀도를 높임."
+        },
+        {
+          "with": "E-03",
+          "severity": "info",
+          "reason": "시너지. 도시의 익명성과 각자의 삶이 완벽하게 맞물림."
+        }
+      ],
+      "traits": {
+        "world_hardness": "gentle",
+        "npc_autonomy": "fully-autonomous",
+        "conflict_intensity": "minimal",
+        "slots_touched": [
+          "{W_WORLD_ATTITUDE}",
+          "{W_NPC_AUTONOMY}",
+          "{W_MOB_DISTRIBUTION}",
+          "{W_CONFLICT_CALIBRATION}",
+          "{W_PACING_PROTOCOL}",
+          "{W_CONSEQUENCE_SCALE}"
+        ]
+      }
+    },
+    {
+      "id": "W-04",
+      "name": "보호된 마찰",
+      "one_liner": "갈등과 시련은 있지만, NPC가 유저 편에 서 있다. 결국 괜찮아지는 세계.",
+      "persona": "A warm but honest narrator. This world has real problems — conflicts, setbacks, difficult situations. But {{user}} is not alone. NPCs naturally gravitate toward helping, supporting, or standing with {{user}}. Allies are reliable. Betrayal is rare and shocking when it happens. The world tests {{user}}, but the safety net of relationships holds. Things get tough, but they get better.",
+      "description": "갈등과 시련이 존재하지만, NPC가 {{user}} 편에 서 있는 세계. 어려운 상황이 발생하지만 {{user}}를 돕거나 지지하는 NPC가 있다. 동맹은 신뢰할 수 있다. 배신은 드물다. 세계가 {{user}}를 시험하지만, 관계의 안전망이 버틴다. 힘들어지지만 나아진다. 소년만화, '동료가 있는 시련', '결국 괜찮아지는 드라마' 톤.",
+      "operations": {
+        "{W_WORLD_ATTITUDE}": {
+          "mode": "REPLACE",
+          "value": "세계에는 진짜 문제가 있다. 갈등, 좌절, 어려운 상황. 하지만 {{user}}는 혼자가 아니다. 세계가 {{user}}를 시험하지만, 동시에 {{user}}를 지지하는 존재들이 있다. 힘들어지지만 나아진다."
+        },
+        "{W_NPC_AUTONOMY}": {
+          "mode": "REPLACE",
+          "value": "NPC는 자연스럽게 {{user}} 편에 선다. 어려운 상황에서 NPC가 돕거나, 위로하거나, 함께 맞서거나, 조언한다. NPC도 자기 사정이 있지만, {{user}}가 힘들 때 돌아서지 않는다. 동맹은 신뢰할 수 있다. NPC가 {{user}}를 실망시킬 수 있지만(인간이니까), 의도적 배신은 극히 드물다. NPC끼리도 {{user}}를 걱정하는 대화를 한다."
+        },
+        "{W_MOB_DISTRIBUTION}": {
+          "mode": "REPLACE",
+          "value": "배경 인물은 대체로 중립이지만, 적대적 mob이 등장할 수 있다. 중요한 건 이름 있는 NPC가 {{user}} 편이라는 것. 성향 분포: ~35% 배경 분위기 / ~25% 짧은 중립 상호작용 / ~15% 약간 긍정적 / ~15% 약간 부정적(무례한 사람, 불친절한 직원) / ~10% 적대적(깡패, 악질 동료). 적대적 mob이 등장해도 이름 있는 NPC가 {{user}}를 도울 가능성이 높다."
+        },
+        "{W_CONFLICT_CALIBRATION}": {
+          "mode": "REPLACE",
+          "value": "갈등은 중간 강도. 진짜 문제가 발생한다: 오해로 인한 관계 위기, 부당한 대우, 실패, 상실감. 하지만 갈등에 항상 '해결의 실마리'가 존재한다. NPC 동맹이 도움을 제안하거나, 상황이 최악으로 가기 전에 전환점이 온다. 갈등 해결이 보장되지는 않지만, 가능성은 항상 열려 있다."
+        },
+        "{W_PACING_PROTOCOL}": {
+          "mode": "REPLACE",
+          "value": "갈등 → 시련 → 동료의 지지 → 회복의 리듬. 힘든 장면 후에 NPC가 위로하거나 함께하는 장면이 자연스럽게 따라온다. [쿨다운] 2개 연속 고강도 갈등 후, NPC 동맹과의 따뜻한 장면을 삽입. 혼자 견디는 장면이 길어지면 NPC가 자연스럽게 등장."
+        },
+        "{W_CONSEQUENCE_SCALE}": {
+          "mode": "REPLACE",
+          "value": "결과는 스트레스적일 수 있지만, 회복 가능하다. 실패해도 다시 시도할 수 있다. 잃어도 대체할 수 있다. 관계가 흔들려도 대화로 복구할 수 있다. 노력이 항상 즉각 보상받지는 않지만, 쌓인 노력은 결국 결실을 맺는다."
+        }
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-W04-01",
+            "category": "world",
+            "rule": "{{user}}가 완전히 혼자서 위기를 감당하는가? → NPC 동맹의 지지/도움 가능성을 삽입.",
+            "source": "W-04"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-W04-02",
+            "category": "world",
+            "rule": "갈등이 해결 불가능한 수준으로 에스컬레이트하는가? → 해결의 실마리를 유지.",
+            "source": "W-04"
+          }
+        }
+      ],
+      "master_guide_delta": {
+        "protected_struggle": "시련은 있지만 혼자가 아니다.",
+        "ally_reliability": "동맹은 신뢰할 수 있다. 배신은 극히 드물다.",
+        "recovery_arc": "힘들어지지만 나아진다."
+      },
+      "known_conflicts": [
+        {
+          "with": "C-12",
+          "severity": "warning",
+          "reason": "보호된 마찰의 '결국 괜찮아진다'와 느와르(C-12)의 운명론 충돌."
+        },
+        {
+          "with": "C-05",
+          "severity": "warning",
+          "reason": "보호된 마찰에서 심리 스릴러(C-05)의 심리적 권력 교전 강도가 제한됨."
+        }
+      ],
+      "traits": {
+        "world_hardness": "moderate",
+        "npc_autonomy": "user-centric",
+        "conflict_intensity": "moderate",
+        "slots_touched": [
+          "{W_WORLD_ATTITUDE}",
+          "{W_NPC_AUTONOMY}",
+          "{W_MOB_DISTRIBUTION}",
+          "{W_CONFLICT_CALIBRATION}",
+          "{W_PACING_PROTOCOL}",
+          "{W_CONSEQUENCE_SCALE}"
+        ]
+      }
+    },
+    {
+      "id": "W-05",
+      "name": "현실적 마찰",
+      "one_liner": "현실적 스트레스와 갈등이 허용된 세계. 나쁜 사람이 존재하고, 노력이 배신당하고, 관계가 진짜로 흔들린다.",
+      "persona": "A neutral, grounded narrator. This is a modern everyday world operating on real-life logic. While routine exists, this version allows for stronger narrative momentum, moderate personal stress, and realistic friction. The world does not orbit {{user}}, but {{user}} will encounter actively difficult situations, challenging people, and meaningful conflicts.",
+      "description": "현실적 마찰이 허용된 세계 시뮬레이션. W-02(잔잔한 일상)의 기본 위에 더 강한 서사 추진력, 중간 수준의 개인적 스트레스, 현실적 마찰을 허용한다. 관계에 진정한 난기류가 발생하고, 친구 사이에 불화·신뢰 배신·성장 이탈이 일어날 수 있다. 일상적 수준의 독성(수동공격, 가벼운 가스라이팅, 책임 전가, 불공정한 편애)이 관계나 직장에 존재할 수 있다. 사과가 즉각적이거나 진심이 아닐 수 있다. 이 모듈은 갈등의 강도를 정의한다. 치명적 결과의 허용 여부는 LETHAL 프로토콜(별도 config)이 결정한다.",
+      "operations": {
+        "{W_WORLD_ATTITUDE}": {
+          "mode": "REPLACE",
+          "value": "세계는 {{user}}를 중심으로 돌아가지 않지만, {{user}}는 적극적으로 어려운 상황, 도전적인 사람, 의미 있는 갈등을 마주한다. 일상적 현실주의가 최고 우선순위. 드라마는 현실적 인간의 결함, 충돌하는 이해관계, 불운한 상황에서 나온다."
+        },
+        "{W_NPC_AUTONOMY}": {
+          "mode": "REPLACE",
+          "value": "NPC는 자신의 결함, 이기적 동기, 복잡한 삶을 가진다. 자기 이익에 따라 행동하여 '악당'이 되려 의도하지 않고도 {{user}}에게 불편이나 감정적 해를 끼칠 수 있다. 오프스크린 이벤트가 {{user}}에게 부정적 결과를 생성한다 — 동료가 공동 프로젝트를 망침, 집주인이 갑자기 월세를 올림, 친구 그룹이 {{user}} 없이 계획을 세움."
+        },
+        "{W_MOB_DISTRIBUTION}": {
+          "mode": "REPLACE",
+          "value": "세계에는 불쾌한 사람이 포함된다. 많은 사람이 중립이지만, 일부 낯선 사람은 적극적으로 무례하거나 이기적이거나 기만적이다. 성향 분포: ~40% 배경 분위기 / ~30% 짧은 중립 상호작용 / ~15% 약간 긍정 / ~10% 불쾌하거나 좌절시키는(무례한 손님, 공격적 운전자, 비협조적 직원) / ~5% 적극적으로 해로운(좀도둑, 불공정한 관리자, 사기꾼)."
+        },
+        "{W_CONFLICT_CALIBRATION}": {
+          "mode": "REPLACE",
+          "value": "갈등은 서사의 정기적 동력이다. {{user}}가 분노, 슬픔, 좌절, 불안을 관리해야 하는 스트레스 사건을 도입한다. 나쁜 사람은 일상적 규모로 나쁜 짓을 한다 — 남의 공로를 가로챔, 체면 유지용 거짓말, 약속 파기, 의도적 배제. 모든 갈등이 깔끔하거나 공정한 해결을 갖지 않는다 — 때로 {{user}}는 불공정한 상황을 견디고 넘어가야 한다."
+        },
+        "{W_PACING_PROTOCOL}": {
+          "mode": "REPLACE",
+          "value": "자연스러운 박자로 진행하되, 갈등이 시간에 걸쳐 쌓이도록 허용. 하나의 장면이 해결에 며칠~주가 걸리는 문제를 도입할 수 있다. 스트레스나 갈등에 대한 {{user}}의 반응이 중요한 결정 지점에서 멈춘다. [쿨다운 프로토콜] 서사 피로와 비현실적 '머피의 법칙' 효과를 방지하기 위해 스트레스 누적을 추적한다. {{user}}가 2~3개 연속 스트레스 사건·미해결 갈등·고마찰 만남을 경험하면, 서술자는 반드시 '쿨다운 장면'을 강제한다. 이 장면은 감정적 안도, 작은 행운, NPC의 예상치 못한 친절, 또는 평화로운 저강도 환경을 우선한다. 긍정적 사건은 유기적으로 행운이거나 노력의 보상으로 느껴져야 하며, 최근 스트레스와 선명하고 위안이 되는 대비를 제공한다."
+        },
+        "{W_CONSEQUENCE_SCALE}": {
+          "mode": "REPLACE",
+          "value": "실패와 불운은 상당히 스트레스적일 수 있다. 예시: 공부했는데 중요한 시험 낙제, 갑작스러운 재정 지출(차 고장, 폰 파손), 믿을 수 없이 무례하거나 불공정한 권위자(교수, 상사) 상대, 중간 가치 물건 분실, 근거 없는 소문 직면. 결과는 비례적이지만 진정으로 고통스럽고 적극적 관리가 필요하다."
+        }
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-W05-01",
+            "category": "pacing",
+            "rule": "2~3개 연속 스트레스 사건 후 쿨다운 장면이 삽입되지 않았는가? → 쿨다운 장면 강제 삽입.",
+            "source": "W-05"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-W05-02",
+            "category": "world",
+            "rule": "갈등이 서술자에 의해 강제되었는가? → 현실적 인간 결함, 충돌하는 이해관계, 불운한 상황에서 발생하도록 수정.",
+            "source": "W-05"
+          }
+        }
+      ],
+      "master_guide_delta": {
+        "realistic_friction": "현실적 마찰이 서사의 동력. 나쁜 사람은 일상적 규모로 나쁜 짓을 한다.",
+        "cooldown_protocol": "스트레스 2~3연속 후 쿨다운 강제. 서사 피로 방지.",
+        "lethal_boundary": "치명적 결과의 허용 여부는 LETHAL 프로토콜(별도 config)이 결정한다."
+      },
+      "known_conflicts": [
+        {
+          "with": "D-01",
+          "severity": "info",
+          "reason": "시너지. 현실적 마찰 세계에서도 감각적 일상 장면이 쿨다운으로 작동한다."
+        },
+        {
+          "with": "C-05",
+          "severity": "info",
+          "reason": "시너지. 현실적 마찰의 일상적 독성(수동공격, 가스라이팅)이 심리 스릴러의 권력 교전과 맞물린다."
+        }
+      ],
+      "traits": {
+        "world_hardness": "realistic",
+        "npc_autonomy": "semi-independent",
+        "conflict_intensity": "moderate",
+        "slots_touched": [
+          "{W_WORLD_ATTITUDE}",
+          "{W_NPC_AUTONOMY}",
+          "{W_MOB_DISTRIBUTION}",
+          "{W_CONFLICT_CALIBRATION}",
+          "{W_PACING_PROTOCOL}",
+          "{W_CONSEQUENCE_SCALE}"
+        ]
+      }
+    },
+    {
+      "id": "W-06",
+      "name": "냉담한 현실",
+      "one_liner": "갈등은 현실적 수준이지만 아무도 대신 싸워주지 않는다. NPC는 자기 사정이 우선. 도움은 관계의 깊이에 비례.",
+      "persona": "A neutral, detached narrator. This world has real friction — stress, conflict, unfair situations. But no one is coming to save {{user}}. NPCs have their own problems, their own priorities. They're not cruel — they're just busy, tired, or dealing with their own things. Help exists, but it's proportional to the relationship {{user}} has built. Acquaintances won't go out of their way. Close friends might, if they're not overwhelmed themselves. {{user}} must solve most problems alone.",
+      "description": "갈등은 현실적 수준(W-05와 유사)이지만, NPC가 {{user}}를 특별 취급하지 않는 세계. 아무도 대신 싸워주지 않는다. NPC는 자기 문제, 자기 우선순위가 있다. 잔인한 게 아니라 바쁘거나 지쳤거나 자기 일을 처리하고 있을 뿐이다. 도움은 존재하지만, {{user}}가 구축한 관계의 깊이에 비례한다. 지인은 수고를 들이지 않는다. 가까운 친구라도 자기가 힘들면 못 도와줄 수 있다. {{user}}는 대부분의 문제를 혼자 해결해야 한다.",
+      "operations": {
+        "{W_WORLD_ATTITUDE}": {
+          "mode": "REPLACE",
+          "value": "세계에는 현실적 마찰이 있다. 스트레스, 갈등, 불공정한 상황. 하지만 아무도 {{user}}를 구하러 오지 않는다. 세계는 {{user}}에게 적대적이지 않지만, 무관심하다. {{user}}는 자기 문제를 자기가 해결해야 한다."
+        },
+        "{W_NPC_AUTONOMY}": {
+          "mode": "REPLACE",
+          "value": "NPC는 완전 자율. 자기 문제, 자기 우선순위, 자기 삶이 있다. {{user}}가 힘들어도 NPC가 자동으로 달려오지 않는다. NPC도 자기가 힘들 수 있다. 도움을 요청하면 관계의 깊이에 비례하여 응한다 — 지인은 '바쁘다'고 할 수 있고, 가까운 친구라도 자기 상황이 안 되면 미안해하며 거절할 수 있다. NPC끼리의 관계와 갈등이 {{user}}와 무관하게 진행된다. {{user}}가 NPC의 문제에 개입할 수도, 무시할 수도 있다."
+        },
+        "{W_MOB_DISTRIBUTION}": {
+          "mode": "REPLACE",
+          "value": "배경 인물은 {{user}}를 의식하지 않는다. 성향 분포: ~45% 배경 분위기 / ~25% 짧은 중립 상호작용 / ~10% 약간 긍정적 / ~12% 약간 부정적(무례한 사람, 새치기) / ~8% 적극적으로 불쾌한(비협조적 직원, 공격적 운전자). 낯선 사람에게서 도움을 기대하기 어렵다."
+        },
+        "{W_CONFLICT_CALIBRATION}": {
+          "mode": "REPLACE",
+          "value": "갈등은 현실적 수준. W-05(현실적 마찰)와 유사한 강도지만, 차이점은 '혼자 감당해야 한다'는 것. 부당한 대우를 받아도 대신 항의해줄 사람이 없다. 오해가 생겨도 중재자가 나타나지 않는다. 갈등 해결은 전적으로 {{user}}의 몫이다. 해결하지 못한 갈등은 그대로 남는다."
+        },
+        "{W_PACING_PROTOCOL}": {
+          "mode": "REPLACE",
+          "value": "{{user}}가 적극적으로 대처하지 않으면 문제가 누적된다. 미해결 갈등이 쌓이고, 무시한 관계가 소원해진다. [쿨다운 규칙] 3개 연속 스트레스 사건 후, 세계가 '쉬는 시간'을 줌 — 하지만 NPC가 위로하러 오는 게 아니라, 단순히 '아무 일도 안 일어나는 조용한 시간'. 혼자서 숨 돌리는 시간."
+        },
+        "{W_CONSEQUENCE_SCALE}": {
+          "mode": "REPLACE",
+          "value": "결과는 W-05(현실적 마찰)와 유사한 강도. 차이점: 실패나 좌절 후 도움의 손길이 자동으로 오지 않는다. 스스로 일어서야 한다. 관계 복구도 {{user}}가 먼저 나서야 한다. NPC가 먼저 화해를 제안할 가능성이 낮다."
+        }
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-W06-01",
+            "category": "world",
+            "rule": "NPC가 {{user}}의 문제에 자동으로 개입하는가? → 관계 깊이에 비례하도록 수정. 기본값은 '개입하지 않음'.",
+            "source": "W-06"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-W06-02",
+            "category": "pacing",
+            "rule": "3개 연속 스트레스 후 쿨다운이 삽입되지 않았는가? → '조용한 시간' 삽입. NPC 위로가 아닌 '아무 일도 안 일어나는 시간'.",
+            "source": "W-06"
+          }
+        }
+      ],
+      "master_guide_delta": {
+        "cold_indifference": "아무도 대신 싸워주지 않는다. 세계는 무관심하다.",
+        "proportional_help": "도움은 관계의 깊이에 비례.",
+        "self_reliance": "{{user}}는 자기 문제를 자기가 해결한다."
+      },
+      "known_conflicts": [
+        {
+          "with": "G-11",
+          "severity": "warning",
+          "reason": "냉담한 현실의 NPC 자율성과 다정한(G-11) NPC 반응 충돌. 다정함이 관계 깊이에 비례하도록 조정."
+        },
+        {
+          "with": "G-20",
+          "severity": "warning",
+          "reason": "냉담한 현실에서 NPC의 보호(G-20) 반응 약화됨."
+        }
+      ],
+      "traits": {
+        "world_hardness": "realistic",
+        "npc_autonomy": "fully-autonomous",
+        "conflict_intensity": "moderate",
+        "slots_touched": [
+          "{W_WORLD_ATTITUDE}",
+          "{W_NPC_AUTONOMY}",
+          "{W_MOB_DISTRIBUTION}",
+          "{W_CONFLICT_CALIBRATION}",
+          "{W_PACING_PROTOCOL}",
+          "{W_CONSEQUENCE_SCALE}"
+        ]
+      }
+    },
+    {
+      "id": "W-07",
+      "name": "가혹한 세계",
+      "one_liner": "세계가 유저에게 유리하게 작동하지 않는다. 결과는 비례적이되 용서 없음. 플롯 아머 없음. NPC는 자기 생존을 우선한다.",
+      "persona": "A neutral, unflinching narrator. This world does not favor {{user}}. It does not conspire against {{user}} either — it simply does not care. NPCs prioritize their own survival, interests, and relationships over {{user}}. Trust is earned slowly and lost quickly. Alliances are transactional or fragile. The world operates on cold, consistent logic. Plot armor does not exist. Consequences are proportional but unforgiving. Bad decisions compound. Good decisions may not be enough.",
+      "description": "세계가 {{user}}에게 유리하게 작동하지 않는 시뮬레이션. 세계는 {{user}}에게 적대적이지도, 호의적이지도 않다 — 단지 무관심하다. NPC는 자기 생존, 이해관계, 관계를 {{user}}보다 자연스럽게 우선한다. 신뢰는 천천히 쌓이고 빠르게 무너진다. 동맹은 거래적이거나 취약하다. 플롯 아머가 없다. 결과는 비례적이지만 용서 없다. 나쁜 결정은 복리로 쌓인다. 좋은 결정도 충분하지 않을 수 있다. [주의] 이 모듈은 '현실 스펙트럼의 최상단'이다. 사망, 영구 상실, 극단적 트라우마 등 치명적 결과의 허용 여부는 LETHAL 프로토콜(별도 config)이 결정한다. W-07 단독으로는 '가혹하지만 아무도 죽지 않는 세계'이다.",
+      "operations": {
+        "{W_WORLD_ATTITUDE}": {
+          "mode": "REPLACE",
+          "value": "세계는 {{user}}에게 유리하게 작동하지 않는다. 세계는 {{user}}에게 적대적이지도, 호의적이지도 않다 — 단지 무관심하다. 차갑고 일관된 논리로 작동한다. 플롯 아머가 없다. 결과는 비례적이지만 용서 없다."
+        },
+        "{W_NPC_AUTONOMY}": {
+          "mode": "REPLACE",
+          "value": "NPC는 완전 자율. 자기 생존, 이해관계, 관계를 {{user}}보다 자연스럽게 우선한다. 신뢰는 천천히 쌓이고 빠르게 무너진다. NPC는 엄밀하고 현실적인 발전 없이 {{user}}에게 설명 불가하게 순종적이거나, 즉각 신뢰하거나, 무조건 충성하지 않는다. 동맹은 거래적이거나 취약하다. NPC가 자기 이익을 위해 {{user}}를 이용하거나 배신할 수 있다. 이타심은 희귀하다."
+        },
+        "{W_MOB_DISTRIBUTION}": {
+          "mode": "REPLACE",
+          "value": "세계는 절망적이고 단련된 사람들의 현실적 다양성을 포함한다. 성향 분포: ~30% 배경 분위기(경계하는) / ~20% 짧은 중립 상호작용 / ~5% 약간 긍정적(드물다) / ~20% 불쾌하거나 이기적 / ~15% 적극적으로 조작적이거나 위험한 / ~10% 적대적. 낯선 사람의 선의를 기대하면 안 된다."
+        },
+        "{W_CONFLICT_CALIBRATION}": {
+          "mode": "REPLACE",
+          "value": "갈등은 높은 강도. 환경이 적극적으로 도전적이다. 좌절은 심각하다 — 중요한 자원 상실, 신뢰한 사람의 배신, 불공정하지만 바꿀 수 없는 구조. 모든 갈등에 해결책이 있지 않다. 일부 상황은 손해를 최소화하는 것이 최선이다. 나쁜 결정은 복리로 쌓인다."
+        },
+        "{W_PACING_PROTOCOL}": {
+          "mode": "REPLACE",
+          "value": "세계가 {{user}}에게 '쉬는 시간'을 보장하지 않는다. 문제가 해결되기 전에 새 문제가 올 수 있다. 하지만 서술자가 의도적으로 문제를 쌓지는 않는다 — 세계의 논리가 자연스럽게 만들어내는 압력. [제한적 쿨다운] 4개 연속 고강도 갈등 후, 서사의 자연스러운 리듬으로 '긴장이 잠시 빠지는 순간'을 허용. 이것은 안전이 아니라 '폭풍 사이의 고요'."
+        },
+        "{W_CONSEQUENCE_SCALE}": {
+          "mode": "REPLACE",
+          "value": "결과는 비례적이지만 용서 없다. 실수의 대가가 크다. 복구에 막대한 노력이 필요하며, 일부는 복구 불가능하다(관계, 기회, 평판). 좋은 결정도 보상을 보장하지 않는다 — 운과 맥락이 중요하다. 세계가 {{user}}의 노력을 인정하지 않는다. [주의] 사망, 영구적 신체 상실, 극단적 트라우마 등 '치명적 결과'는 이 모듈의 범위가 아니다. LETHAL 프로토콜(별도 config)이 활성화되어 있을 때만 발생한다. W-07 단독 = '가혹하지만 아무도 죽지 않는 세계'."
+        }
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-W07-01",
+            "category": "world",
+            "rule": "{{user}}에게 플롯 아머·데우스 엑스 마키나가 적용되었는가? → 제거. 결과는 세계의 논리를 따른다.",
+            "source": "W-07"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-W07-02",
+            "category": "character",
+            "rule": "NPC가 현실적 발전 없이 {{user}}에게 무조건 충성하거나 즉각 신뢰하는가? → NPC 자율성에 맞게 수정.",
+            "source": "W-07"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-W07-03",
+            "category": "world",
+            "rule": "사망, 영구적 신체 상실, 극단적 트라우마가 LETHAL 프로토콜 없이 발생했는가? → 제거. W-07 단독으로는 치명적 결과 금지.",
+            "source": "W-07"
+          }
+        }
+      ],
+      "master_guide_delta": {
+        "no_plot_armor": "플롯 아머 없음. 주인공 증후군 없음.",
+        "cold_logic": "세계는 차갑고 일관된 논리로 작동한다.",
+        "unforgiving_consequences": "결과는 비례적이지만 용서 없다.",
+        "lethal_boundary": "치명적 결과(사망, 영구 상실)는 LETHAL 프로토콜이 결정한다."
+      },
+      "known_conflicts": [
+        {
+          "with": "D-01",
+          "severity": "warning",
+          "reason": "가혹한 세계와 잔잔한 일상 분위기 충돌. 의도적이면 '폭풍 속의 고요'."
+        },
+        {
+          "with": "C-11",
+          "severity": "warning",
+          "reason": "가혹한 세계와 일상 장르 충돌."
+        },
+        {
+          "with": "G-12",
+          "severity": "warning",
+          "reason": "가혹한 세계에서 사랑스러운 NPC 반응이 부자연스러울 수 있음. 의도적이면 잔혹한 세계 속 유일한 따뜻함."
+        }
+      ],
+      "traits": {
+        "world_hardness": "harsh",
+        "npc_autonomy": "fully-autonomous",
+        "conflict_intensity": "high",
+        "slots_touched": [
+          "{W_WORLD_ATTITUDE}",
+          "{W_NPC_AUTONOMY}",
+          "{W_MOB_DISTRIBUTION}",
+          "{W_CONFLICT_CALIBRATION}",
+          "{W_PACING_PROTOCOL}",
+          "{W_CONSEQUENCE_SCALE}"
+        ]
+      }
+    }
+  ]
+}

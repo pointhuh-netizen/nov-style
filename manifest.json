@@ -1,0 +1,12 @@
+{
+  "display_name": "Nov Style Engine",
+  "loading_order": 100,
+  "requires": [],
+  "optional": [],
+  "js": "index.js",
+  "css": "style.css",
+  "author": "pointhuh-netizen",
+  "version": "2.0.0",
+  "homePage": "https://github.com/pointhuh-netizen/nov-style",
+  "auto_update": true
+}

@@ -1,0 +1,217 @@
+/* Nov Style Engine - style.css */
+
+.nov-style-container {
+    margin: 4px 0;
+}
+
+/* Loading indicator */
+.nov-style-loading {
+    padding: 8px;
+    color: var(--SmartThemeBodyColor, #ccc);
+    font-size: 0.9em;
+    text-align: center;
+}
+
+/* Section grouping */
+.nov-style-section {
+    margin-bottom: 8px;
+}
+
+/* Axis group */
+.nov-style-axis-group {
+    margin-bottom: 10px;
+    border: 1px solid var(--SmartThemeBorderColor, #444);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.nov-style-axis-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    background: var(--SmartThemeBlurTintColor, rgba(0,0,0,0.3));
+    cursor: pointer;
+    user-select: none;
+    font-size: 0.9em;
+    font-weight: bold;
+    color: var(--SmartThemeBodyColor, #ddd);
+}
+
+.nov-style-axis-header:hover {
+    background: var(--SmartThemeBlurTintColor, rgba(255,255,255,0.05));
+    filter: brightness(1.2);
+}
+
+.nov-style-axis-header .nov-style-axis-toggle {
+    margin-left: auto;
+    transition: transform 0.2s;
+    font-size: 0.8em;
+    color: var(--SmartThemeBodyColor, #aaa);
+}
+
+.nov-style-axis-header.collapsed .nov-style-axis-toggle {
+    transform: rotate(-90deg);
+}
+
+.nov-style-axis-body {
+    padding: 8px 10px;
+    background: var(--SmartThemeBlurTintColor, rgba(0,0,0,0.15));
+}
+
+.nov-style-axis-body.collapsed {
+    display: none;
+}
+
+.nov-style-axis-desc {
+    font-size: 0.8em;
+    color: var(--SmartThemeQuoteColor, #aaa);
+    margin-bottom: 6px;
+    font-style: italic;
+}
+
+/* Select dropdown */
+.nov-style-select {
+    width: 100%;
+    padding: 5px 8px;
+    background: var(--SmartThemeBlurTintColor, #2a2a2a);
+    color: var(--SmartThemeBodyColor, #ddd);
+    border: 1px solid var(--SmartThemeBorderColor, #555);
+    border-radius: 4px;
+    font-size: 0.88em;
+    cursor: pointer;
+}
+
+.nov-style-select:focus {
+    outline: none;
+    border-color: var(--SmartThemeQuoteColor, #7a7);
+}
+
+/* Checkbox list */
+.nov-style-checkbox-list {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    max-height: 200px;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+.nov-style-checkbox-list::-webkit-scrollbar {
+    width: 4px;
+}
+.nov-style-checkbox-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+.nov-style-checkbox-list::-webkit-scrollbar-thumb {
+    background: var(--SmartThemeBorderColor, #555);
+    border-radius: 2px;
+}
+
+.nov-style-checkbox-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    padding: 2px 0;
+    cursor: pointer;
+}
+
+.nov-style-checkbox-item input[type="checkbox"] {
+    margin-top: 2px;
+    flex-shrink: 0;
+    accent-color: var(--SmartThemeQuoteColor, #7a7);
+    cursor: pointer;
+}
+
+.nov-style-checkbox-item label {
+    cursor: pointer;
+    font-size: 0.88em;
+    color: var(--SmartThemeBodyColor, #ddd);
+    line-height: 1.3;
+}
+
+.nov-style-checkbox-item label span.one-liner {
+    display: block;
+    font-size: 0.82em;
+    color: var(--SmartThemeQuoteColor, #999);
+    font-style: italic;
+}
+
+/* Actions */
+#nov-style-actions {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin: 6px 0;
+}
+
+#nov-style-actions .menu_button {
+    flex: 1;
+    min-width: 80px;
+    font-size: 0.85em;
+    padding: 5px 8px;
+}
+
+/* Status bar */
+.nov-style-status {
+    font-size: 0.82em;
+    color: var(--SmartThemeQuoteColor, #999);
+    margin: 4px 0;
+    padding: 4px 6px;
+    background: var(--SmartThemeBlurTintColor, rgba(0,0,0,0.2));
+    border-radius: 3px;
+    border-left: 3px solid var(--SmartThemeBorderColor, #555);
+}
+
+.nov-style-status.applied {
+    color: #7db87d;
+    border-left-color: #7db87d;
+}
+
+.nov-style-status.error {
+    color: #e07070;
+    border-left-color: #e07070;
+}
+
+/* Preview textarea */
+.nov-style-preview {
+    width: 100%;
+    min-height: 120px;
+    max-height: 300px;
+    margin-top: 6px;
+    padding: 8px;
+    background: var(--SmartThemeBlurTintColor, #1a1a1a);
+    color: var(--SmartThemeBodyColor, #ccc);
+    border: 1px solid var(--SmartThemeBorderColor, #444);
+    border-radius: 4px;
+    font-size: 0.82em;
+    font-family: monospace;
+    resize: vertical;
+    box-sizing: border-box;
+    display: none;
+}
+
+.nov-style-preview.visible {
+    display: block;
+}
+
+/* Config section */
+.nov-style-configs-header {
+    font-size: 0.85em;
+    font-weight: bold;
+    color: var(--SmartThemeBodyColor, #ddd);
+    margin-bottom: 6px;
+    padding: 4px 0;
+    border-bottom: 1px solid var(--SmartThemeBorderColor, #444);
+}
+
+.nov-style-config-item {
+    margin-bottom: 8px;
+}
+
+.nov-style-config-item label {
+    display: block;
+    font-size: 0.85em;
+    color: var(--SmartThemeBodyColor, #ccc);
+    margin-bottom: 3px;
+}

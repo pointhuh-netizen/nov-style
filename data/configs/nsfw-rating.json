@@ -1,0 +1,190 @@
+{
+  "config": "nsfw_rating",
+  "config_name_ko": "NSFW 등급 제어",
+  "config_name_en": "NSFW Content Rating",
+  "type": "mutex",
+  "description": "AI가 생성하는 콘텐츠의 성적·폭력 묘사 수위를 결정한다. 모든 축(N, A~G)에 걸쳐 작동하는 빌드 레벨 설정. forbidden_vocabulary 확장, core_directives 주입, 어휘 수준 슬롯 오버라이드로 작동한다.",
+  "build_priority": -1,
+  "modes": [
+    {
+      "id": "NSFW-00",
+      "name": "사용하지 않음",
+      "one_liner": "NSFW 등급 제어 지시를 주입하지 않음. 기존 프롬프트의 SFW 12+ 설정을 그대로 사용.",
+      "operations": {},
+      "injections": {},
+      "check_operations": []
+    },
+    {
+      "id": "NSFW-01",
+      "name": "SFW 전연령",
+      "one_liner": "성적·폭력 묘사 완전 차단. 암시도 금지. 전연령 콘텐츠만 생성.",
+      "ui_description": "모든 성적 묘사와 폭력 묘사를 차단합니다. 로맨스는 감정 표현까지만 허용되며, 신체 접촉은 손잡기·포옹 수준까지만 가능합니다.",
+      "operations": {
+        "{B_TONE_VOCAB}": {
+          "mode": "REPLACE",
+          "value": "일상 한국어. 한자어 과잉/번역투 금지. SFW 전연령. 성적 암시·이중적 의미·신체 묘사(가슴/허벅지/엉덩이 등) 금지. 폭력은 '밀쳤다/넘어졌다' 수준까지만. 부상 묘사 시 피·상처 직접 묘사 금지, 결과만 서술('팔을 다쳤다')."
+        }
+      },
+      "injections": {
+        "preamble_core_directives_add": [
+          "[CONTENT_RATING_SFW]: 전연령 콘텐츠. 성적 묘사·암시·이중적 의미 완전 금지. 폭력은 결과만 간접 서술. 신체 접촉은 손잡기·포옹·어깨 두드리기 수준까지만 허용. 키스는 입술이 닿았다는 사실만, 묘사 없이."
+        ],
+        "master_rules_forbidden_vocabulary_add": {
+          "신음": ["숨을 삼켰다", "숨이 새어 나왔다"],
+          "몸을 떨었다": ["어깨가 움찔했다"],
+          "관능": ["(서술 금지)"],
+          "야릇": ["(서술 금지)"],
+          "달아오르다(신체)": ["열이 올랐다"],
+          "피가 흘렀다": ["다쳤다", "상처가 났다"],
+          "살이 찢어지다": ["베였다", "긁혔다"]
+        }
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-NSFW01-01",
+            "category": "content_rating",
+            "rule": "성적 암시나 이중적 의미가 있는가? → 삭제하고 중립적 표현으로 교체.",
+            "source": "NSFW-01",
+            "priority": "critical"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-NSFW01-02",
+            "category": "content_rating",
+            "rule": "폭력 묘사가 직접적인가(피, 상처, 고통 묘사)? → 결과만 간접 서술로 교체.",
+            "source": "NSFW-01",
+            "priority": "critical"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-NSFW01-03",
+            "category": "content_rating",
+            "rule": "신체 접촉이 손잡기·포옹 수준을 넘는가? → 축소.",
+            "source": "NSFW-01"
+          }
+        }
+      ]
+    },
+    {
+      "id": "NSFW-02",
+      "name": "Suggestive (암시 허용)",
+      "one_liner": "분위기·긴장감·암시까지 허용. 직접적 성적 묘사와 과잉 폭력은 금지.",
+      "ui_description": "로맨틱한 긴장감, 신체 접촉(키스, 밀착), 성적 암시까지 허용합니다. 직접적인 성행위 묘사나 과잉 폭력 묘사는 금지됩니다. 웹소설·로맨스 소설 수준.",
+      "operations": {
+        "{B_TONE_VOCAB}": {
+          "mode": "REPLACE",
+          "value": "일상 한국어. 한자어 과잉/번역투 금지. Suggestive 등급. 분위기·긴장감·신체 접촉(키스, 밀착, 체온, 숨결)까지 허용. 직접적 성행위 묘사 금지. 폭력은 타격·부상까지 허용하되 과잉 묘사(절단, 장기, 고문 세부) 금지."
+        }
+      },
+      "injections": {
+        "preamble_core_directives_add": [
+          "[CONTENT_RATING_SUGGESTIVE]: 암시 허용 등급. 로맨틱 긴장감, 신체 접촉(키스·밀착·체온), 성적 암시까지 허용. 직접적 성행위 묘사·성기 묘사·체액 묘사 금지. 폭력은 타격·부상·출혈까지 허용, 과잉(절단·장기 노출·고문 세부) 금지. 장면 전환(fade to black)으로 넘어가는 것은 허용."
+        ]
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-NSFW02-01",
+            "category": "content_rating",
+            "rule": "직접적 성행위 묘사가 있는가? → fade to black 또는 장면 전환으로 교체.",
+            "source": "NSFW-02",
+            "priority": "critical"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-NSFW02-02",
+            "category": "content_rating",
+            "rule": "폭력 묘사가 과잉인가(절단, 장기, 고문 세부)? → 축소.",
+            "source": "NSFW-02"
+          }
+        }
+      ]
+    },
+    {
+      "id": "NSFW-03",
+      "name": "NSFW (성인)",
+      "one_liner": "성적·폭력 직접 묘사 허용. 캐릭터 존엄 유지, 과잉·비하 표현 금지.",
+      "ui_description": "성행위, 폭력의 직접 묘사를 허용합니다. 단, NO_MISOGYNY 규칙은 유지되며, 모든 인물의 존엄과 주체성이 보장됩니다. 과잉 묘사(goreporn, 비하 목적 묘사)는 금지됩니다.",
+      "operations": {
+        "{B_TONE_VOCAB}": {
+          "mode": "REPLACE",
+          "value": "일상 한국어. 한자어 과잉/번역투 금지. NSFW 성인 등급. 성적 묘사·폭력 묘사 직접 서술 허용. 감각 중심 서술(촉각·온도·압력·리듬) 권장, 해부학 용어 남용 금지. 포르노적 과잉 묘사 금지 — 산문의 밀도와 인물의 진실성 유지. 비하·모욕 목적 묘사 금지."
+        }
+      },
+      "injections": {
+        "preamble_core_directives_add": [
+          "[CONTENT_RATING_NSFW]: 성인 등급. 성적·폭력 묘사를 직접 서술할 수 있다. 단, 서술의 목적은 캐릭터와 서사에 복무해야 한다. 감각 중심 서술 권장. 포르노적 과잉·비하 목적 묘사·인물 존엄 훼손 금지. [NO_MISOGYNY] 규칙은 등급과 무관하게 항상 적용된다."
+        ]
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-NSFW03-01",
+            "category": "content_rating",
+            "rule": "성적 묘사가 서사/캐릭터와 무관한 과잉인가? → 축소. 산문의 밀도 유지.",
+            "source": "NSFW-03"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-NSFW03-02",
+            "category": "content_rating",
+            "rule": "묘사가 특정 인물을 비하·모욕하는 목적인가? → 삭제. NO_MISOGYNY 위반 검사.",
+            "source": "NSFW-03",
+            "priority": "critical"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-NSFW03-03",
+            "category": "content_rating",
+            "rule": "해부학 용어가 남용되는가? → 감각 중심 표현으로 교체.",
+            "source": "NSFW-03"
+          }
+        }
+      ]
+    },
+    {
+      "id": "NSFW-04",
+      "name": "R18 (무제한)",
+      "one_liner": "묘사 제한 없음. NO_MISOGYNY 규칙만 유지.",
+      "ui_description": "모든 묘사 제한을 해제합니다. 유일하게 유지되는 규칙은 NO_MISOGYNY(여성 인물의 주체성·존엄 보장)뿐입니다.",
+      "operations": {
+        "{B_TONE_VOCAB}": {
+          "mode": "REPLACE",
+          "value": "일상 한국어. 한자어 과잉/번역투 금지. R18 무제한 등급. 묘사 수위 제한 없음. 해부학 용어, 직접 묘사, 과잉 묘사 모두 허용. 단, 문체의 질감은 유지 — 저급한 표현보다 산문적 묘사 권장."
+        }
+      },
+      "injections": {
+        "preamble_core_directives_add": [
+          "[CONTENT_RATING_R18]: 무제한 등급. 묘사 수위에 제한을 두지 않는다. [NO_MISOGYNY] 규칙은 등급과 무관하게 항상 적용된다. 여성 캐릭터는 다른 모든 인물과 동일한 심리적 복잡성, 주체성, 존엄을 부여받는다."
+        ],
+        "master_rules_forbidden_vocabulary_remove_all_nsfw": true
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-NSFW04-01",
+            "category": "content_rating",
+            "rule": "NO_MISOGYNY를 위반하는가? → 교정. R18이라도 인물 존엄은 유지.",
+            "source": "NSFW-04",
+            "priority": "critical"
+          }
+        }
+      ]
+    }
+  ]
+}
