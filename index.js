@@ -277,14 +277,73 @@
             if (entries) lines.push(`[금지 어휘 → 대체] ${entries}`);
         }
 
-        if (masterRules.emotion_naming_ban) {
-            lines.push(`[감정 명명 금지] ${masterRules.emotion_naming_ban}`);
-        }
-
         const dc = masterRules.dialogue_constraints;
         if (dc) {
             if (dc.correction) lines.push(`[대화 교정 원칙] ${dc.correction}`);
             if (dc.flow_rule)  lines.push(`[대화 흐름] ${dc.flow_rule}`);
+        }
+
+        // 자율 서사 심화
+        const ne = masterRules.narrative_enrichment;
+        if (ne) {
+            lines.push('');
+            lines.push('[자율 서사 심화]');
+            if (ne.foundation) lines.push(ne.foundation);
+            if (Array.isArray(ne.axes)) {
+                for (const axis of ne.axes) lines.push(`  - ${axis}`);
+            }
+            if (ne.density_control) lines.push(`[밀도 제어] ${ne.density_control}`);
+            if (Array.isArray(ne.invention_principles)) {
+                for (const p of ne.invention_principles) lines.push(`  · ${p}`);
+            }
+            if (ne.user_priority) lines.push(`[사용자 설정 우선] ${ne.user_priority}`);
+        }
+
+        // 서브텍스트 규칙 (emotion_naming_ban 흡수)
+        const st = masterRules.subtext_rules;
+        if (st) {
+            lines.push('');
+            lines.push('[서브텍스트 & 심리 모순]');
+            if (st.emotion_naming_ban) lines.push(`[감정 명명 금지] ${st.emotion_naming_ban}`);
+            if (st.emotion_action_ban) lines.push(`[감정-행동 직접 매핑 금지] ${st.emotion_action_ban}`);
+            if (st.insertion_frequency) lines.push(`[삽입 빈도] ${st.insertion_frequency}`);
+            if (st.contradiction_display) lines.push(`[모순 표시] ${st.contradiction_display}`);
+        } else if (masterRules.emotion_naming_ban) {
+            // 하위호환: subtext_rules가 없으면 기존 emotion_naming_ban 폴백
+            lines.push(`[감정 명명 금지] ${masterRules.emotion_naming_ban}`);
+        }
+
+        // 안티 아키타입 규칙
+        const aa = masterRules.anti_archetype_rules;
+        if (aa) {
+            lines.push('');
+            lines.push('[안티 아키타입 & 클리셰 반응 금지]');
+            if (aa.top3_ban) lines.push(`[Top-3 반응 금지] ${aa.top3_ban}`);
+            if (aa.fourth_option) lines.push(`[4번째 옵션] ${aa.fourth_option}`);
+            if (aa.archetype_proving_ban) lines.push(`[성격 증명 금지] ${aa.archetype_proving_ban}`);
+        }
+
+        // 결함 구동 행동
+        const cf = masterRules.character_flaw_rules;
+        if (cf) {
+            lines.push('');
+            lines.push('[결함 구동 행동 & AI 도덕 교정 금지]');
+            if (cf.ai_morality_ban) lines.push(`[AI 도덕 교정 금지] ${cf.ai_morality_ban}`);
+            if (cf.flaw_activation) lines.push(`[결함 발동] ${cf.flaw_activation}`);
+            if (cf.severity_guardrail) lines.push(`[강도 가드레일] ${cf.severity_guardrail}`);
+        }
+
+        // 감정 연속성
+        const ec = masterRules.emotional_continuity;
+        if (ec) {
+            lines.push('');
+            lines.push('[감정 연속성 & 잔류 추적]');
+            if (ec.residue_rule) lines.push(`[감정 잔류] ${ec.residue_rule}`);
+            if (ec.residue_duration) lines.push(`[잔류 지속] ${ec.residue_duration}`);
+            if (ec.physical_vs_emotional) lines.push(`[물리 vs 감정] ${ec.physical_vs_emotional}`);
+            if (ec.relationship_temperature) lines.push(`[관계 온도] ${ec.relationship_temperature}`);
+            if (ec.arc_progression) lines.push(`[감정 아크] ${ec.arc_progression}`);
+            if (ec.active_past_linking) lines.push(`[능동적 과거 연결] ${ec.active_past_linking}`);
         }
 
         return lines.join('\n');
