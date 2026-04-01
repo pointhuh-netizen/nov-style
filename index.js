@@ -252,11 +252,20 @@
         return texts;
     }
 
-    function buildMasterRulesSection(masterRules) {
+    function buildMasterRulesSection(masterRules, dynamicChecks = []) {
         const lines = [];
 
         if (masterRules.supreme_rule) {
             lines.push(`[SUPREME_RULE] ${masterRules.supreme_rule}`);
+        }
+        if (masterRules.premise) {
+            lines.push(`[PREMISE] ${masterRules.premise}`);
+        }
+        if (masterRules.layer_principle) {
+            lines.push(`[LAYER_PRINCIPLE] ${masterRules.layer_principle}`);
+        }
+        if (masterRules.priority_cascade) {
+            lines.push(`[PRIORITY_CASCADE] ${masterRules.priority_cascade}`);
         }
         if (Array.isArray(masterRules.core_directives)) {
             lines.push(...masterRules.core_directives);
@@ -279,8 +288,25 @@
 
         const dc = masterRules.dialogue_constraints;
         if (dc) {
+            const fvec = dc.forbidden_vectors;
+            if (fvec && typeof fvec === 'object') {
+                for (const vec of Object.values(fvec)) {
+                    if (vec?.id && vec?.pattern) lines.push(`[${vec.id}] ${vec.pattern}`);
+                }
+            }
             if (dc.correction) lines.push(`[DIALOGUE_CORRECTION] ${dc.correction}`);
             if (dc.flow_rule)  lines.push(`[DIALOGUE_FLOW] ${dc.flow_rule}`);
+        }
+
+        // 대사 포맷
+        const df = masterRules.dialogue_format;
+        if (df) {
+            lines.push('');
+            lines.push('[DIALOGUE_FORMAT]');
+            if (df.quotation)    lines.push(df.quotation);
+            if (df.tag_policy)   lines.push(df.tag_policy);
+            if (df.default_tag)  lines.push(df.default_tag);
+            if (df.master_rules_ref) lines.push(df.master_rules_ref);
         }
 
         // 자율 서사 심화
@@ -346,18 +372,77 @@
             if (ec.active_past_linking) lines.push(`[ACTIVE_PAST_LINK] ${ec.active_past_linking}`);
         }
 
+        // 인지 모델
+        const cm = masterRules.cognitive_model;
+        if (cm) {
+            lines.push('');
+            lines.push('[COGNITIVE_MODEL]');
+            if (cm.npc_layered_response) lines.push(cm.npc_layered_response);
+            if (cm.layers) lines.push(cm.layers);
+            const ip = cm.inner_process;
+            if (ip) {
+                if (ip.rule) lines.push(ip.rule);
+                if (Array.isArray(ip.types)) {
+                    for (const t of ip.types) lines.push(`  ${t}`);
+                }
+            }
+            if (cm.setting_causality) lines.push(cm.setting_causality);
+            if (cm.perception_gap)    lines.push(cm.perception_gap);
+        }
+
+        // 구체성 엔진
+        const se = masterRules.specificity_engine;
+        if (se) {
+            lines.push('');
+            lines.push('[SPECIFICITY_ENGINE]');
+            if (se.foundation) lines.push(se.foundation);
+            const ta = se.three_axes;
+            if (ta && typeof ta === 'object') {
+                for (const axisText of Object.values(ta)) {
+                    if (axisText) lines.push(`  ${axisText}`);
+                }
+            }
+            if (se.density)         lines.push(se.density);
+            if (se.emotional_climax) lines.push(se.emotional_climax);
+        }
+
+        // 시제 및 포맷
+        const tf = masterRules.tense_and_format;
+        if (tf) {
+            lines.push('');
+            lines.push('[TENSE_AND_FORMAT]');
+            if (tf.tense)          lines.push(tf.tense);
+            if (tf.grammar)        lines.push(tf.grammar);
+            if (tf.vocabulary_ref) lines.push(tf.vocabulary_ref);
+            if (tf.formatting)     lines.push(tf.formatting);
+        }
+
+        // 자가 검수 루틴
+        const sc = masterRules.self_check;
+        if (sc) {
+            lines.push('');
+            lines.push('[SELF_CHECK]');
+            if (sc.preamble) lines.push(sc.preamble);
+            const staticChecks = Array.isArray(sc.checks) ? sc.checks : [];
+            const allChecks = [...staticChecks, ...dynamicChecks];
+            for (const chk of allChecks) {
+                if (chk?.id && chk?.rule) {
+                    const cat = chk.category ? `:${chk.category}` : '';
+                    lines.push(`[${chk.id}${cat}] ${chk.rule}`);
+                }
+            }
+        }
+
         return lines.join('\n');
     }
 
     function buildPrompt(data) {
         const { catalog, masterRules, axes, configs } = data;
         const sections = [];
+        const dynamicChecks = [];
 
         // 1. 마스터 규칙
-        const masterText = buildMasterRulesSection(masterRules);
-        if (masterText) {
-            sections.push(`## 핵심 규칙\n${masterText}`);
-        }
+        // (동적 검수 항목은 축 선택 후 수집하여 아래에서 전달)
 
         // 2. 축별 선택 모듈
         for (const axisKey of BUILD_ORDER) {
@@ -387,12 +472,26 @@
                 const moduleObj = modulesInAxis.find(m => m.id === moduleId);
                 if (!moduleObj) continue;
 
+                // check_operations 수집 — mode:'ADD' 항목만 self_check에 병합
+                if (Array.isArray(moduleObj.check_operations)) {
+                    for (const op of moduleObj.check_operations) {
+                        if (op?.mode === 'ADD' && op?.check) {
+                            dynamicChecks.push(op.check);
+                        }
+                    }
+                }
+
                 const texts = extractModuleTexts(moduleObj);
                 if (texts.length === 0) continue;
 
                 const axisLabel = `${axisMeta.name_ko} [${axisKey}축]`;
                 sections.push(`## ${axisLabel} — ${moduleObj.name}\n${texts.join('\n')}`);
             }
+        }
+
+        const masterText = buildMasterRulesSection(masterRules, dynamicChecks);
+        if (masterText) {
+            sections.unshift(`## 핵심 규칙\n${masterText}`);
         }
 
         // 3. Config 지침
