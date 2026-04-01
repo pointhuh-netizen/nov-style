@@ -25,23 +25,23 @@
       "operations": {
         "{B_TONE_TEMP}": {
           "mode": "REPLACE",
-          "value": "감정 0%. 사실·관찰·행동만. 서술자는 기록할 뿐 감정에 관여하지 않는다. 보고서·다큐멘터리 내레이션의 온도."
+          "value": "Emotion 0 %. Fact · observation · action only. The narrator records; never interprets, judges, or assigns emotional states. Report / documentary-narration temperature. Narrator must not interpret atmosphere or assign emotional states to spaces/objects — only physically measurable changes (temperature, volume, light level) are permitted. 분위기 해석 문장(“공기가 가라앉았다”, “침묵이 무거웠다”) 금지."
         },
         "{B_TONE_VOCAB}": {
           "mode": "REPLACE",
-          "value": "형용사는 물리적 속성(크기, 색상, 온도, 무게)에만 허용. 감정 형용사(슬픈, 기쁜, 처연한) 금지. 감탄사 금지."
+          "value": "Adjectives allowed only for physical properties (size, color, temperature, weight). Emotional adjectives forbidden: 슬픈, 기쁜, 처연한, 서글픈, 애틋한 등. Interjections forbidden. Simile and metaphor forbidden — describe only what is physically observable. No figurative language (“건반을 누르듯”, “나선형을 그리며” 같은 비유 표현 금지)."
         },
         "{B_TONE_FID_GRAMMAR}": {
           "mode": "REPLACE",
-          "value": "FID 구간에서도 감정 형용사 금지. 인물의 사고 패턴이 오염시키되, 감정 어휘는 물리적 감각으로 치환."
+          "value": "Emotional adjectives forbidden even in FID sections. Character thought patterns may color narration, but emotional vocabulary must be replaced with physical sensation. FID 구간에서도 감정 형용사 금지 — 인물의 사고 패턴이 서술을 오염시키되, 감정 어휘는 물리적 감각(체온, 근육 긴장, 호흡 변화)으로 치환."
         },
         "{B_TONE_ENDING}": {
           "mode": "REPLACE",
-          "value": "평서형 종결만. 감탄형·청유형·수사적 의문형 금지. ~았다/었다 기본. 변주 시에도 평서형 내에서만."
+          "value": "Declarative endings only. Exclamatory, hortative, and rhetorical-question endings forbidden. Base form: ~았다/었다. Variation permitted only within declarative range. 평서형 종결만 — 감탄형·청유형·수사적 의문형 금지."
         },
         "{B_TONE_DIALOGUE_TAG}": {
           "mode": "REPLACE",
-          "value": "'말했다' 기본. 감정을 함의하는 대사 태그(속삭였다, 외쳤다) 최소화. 행동 비트로 화자 표시 우선."
+          "value": "Default tag: '말했다'. Minimize dialogue tags that imply emotion (속삭였다, 외쳤다, 중얼거렸다). Prefer action beats to indicate speaker. 감정 함의 대사 태그 최소화 — 행동 비트로 화자 표시 우선."
         }
       },
       "check_operations": [
@@ -50,7 +50,7 @@
           "check": {
             "id": "CHK-B01-01",
             "category": "tone",
-            "rule": "감정 형용사가 사용되었는가? → 물리적 속성으로 교체.",
+            "rule": "Emotional adjective detected? → Replace with physical property. 감정 형용사 → 물리적 속성으로 교체.",
             "source": "B-01"
           }
         },
@@ -59,7 +59,16 @@
           "check": {
             "id": "CHK-B01-02",
             "category": "tone",
-            "rule": "감탄문·수사적 의문문이 있는가? → 평서문으로 교체.",
+            "rule": "Exclamatory or rhetorical question detected? → Convert to declarative. 감탄문·수사적 의문문 → 평서문으로 교체.",
+            "source": "B-01"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B01-03",
+            "category": "tone",
+            "rule": "Same character's gaze tracked ≥ 3 times in one scene? → From the 3rd instance, replace gaze-tracking with action (movement, speech, object manipulation). 동일 인물 시선 추적 3회 이상 시 → 행동으로 전환.",
             "source": "B-01"
           }
         }
@@ -92,23 +101,23 @@
       "operations": {
         "{B_TONE_TEMP}": {
           "mode": "REPLACE",
-          "value": "40% 감각·이미지 / 30% 여운·여백 / 20% 행동 / 10% 대사. 분위기로 스며드는 온도."
+          "value": "40 % sensory image / 30 % lingering space (여운·여백) / 20 % action / 10 % dialogue. Temperature: seeping into mood, not stating it. Never name emotions directly (자존심, 불안, 안도, 수치심 등 감정 명사 금지) — convey through sensory imagery and physical behavior only. One interiority per paragraph with NO exceptions, including scene closings and summary paragraphs — 한 문단 안에서 두 인물의 내면을 동시에 서술 금지. 장면 마무리·요약 문단에서도 예외 없음. Narrator must not assess or label character capabilities or personality traits. 능력·성격 형용사(탁월한, 예민한, 뛰어난, 날카로운 등) + 능력 명사 조합 금지. 인물의 능력은 행동과 결과로 보여줄 것, 서술자가 명명하지 말 것 (예: “탁월한 청각” → 구체적 소리를 구분해내는 행동 묘사로 대체). Narrator must also not pass value judgments on characters’ actions or intentions. 평가 형용사(알량한, 얄팍한, 비겁한, 한심한 등) 금지 — 인물의 행동은 독자가 판단할 것, 서술자가 평가하지 말 것."
         },
         "{B_TONE_VOCAB}": {
           "mode": "REPLACE",
-          "value": "감각 어휘 적극 활용. 색채·질감·소리·냄새 어휘. 시적 어휘 허용하되 과잉 금지."
+          "value": "Sensory vocabulary actively encouraged: 색채·질감·소리·냄새 어휘. Poetic diction allowed but restrain excess — max one metaphor per paragraph. Tone contamination strictly forbidden, with NO exceptions — not even when describing a character's deliberate manner of speaking. Banned words in output: '건조', '건조한', '담백', '무미', '보고서', '기록', '사무적'. 캐릭터가 의도적으로 감정을 숨기는 어조를 쓸 때도, 서술자는 이 단어들 대신 감각적 우회 묘사를 사용할 것 (예: “건조한 어조” → “평소보다 낮고 짧게 끊어지는 말투”)."
         },
         "{B_TONE_FID_GRAMMAR}": {
           "mode": "REPLACE",
-          "value": "FID 구간에서 인물의 감각적 인상이 서술 문체를 물들인다. 비유적 사고 허용."
+          "value": "In FID sections, the character's sensory impressions color the prose style. Figurative thought permitted. Subtext must remain implicit — show through sensory detail and withheld action, never through narrator's conclusive interpretation. 두 인물의 심리를 같은 문단에서 동시에 확정하는 전지적 해설 금지. When narrating a character's inner state — whether in FID or third-person narration — replace certainty verbs with hedging expressions. This rule applies everywhere, not only inside FID sections. 확신했다/믿었다/알았다/알고 있었다/확신하고 있었다 → ~인 듯했다/~라고 여기는 것 같았다/~일 거라는 표정이었다/~라는 듯 행동했다. The reader should infer certainty from behavioral evidence, not from the narrator's assertion."
         },
         "{B_TONE_ENDING}": {
           "mode": "REPLACE",
-          "value": "문장 길이 교차(장문→단문)로 호흡 생성. 여운이 있는 종결(~이었다, ~뿐이었다) 활용."
+          "value": "Alternate sentence length (long → short) to create breathing rhythm. Use endings that carry lingering resonance: ~이었다, ~뿐이었다, ~있었다. 장문→단문 교차로 호흡 생성. 여운 있는 종결어미 활용."
         },
         "{B_TONE_DIALOGUE_TAG}": {
           "mode": "REPLACE",
-          "value": "행동 비트에 감각 묘사 결합. 대사 태그 자체보다 환경·신체 감각으로 화자 표시."
+          "value": "Combine action beats with sensory description. Indicate speaker through environment and body sensation rather than explicit dialogue tags. 행동 비트 + 감각 묘사 결합 — 대사 태그보다 환경·신체 감각으로 화자 표시."
         }
       },
       "check_operations": [
@@ -117,7 +126,7 @@
           "check": {
             "id": "CHK-B02-01",
             "category": "tone",
-            "rule": "장면 전환 시 감각 앵커 없이 추상적 설명으로 시작했는가? → 감각 하나로 진입.",
+            "rule": "Scene transition begins with abstract explanation instead of sensory anchor? → Enter through one concrete sense. 장면 전환 시 감각 앵커 없이 시작 → 감각 하나로 진입.",
             "source": "B-02"
           }
         },
@@ -126,7 +135,34 @@
           "check": {
             "id": "CHK-B02-02",
             "category": "tone",
-            "rule": "비유가 문단당 1개를 초과하는가? → 줄인다.",
+            "rule": "More than one metaphor per paragraph? → Reduce to one. 비유가 문단당 1개 초과 → 줄인다.",
+            "source": "B-02"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B02-03",
+            "category": "tone",
+            "rule": "Emotion named directly (자존심, 불안, 안도, 수치심 등)? → Replace with sensory/behavioral description. 감정 직접 명명 → 감각·행동 묘사로 교체.",
+            "source": "B-02"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B02-04",
+            "category": "tone",
+            "rule": "Two characters' interiority narrated in the same paragraph — including scene-closing and summary paragraphs? → Separate into different paragraphs, or restrict to one character's observation. 장면 마무리 문단 포함, 한 문단 내 두 인물 내면 동시 서술 → 분리 또는 한 인물 관찰로 제한.",
+            "source": "B-02"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B02-05",
+            "category": "tone",
+            "rule": "Narrator directly labels character capability or personality trait (탁월한, 예민한, 뛰어난, 날카로운 + 능력 명사)? → Replace with behavioral demonstration. 서술자의 능력 평가 → 행동으로 보여주기.",
             "source": "B-02"
           }
         }
