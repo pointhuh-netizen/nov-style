@@ -1,24 +1,25 @@
 {
   "config": "user_character_control",
-  "config_name_ko": "유저 캐릭터 제어",
+  "config_name_ko": "내 캐릭터 조작 범위",
   "config_name_en": "User Character Control",
   "type": "mutex",
-  "description": "AI가 유저 캐릭터({{user}})의 행동·내면·대사를 서술하는 범위를 결정한다. 모든 축(N, A~G)에 걸쳐 작동하는 빌드 레벨 설정.",
+  "description": "AI가 내 캐릭터의 행동·대사·내면을 어디까지 쓸 수 있는지 결정합니다.",
   "build_priority": -1,
   "modes": [
     {
       "id": "UCC-00",
-      "name": "사용하지 않음",
-      "one_liner": "유저 캐릭터 제어 지시를 주입하지 않음. 기존 프롬프트/설정을 그대로 사용.",
+      "name": "기본값",
+      "one_liner": "별도 설정 없이 기존 프롬프트의 방식을 따릅니다.",
+      "ui_description": "별도 설정 없이 기존 프롬프트의 방식을 따릅니다.",
       "operations": {},
       "injections": {},
       "check_operations": []
     },
     {
       "id": "UCC-01",
-      "name": "RP 모드 (유저 전용)",
+      "name": "RP 모드",
       "one_liner": "유저 캐릭터의 행동·내면·대사는 유저만 결정. AI는 NPC만 서술.",
-      "ui_description": "유저 캐릭터를 AI가 대신 쓰지 않습니다. 유저의 행동/대사/내면은 유저 인풋에서만 나옵니다.",
+      "ui_description": "내 캐릭터의 행동, 대사, 감정은 내가 직접 씁니다. AI는 NPC만 서술합니다. 내 캐릭터가 하지 않은 행동을 AI가 지어내지 않습니다.",
       "operations": {},
       "injections": {
         "preamble_core_directives_add": [
@@ -65,9 +66,9 @@
     },
     {
       "id": "UCC-02",
-      "name": "사칭 모드 (소설형)",
+      "name": "소설 모드",
       "one_liner": "AI가 유저 캐릭터도 소설 속 인물처럼 자율 서술. 행동·내면·대사 모두 AI가 생성 가능.",
-      "ui_description": "AI가 유저 캐릭터를 포함한 모든 인물을 소설처럼 서술합니다. 유저 인풋은 방향 제시이고, AI가 구체적 행동/대사/내면을 생성합니다.",
+      "ui_description": "AI가 나를 포함한 모든 인물을 소설처럼 서술합니다. 내 입력은 방향 제시이고, AI가 구체적인 행동과 대사를 만들어냅니다.",
       "operations": {
         "{A_VOICE_POV_RATIO}": {
           "mode": "APPEND",
