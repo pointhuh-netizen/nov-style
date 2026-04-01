@@ -91,6 +91,34 @@ git pull
 
 ---
 
+## 개발 진행 로그
+
+### v2.1.0 (2026-04-01)
+- `buildMasterRulesSection()` 렌더링 라벨 영문 태그 전환
+  - 기존 한글 헤더 영문 전환: `[SUPREME_RULE]`, `[FORBIDDEN_PATTERN:<id>]`, `[BANNED_VOCAB]`, `[DIALOGUE_CORRECTION]`, `[DIALOGUE_FLOW]`
+  - `narrative_enrichment` 블록: `[NARRATIVE_ENRICHMENT]`, `[DENSITY_CTRL]`, `[USER_PRIORITY]`
+  - `subtext_rules` 블록: `[SUBTEXT]`, `[NO_EMOTION_NAMING]`, `[NO_EMOTION_ACTION_MAP]`, `[SUBTEXT_FREQ]`, `[CONTRADICTION]`
+  - `anti_archetype_rules` 블록: `[ANTI_ARCHETYPE]`, `[TOP3_BAN]`, `[4TH_OPTION]`, `[NO_ARCHETYPE_PROVING]`
+  - `character_flaw_rules` 블록: `[FLAW_ENGINE]`, `[NO_AI_MORALITY]`, `[FLAW_ACTIVATION]`, `[SEVERITY_GUARD]`
+  - `emotional_continuity` 블록: `[EMOTIONAL_CONTINUITY]`, `[RESIDUE]`, `[RESIDUE_DURATION]`, `[PHYS_VS_EMO]`, `[REL_TEMP]`, `[ARC_PROGRESS]`, `[ACTIVE_PAST_LINK]`
+
+### v2.0.0 (2026-03-31)
+- 초기 공개 릴리즈
+- 9개 축(W/A/S/B/C/D/E/F/G), 3개 컨피그(유저 캐릭터 제어 / NSFW 등급 / 치명적 결과 프로토콜) 지원
+- `data/master-rules.json` 기반 마스터 규칙 자동 주입
+- 채팅별 설정 저장 및 복원 기능
+- `narrative_enrichment`, `subtext_rules`, `anti_archetype_rules`, `character_flaw_rules`, `emotional_continuity` 블록 추가
+
+---
+
+## 알려진 한계 및 예정 작업
+
+- ST 1.10.0 미만에서는 `setExtensionPrompt` API가 지원되지 않아 동작하지 않습니다.
+- `index.js` 단일 파일 구조로, 기능 확장 시 모듈 분리 검토 예정
+- 별도 `LICENSE` 파일 추가 예정
+
+---
+
 ## 라이선스
 
 MIT License — pointhuh-netizen
