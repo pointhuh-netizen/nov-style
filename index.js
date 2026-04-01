@@ -422,6 +422,17 @@
     /* 8. 프롬프트 주입                                                      */
     /* ------------------------------------------------------------------ */
 
+    /**
+     * 한국어+영어 혼합 텍스트의 토큰 수를 보수적으로 추정한다.
+     * 한국어: ~1.5자/token, 영문/기호/공백: ~4자/token
+     * 정확한 토크나이저가 아닌 근사값이므로 ≈ 표시와 함께 사용.
+     */
+    function estimateTokens(text) {
+        const koreanChars = (text.match(/[\uAC00-\uD7AF\u3130-\u318F\u1100-\u11FF]/g) || []).length;
+        const nonKoreanChars = text.length - koreanChars;
+        return Math.ceil(koreanChars / 1.5 + nonKoreanChars / 4);
+    }
+
     function injectPrompt(promptText) {
         try {
             let ctx;
@@ -730,7 +741,8 @@
             const ok = injectPrompt(promptText);
             if (ok) {
                 const count = promptText.split('##').length - 1;
-                popupStatusEl.textContent = `✅ 적용됨 — ${count}개 섹션, ${promptText.length}자`;
+                const estimatedTokenCount = estimateTokens(promptText);
+                popupStatusEl.innerHTML = `✅ 적용됨 — ${count}개 섹션, ${promptText.length}자 (≈${estimatedTokenCount.toLocaleString()} tokens)<br><span class="nov-style-token-notice">ℹ️ 이 토큰은 AI 인풋에 포함되지만, SillyTavern의 채팅 토큰 카운터에는 표시되지 않습니다.</span>`;
                 popupStatusEl.className = 'nov-style-popup-status applied';
                 updateSidebarStatus(`✅ 적용됨 — ${count}개 섹션`, true);
             } else {
