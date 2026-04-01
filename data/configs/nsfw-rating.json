@@ -1,15 +1,16 @@
 {
   "config": "nsfw_rating",
-  "config_name_ko": "NSFW 등급 제어",
-  "config_name_en": "NSFW Content Rating",
+  "config_name_ko": "묘사 수위",
+  "config_name_en": "Content Rating",
   "type": "mutex",
-  "description": "AI가 생성하는 콘텐츠의 성적·폭력 묘사 수위를 결정한다. 모든 축(N, A~G)에 걸쳐 작동하는 빌드 레벨 설정. forbidden_vocabulary 확장, core_directives 주입, 어휘 수준 슬롯 오버라이드로 작동한다.",
+  "description": "AI가 생성하는 콘텐츠의 성적·폭력 묘사 수위를 결정합니다. 선택하지 않으면 기존 프롬프트의 설정을 따릅니다.",
   "build_priority": -1,
   "modes": [
     {
       "id": "NSFW-00",
-      "name": "사용하지 않음",
-      "one_liner": "NSFW 등급 제어 지시를 주입하지 않음. 기존 프롬프트의 SFW 12+ 설정을 그대로 사용.",
+      "name": "기본값",
+      "one_liner": "묘사 수위 지시를 주입하지 않음. 기존 프롬프트의 설정을 그대로 따릅니다.",
+      "ui_description": "별도 설정 없이 기존 프롬프트의 방식을 따릅니다.",
       "operations": {},
       "injections": {},
       "check_operations": []
@@ -121,7 +122,7 @@
     },
     {
       "id": "NSFW-03",
-      "name": "Suggestive (암시 허용)",
+      "name": "15+",
       "one_liner": "분위기·긴장감·암시까지 허용. 직접적 성적 묘사와 과잉 폭력은 금지.",
       "ui_description": "로맨틱한 긴장감, 신체 접촉(키스, 밀착), 성적 암시까지 허용합니다. 직접적인 성행위 묘사나 과잉 폭력 묘사는 금지됩니다. 웹소설·로맨스 소설 수준.",
       "operations": {
@@ -159,9 +160,9 @@
     },
     {
       "id": "NSFW-04",
-      "name": "NSFW (성인)",
-      "one_liner": "성적·폭력 직접 묘사 허용. 캐릭터 존엄 유지, 과잉·비하 표현 금지.",
-      "ui_description": "성행위, 폭력의 직접 묘사를 허용합니다. 단, NO_MISOGYNY 규칙은 유지되며, 모든 인물의 존엄과 주체성이 보장됩니다. 과잉 묘사(goreporn, 비하 목적 묘사)는 금지됩니다.",
+      "name": "성인",
+      "one_liner": "성적·폭력 직접 묘사 허용. 감각 중심 서술, 캐릭터 존엄 유지, 과잉·비하 표현 금지.",
+      "ui_description": "성적·폭력 묘사를 직접 서술합니다. 감각 중심으로 쓰며, 해부학 용어 남용이나 서사와 무관한 과잉 묘사는 절제됩니다. 모든 인물의 존엄은 유지됩니다.",
       "operations": {
         "{B_TONE_VOCAB}": {
           "mode": "REPLACE",
@@ -206,9 +207,9 @@
     },
     {
       "id": "NSFW-05",
-      "name": "R18 (무제한)",
-      "one_liner": "묘사 제한 없음. NO_MISOGYNY 규칙만 유지.",
-      "ui_description": "모든 묘사 제한을 해제합니다. 유일하게 유지되는 규칙은 NO_MISOGYNY(여성 인물의 주체성·존엄 보장)뿐입니다.",
+      "name": "무제한",
+      "one_liner": "묘사 제한 없음. 인물의 주체성과 존엄 보장만 유지.",
+      "ui_description": "묘사 수위에 제한을 두지 않습니다. 해부학 용어, 직접적 표현, 고어를 포함한 모든 수위가 허용됩니다. 성인 등급과의 차이는 '절제 기준의 해제'입니다 — 서사적 필요와 무관하게 원하는 수위를 유지할 수 있습니다. 인물의 주체성과 존엄 보장만 유지됩니다.",
       "operations": {
         "{B_TONE_VOCAB}": {
           "mode": "REPLACE",

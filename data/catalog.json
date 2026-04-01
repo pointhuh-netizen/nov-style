@@ -901,7 +901,7 @@
   "configs": [
     {
       "id": "user_character_control",
-      "name_ko": "유저 캐릭터 제어",
+      "name_ko": "내 캐릭터 조작 범위",
       "name_en": "User Character Control",
       "file": "configs/user-character-control.json",
       "modes": [
@@ -912,8 +912,8 @@
     },
     {
       "id": "nsfw_rating",
-      "name_ko": "NSFW 등급 제어",
-      "name_en": "NSFW Content Rating",
+      "name_ko": "묘사 수위",
+      "name_en": "Content Rating",
       "file": "configs/nsfw-rating.json",
       "modes": [
         "NSFW-00",
@@ -926,8 +926,8 @@
     },
     {
       "id": "lethal_protocol",
-      "name_ko": "치명적 결과",
-      "name_en": "Lethal Consequence",
+      "name_ko": "되돌릴 수 없는 결과",
+      "name_en": "Irreversible Consequence",
       "file": "configs/lethal-protocol.json",
       "modes": [
         "LETHAL-00",
