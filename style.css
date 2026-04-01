@@ -404,6 +404,15 @@
 .nov-style-popup-status.applied { color: var(--nov-accent-success); }
 .nov-style-popup-status.error { color: var(--nov-accent-error); }
 
+.nov-style-token-notice {
+    display: inline-block;
+    margin-top: 4px;
+    font-size: 0.78em;
+    color: var(--nov-text-muted, #888);
+    font-weight: normal;
+    line-height: 1.4;
+}
+
 /* Config, Mutex, Combinable 공통 버튼 스타일 */
 .nov-style-config-btn,
 .nov-style-mutex-btn,
