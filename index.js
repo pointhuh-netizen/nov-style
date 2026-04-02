@@ -303,9 +303,9 @@
         if (df) {
             lines.push('');
             lines.push('[DIALOGUE_FORMAT]');
-            if (df.quotation)    lines.push(df.quotation);
-            if (df.tag_policy)   lines.push(df.tag_policy);
-            if (df.default_tag)  lines.push(df.default_tag);
+            if (df.quotation)    lines.push(`[QUOTATION] ${df.quotation}`);
+            if (df.tag_policy)   lines.push(`[TAG_POLICY] ${df.tag_policy}`);
+            if (df.default_tag)  lines.push(`[DEFAULT_TAG] ${df.default_tag}`);
             if (df.master_rules_ref) lines.push(df.master_rules_ref);
         }
 
@@ -377,17 +377,17 @@
         if (cm) {
             lines.push('');
             lines.push('[COGNITIVE_MODEL]');
-            if (cm.npc_layered_response) lines.push(cm.npc_layered_response);
-            if (cm.layers) lines.push(cm.layers);
+            if (cm.npc_layered_response) lines.push(`[NPC_LAYERED_RESPONSE] ${cm.npc_layered_response}`);
+            if (cm.layers) lines.push(`[LAYERS] ${cm.layers}`);
             const ip = cm.inner_process;
             if (ip) {
-                if (ip.rule) lines.push(ip.rule);
+                if (ip.rule) lines.push(`[INNER_PROCESS] ${ip.rule}`);
                 if (Array.isArray(ip.types)) {
                     for (const t of ip.types) lines.push(`  ${t}`);
                 }
             }
-            if (cm.setting_causality) lines.push(cm.setting_causality);
-            if (cm.perception_gap)    lines.push(cm.perception_gap);
+            if (cm.setting_causality) lines.push(`[SETTING_CAUSALITY] ${cm.setting_causality}`);
+            if (cm.perception_gap)    lines.push(`[PERCEPTION_GAP] ${cm.perception_gap}`);
         }
 
         // 구체성 엔진
@@ -402,8 +402,8 @@
                     if (axisText) lines.push(`  ${axisText}`);
                 }
             }
-            if (se.density)         lines.push(se.density);
-            if (se.emotional_climax) lines.push(se.emotional_climax);
+            if (se.density)          lines.push(`[SPECIFICITY_DENSITY] ${se.density}`);
+            if (se.emotional_climax) lines.push(`[EMOTIONAL_CLIMAX] ${se.emotional_climax}`);
         }
 
         // 시제 및 포맷
@@ -411,10 +411,10 @@
         if (tf) {
             lines.push('');
             lines.push('[TENSE_AND_FORMAT]');
-            if (tf.tense)          lines.push(tf.tense);
-            if (tf.grammar)        lines.push(tf.grammar);
+            if (tf.tense)          lines.push(`[TENSE] ${tf.tense}`);
+            if (tf.grammar)        lines.push(`[GRAMMAR] ${tf.grammar}`);
             if (tf.vocabulary_ref) lines.push(tf.vocabulary_ref);
-            if (tf.formatting)     lines.push(tf.formatting);
+            if (tf.formatting)     lines.push(`[FORMATTING] ${tf.formatting}`);
         }
 
         // 자가 검수 루틴
@@ -431,6 +431,7 @@
                     lines.push(`[${chk.id}${cat}] ${chk.rule}`);
                 }
             }
+            if (sc.note) lines.push(`[CHECK_NOTE] ${sc.note}`);
         }
 
         return lines.join('\n');
