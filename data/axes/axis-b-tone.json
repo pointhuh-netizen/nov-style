@@ -25,7 +25,7 @@
       "operations": {
         "{B_TONE_TEMP}": {
           "mode": "REPLACE",
-          "value": "Emotion 0 %. Fact · observation · action only. The narrator records; never interprets, judges, or assigns emotional states. Report / documentary-narration temperature. Narrator must not interpret atmosphere or assign emotional states to spaces/objects — only physically measurable changes (temperature, volume, light level) are permitted. 분위기 해석 문장(“공기가 가라앉았다”, “침묵이 무거웠다”) 금지."
+          "value": "Emotion 0 %. Fact · observation · action only. The narrator records; never interprets, judges, or assigns emotional states. Report / documentary-narration temperature. Narrator must not interpret atmosphere or assign emotional states to spaces/objects — only physically measurable changes (temperature, volume, light level) are permitted. 분위기 해석 문장(“공기가 가라앉았다”, “침묵이 무거웠다”) 금지. When action-only narration continues for 5+ consecutive sentences without environment/sensation, insert one environmental observation (sound, temperature, light change) to create breathing room. 행동 서술 5문장 연속 시 환경 관찰(소리, 온도, 빛 변화) 1문장 삽입."
         },
         "{B_TONE_VOCAB}": {
           "mode": "REPLACE",
@@ -68,7 +68,16 @@
           "check": {
             "id": "CHK-B01-03",
             "category": "tone",
-            "rule": "Same character's gaze tracked ≥ 3 times in one scene? → From the 3rd instance, replace gaze-tracking with action (movement, speech, object manipulation). 동일 인물 시선 추적 3회 이상 시 → 행동으로 전환.",
+            "rule": "Same character's gaze tracked ≥ 2 times in one scene? → From the 3rd instance onward, COMPLETELY BAN gaze/eye vocabulary (시선, 눈, 응시, 바라보다, 내려다보다, 눈을 내리깔다, 시선으로 따라가다). Replace ALL with non-visual action (movement, speech, object manipulation, posture change). 동일 인물 시선 묘사 2회까지만 허용. 3회째부터 시선/눈 어휘 완전 금지 — 행동(이동, 발화, 사물 조작, 자세 변화)으로 전환.",
+            "source": "B-01"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B01-04",
+            "category": "tone",
+            "rule": "Same action verb or action pattern repeated ≥ 3 times in one scene (만지작거리다, 두드리다, 밀다 etc.)? → Replace from 3rd instance with a different physical action. 건조체는 행동 나열이 중심이므로 동일 행동 동사 반복에 특히 주의. 같은 동사 3회 이상 → 3회째부터 다른 물리적 행동으로 교체.",
             "source": "B-01"
           }
         }
@@ -101,15 +110,15 @@
       "operations": {
         "{B_TONE_TEMP}": {
           "mode": "REPLACE",
-          "value": "40 % sensory image / 30 % lingering space (여운·여백) / 20 % action / 10 % dialogue. Temperature: seeping into mood, not stating it. Never name emotions directly (자존심, 불안, 안도, 수치심 등 감정 명사 금지) — convey through sensory imagery and physical behavior only. One interiority per paragraph with NO exceptions, including scene closings and summary paragraphs — 한 문단 안에서 두 인물의 내면을 동시에 서술 금지. 장면 마무리·요약 문단에서도 예외 없음. Narrator must not assess or label character capabilities or personality traits. 능력·성격 형용사(탁월한, 예민한, 뛰어난, 날카로운 등) + 능력 명사 조합 금지. 인물의 능력은 행동과 결과로 보여줄 것, 서술자가 명명하지 말 것 (예: “탁월한 청각” → 구체적 소리를 구분해내는 행동 묘사로 대체). Narrator must also not pass value judgments on characters’ actions or intentions. 평가 형용사(알량한, 얄팍한, 비겁한, 한심한 등) 금지 — 인물의 행동은 독자가 판단할 것, 서술자가 평가하지 말 것."
+          "value": "40 % sensory image / 30 % lingering space (여운·여백) / 20 % action / 10 % dialogue. Temperature: seeping into mood, not stating it. Never name emotions directly (자존심, 불안, 안도, 수치심 등 감정 명사 금지) — convey through sensory imagery and physical behavior only. One interiority per paragraph with NO exceptions, including scene closings and summary paragraphs — 한 문단 안에서 두 인물의 내면을 동시에 서술 금지. 장면 마무리·요약 문단에서도 예외 없음. Narrator must not assess or label character capabilities or personality traits. 능력·성격 형용사(탁월한, 예민한, 뛰어난, 날카로운 등) + 능력 명사 조합 금지. 인물의 능력은 행동과 결과로 보여줄 것, 서술자가 명명하지 말 것 (예: “탁월한 청각” → 구체적 소리를 구분해내는 행동 묘사로 대체). Narrator must also not pass value judgments on characters’ actions or intentions. 평가 형용사(알량한, 얄팍한, 비겁한, 한심한 등) 금지 — 인물의 행동은 독자가 판단할 것, 서술자가 평가하지 말 것. Narrator must not describe a character's strategic calculations or deliberate decisions about interpersonal dynamics. Ban: '빈틈을 파고드는 대신', '거리감을 측량했다', '일부러 ~하지 않았다' patterns where the narrator reveals character's tactical thinking. Instead, show only the resulting action — the reader infers the strategy. 서술자가 인물의 대인 전략(일부러 안 하기, 빈틈 노리기, 거리 계산)을 직접 서술하는 것 금지 — 결과 행동만 보여줄 것."
         },
         "{B_TONE_VOCAB}": {
           "mode": "REPLACE",
-          "value": "Sensory vocabulary actively encouraged: 색채·질감·소리·냄새 어휘. Poetic diction allowed but restrain excess — max one metaphor per paragraph. Tone contamination strictly forbidden, with NO exceptions — not even when describing a character's deliberate manner of speaking. Banned words in output: '건조', '건조한', '담백', '무미', '보고서', '기록', '사무적'. 캐릭터가 의도적으로 감정을 숨기는 어조를 쓸 때도, 서술자는 이 단어들 대신 감각적 우회 묘사를 사용할 것 (예: “건조한 어조” → “평소보다 낮고 짧게 끊어지는 말투”)."
+          "value": "Sensory vocabulary actively encouraged: 색채·질감·소리·냄새 어휘. Poetic diction allowed but restrain excess — max one metaphor per paragraph. Tone contamination strictly forbidden, with NO exceptions — not even when describing a character's deliberate manner of speaking. Banned words in output: '건조', '건조한', '담백', '무미', '보고서', '기록', '사무적'. 캐릭터가 의도적으로 감정을 숨기는 어조를 쓸 때도, 서술자는 이 단어들 대신 감각적 우회 묘사를 사용할 것 (예: “건조한 어조” → “평소보다 낮고 짧게 끊어지는 말투”). Additionally banned: analytical/clinical/technical vocabulary that breaks lyrical tone: '측량', '산출', '연산', '산정', '도출', '추산', '계측', '분석', '판독', '감지', '탐지', '검출', '수치', '데이터', '변수', '계수'. These words belong to 건조체/학술체. In 서정체, replace with sensory equivalents (측량하다 → 눈으로 더듬다/가늠하다 → 살피다, 감지하다 → 느끼다/스치다). 분석적·기술적·계량적 어휘 추가 금지 — 서정체의 감각적 온도를 깨뜨리는 어휘는 모두 감각 우회 표현으로 교체."
         },
         "{B_TONE_FID_GRAMMAR}": {
           "mode": "REPLACE",
-          "value": "In FID sections, the character's sensory impressions color the prose style. Figurative thought permitted. Subtext must remain implicit — show through sensory detail and withheld action, never through narrator's conclusive interpretation. 두 인물의 심리를 같은 문단에서 동시에 확정하는 전지적 해설 금지. When narrating a character's inner state — whether in FID or third-person narration — replace certainty verbs with hedging expressions. This rule applies everywhere, not only inside FID sections. 확신했다/믿었다/알았다/알고 있었다/확신하고 있었다 → ~인 듯했다/~라고 여기는 것 같았다/~일 거라는 표정이었다/~라는 듯 행동했다. The reader should infer certainty from behavioral evidence, not from the narrator's assertion."
+          "value": "In FID sections, the character's sensory impressions color the prose style. Figurative thought permitted. Subtext must remain implicit — show through sensory detail and withheld action, never through narrator's conclusive interpretation. 두 인물의 심리를 같은 문단에서 동시에 확정하는 전지적 해설 금지. When narrating a character's inner state — whether in FID or third-person narration — replace certainty verbs with hedging expressions. This rule applies everywhere, not only inside FID sections. 확신했다/믿었다/알았다/알고 있었다/확신하고 있었다 → ~인 듯했다/~라고 여기는 것 같았다/~일 거라는 표정이었다/~라는 듯 행동했다. The reader should infer certainty from behavioral evidence, not from the narrator's assertion. HARD BAN on certainty verbs — zero tolerance: 알았다, 알고 있었다, 확신했다, 믿었다, 깨달았다, 이해했다, 파악했다, 간파했다. These MUST be replaced with hedging + behavioral evidence: '알았지만' → '알고 있는 듯했지만' or better yet, delete the claim and show the evidence only (e.g., '유화 냄새가 옷자락 어디에도 배어 있지 않았다' — let the reader conclude). 확신 동사 절대 금지: 알았다/깨달았다/파악했다/간파했다 → 삭제하고 물리적 증거만 배치하거나, ~인 듯했다/~는 것 같았다로 교체."
         },
         "{B_TONE_ENDING}": {
           "mode": "REPLACE",
@@ -163,6 +172,24 @@
             "id": "CHK-B02-05",
             "category": "tone",
             "rule": "Narrator directly labels character capability or personality trait (탁월한, 예민한, 뛰어난, 날카로운 + 능력 명사)? → Replace with behavioral demonstration. 서술자의 능력 평가 → 행동으로 보여주기.",
+            "source": "B-02"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B02-06",
+            "category": "tone",
+            "rule": "Analytical/clinical/technical vocabulary detected (측량, 산출, 연산, 계측, 판독, 감지, 탐지, 검출, 수치, 데이터, 변수)? → Replace with sensory equivalent. 서정체에서 분석적·계량적 어휘 감지 시 → 감각 우회 표현으로 교체.",
+            "source": "B-02"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B02-07",
+            "category": "tone",
+            "rule": "Certainty verb used in narration (알았다, 알고 있었다, 확신했다, 깨달았다, 이해했다, 파악했다, 간파했다)? → Delete and show behavioral/physical evidence only, OR replace with hedging (~인 듯했다, ~는 것 같았다). Zero tolerance. 확신 동사 감지 시 → 삭제 후 물리적 증거 배치, 또는 추측형으로 교체. 예외 없음.",
             "source": "B-02"
           }
         }
