@@ -288,14 +288,19 @@
 
         const dc = masterRules.dialogue_constraints;
         if (dc) {
-            const fvec = dc.forbidden_vectors;
-            if (fvec && typeof fvec === 'object') {
-                for (const vec of Object.values(fvec)) {
-                    if (vec?.id && vec?.pattern) lines.push(`[${vec.id}] ${vec.pattern}`);
+            // Forbidden Vectors block
+            const fvs = dc.forbidden_vectors;
+            if (fvs && typeof fvs === 'object') {
+                lines.push('');
+                lines.push('[FORBIDDEN_VECTORS]');
+                if (dc.constraint) lines.push(`CONSTRAINT: ${dc.constraint}`);
+                for (const vec of Object.values(fvs)) {
+                    const label = vec.label || vec.id;
+                    lines.push(`  - ${label}: "${vec.pattern}" (금지)`);
                 }
+                if (dc.correction) lines.push(`  * 교정법: ${dc.correction}`);
             }
-            if (dc.correction) lines.push(`[DIALOGUE_CORRECTION] ${dc.correction}`);
-            if (dc.flow_rule)  lines.push(`[DIALOGUE_FLOW] ${dc.flow_rule}`);
+            if (dc.flow_rule) lines.push(`[DIALOGUE_FLOW] ${dc.flow_rule}`);
         }
 
         // 대사 포맷
@@ -306,7 +311,6 @@
             if (df.quotation)    lines.push(`[QUOTATION] ${df.quotation}`);
             if (df.tag_policy)   lines.push(`[TAG_POLICY] ${df.tag_policy}`);
             if (df.default_tag)  lines.push(`[DEFAULT_TAG] ${df.default_tag}`);
-            if (df.master_rules_ref) lines.push(df.master_rules_ref);
         }
 
         // 자율 서사 심화
