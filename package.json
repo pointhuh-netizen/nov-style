@@ -1,0 +1,11 @@
+{
+  "name": "nov-style",
+  "version": "1.0.0",
+  "description": "SillyTavern 문체 지침 프롬프트 자동 주입 확장",
+  "scripts": {
+    "build:lite": "node scripts/build-lite.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

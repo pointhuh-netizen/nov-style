@@ -111,6 +111,59 @@ git pull
 
 ---
 
+## 경량 배포 빌드 (Lite Build)
+
+내부 작업용 데이터에서 **배포 가능한 경량 버전**을 추출하는 수동 빌드 도구입니다.
+
+### 빌드 실행
+
+```bash
+npm run build:lite
+```
+
+결과물은 `dist/lite/data/` 에 저장됩니다. `dist/` 폴더는 `.gitignore` 에 등록되어 있으므로 **이 레포에는 절대 커밋되지 않습니다**.
+
+### 포함 축 설정
+
+`scripts/lite-config.json` 을 수정해 어떤 축을 포함할지 지정합니다:
+
+```json
+{
+  "include_axes": ["B"],
+  "output_dir": "dist/lite",
+  "lite_mode": true
+}
+```
+
+나중에 C축(장르)을 추가하고 싶으면 `"include_axes": ["B", "C"]` 로 변경 후 다시 빌드하면 됩니다.
+
+### 경량 버전의 특징
+
+| 항목 | Full (내부) | Lite (배포) |
+|---|---|---|
+| 프롬프트 원문 | ✅ 노출 | ❌ `[lite: prompt hidden]` |
+| 체크룰 상세 | ✅ 규칙 전문 | ❌ ID·카테고리만 |
+| 예상 토큰 수 | ❌ 없음 | ✅ `estimated_tokens` 필드 |
+| 포함 축 | A~W 전체 | 설정 파일에 지정된 축만 |
+| configs/ | ✅ 포함 | ❌ 제외 |
+
+**경량 버전에서는 프롬프트 원문이 숨겨지며, 예상 토큰 수만 표시됩니다.**
+
+### 외부 레포로 배포
+
+```bash
+# 1. 빌드
+npm run build:lite
+
+# 2. 결과물 확인
+ls dist/lite/data/
+
+# 3. 외부 레포에 복사
+cp -r dist/lite/data/* ../배포-레포/data/
+```
+
+---
+
 ## 알려진 한계 및 예정 작업
 
 - ST 1.10.0 미만에서는 `setExtensionPrompt` API가 지원되지 않아 동작하지 않습니다.
