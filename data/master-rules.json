@@ -193,7 +193,8 @@
       { "id": "CHK-37", "category": "specificity", "rule": "이면(subtext)을 서술자가 직접 해석·명명했는가? → 물리적 사실 배치만 남기고 해석 삭제.", "source": "default" },
       { "id": "CHK-38", "category": "cognitive", "rule": "인물 간 인식 간극을 서술자가 해설하는가? → 행동 병렬 배치만. '사실은~', '아이러니하게도' 삭제.", "source": "default" },
       { "id": "CHK-39", "category": "prose", "rule": "감각 선택이 시각 편중인가? → 촉각·온도·청각 우선 고려.", "source": "default" },
-      { "id": "CHK-40", "category": "character", "rule": "FID 구간에서 모든 인물이 같은 어휘·어미를 쓰는가? → 해당 인물의 고유 언어로 오염시킨다.", "source": "default" }
+      { "id": "CHK-40", "category": "character", "rule": "FID 구간에서 모든 인물이 같은 어휘·어미를 쓰는가? → 해당 인물의 고유 언어로 오염시킨다.", "source": "default" },
+      { "id": "CHK-41", "category": "formatting", "rule": "대사와 서술(대사 태그 포함)이 같은 줄에 붙어 있는가? → 대사↔서술 간 줄바꿈 2회 적용. 대사 태그도 서술이다.", "source": "default" }
     ],
     "note": "축 모듈에서 check_operations로 추가되는 동적 검수 항목은 빌드 시 이 리스트에 병합된다."
   },
