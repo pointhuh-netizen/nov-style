@@ -1,0 +1,5 @@
+{
+  "include_axes": ["B"],
+  "output_dir": "dist/lite",
+  "lite_mode": true
+}
