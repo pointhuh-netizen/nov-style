@@ -88,9 +88,11 @@ function writeJSON(filePath, data) {
  * @param {number} charCount  total character count of the original prompt text
  * @returns {number}
  */
-function estimateTokens(charCount) {
-  if (!charCount || charCount <= 0) return 0;
-  return Math.ceil(charCount / 3.5);
+function estimateTokens(text) {
+  if (!text || typeof text !== 'string' || text.length === 0) return 0;
+  const koreanChars = (text.match(/[\uAC00-\uD7AF\u3130-\u318F\u1100-\u11FF]/g) || []).length;
+  const nonKoreanChars = text.length - koreanChars;
+  return Math.ceil(koreanChars / 1.5 + nonKoreanChars / 4);
 }
 
 // ─── 1. catalog.json 필터링 / Filter catalog.json ────────────────────────
@@ -150,7 +152,7 @@ for (const relFile of axisFiles) {
   for (const mod of axisData.modules || []) {
     // operations 처리: 각 operation의 value를 숨기고 estimated_tokens 계산
     // Process operations: hide prompt values and calculate estimated_tokens
-    let rawTokenChars = 0;
+    let rawTokenTexts = [];
 
     const redactedOperations = {};
     if (mod.operations && typeof mod.operations === 'object') {
@@ -158,7 +160,7 @@ for (const relFile of axisFiles) {
         // 원문 텍스트 길이를 토큰 추정에 사용
         // Use original text length for token estimation
         if (op && typeof op.value === 'string') {
-          rawTokenChars += op.value.length;
+        rawTokenTexts.push(op.value);
         }
         redactedOperations[slot] = {
           ...op,
@@ -167,7 +169,7 @@ for (const relFile of axisFiles) {
       }
     }
 
-    const estimatedTokens = estimateTokens(rawTokenChars);
+    const estimatedTokens = estimateTokens(rawTokenTexts.join(''));
     totalEstimatedTokens += estimatedTokens;
 
     // check_operations 처리: rule 텍스트를 숨기고 id/category 만 남김
