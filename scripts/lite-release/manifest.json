@@ -1,12 +1,12 @@
 {
-  "display_name": "Nov Style Lite — 어조·어휘",
+  "display_name": "문체 조합 확장",
   "loading_order": 100,
   "requires": [],
   "optional": [],
   "js": "index.js",
   "css": "style.css",
-  "author": "pointhuh-netizen",
+  "author": "pt-silly",
   "version": "1.0.0",
-  "homepageUrl": "https://github.com/pointhuh-netizen/nov-style",
+  "homepageUrl": "https://github.com/pt-silly/style_nov",
   "auto_update": true
 }
