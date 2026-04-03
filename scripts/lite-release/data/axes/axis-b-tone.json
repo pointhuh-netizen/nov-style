@@ -9,18 +9,80 @@
       "name": "사용하지 않음",
       "one_liner": "어조·어휘 지시를 주입하지 않음 — default-template 그대로 사용",
       "description": "B축 모듈을 적용하지 않는 기본 상태. default-template.json의 어조 설정이 변경 없이 유지된다.",
+      "operations": {},
+      "check_operations": [],
+      "master_guide_delta": {},
       "known_conflicts": [],
       "traits": {
         "slots_touched": []
-      },
-      "operations": {},
-      "check_operations": []
+      }
     },
     {
       "id": "B-01",
       "name": "건조체",
       "one_liner": "감정 묘사 없이, 행동과 사실만으로 장면을 구성합니다. (예: '슬펐다' → '컵을 내려놓고 창밖을 보았다')",
       "description": "형용사·감탄사를 최소화하고, 단문 위주로 정보를 전달한다. 감정은 행동과 사실의 나열 사이에서 독자가 추론하도록 설계. 보고서·다큐멘터리 내레이션에 가까운 온도.",
+      "operations": {
+        "{B_TONE_TEMP}": {
+          "mode": "REPLACE",
+          "value": "Emotion 0 %. Fact · observation · action only. The narrator records; never interprets, judges, or assigns emotional states. Report / documentary-narration temperature. Narrator must not interpret atmosphere or assign emotional states to spaces/objects — only physically measurable changes (temperature, volume, light level) are permitted. 분위기 해석 문장(“공기가 가라앉았다”, “침묵이 무거웠다”) 금지. When action-only narration continues for 5+ consecutive sentences without environment/sensation, insert one environmental observation (sound, temperature, light change) to create breathing room. 행동 서술 5문장 연속 시 환경 관찰(소리, 온도, 빛 변화) 1문장 삽입."
+        },
+        "{B_TONE_VOCAB}": {
+          "mode": "REPLACE",
+          "value": "Adjectives allowed only for physical properties (size, color, temperature, weight). Emotional adjectives forbidden: 슬픈, 기쁜, 처연한, 서글픈, 애틋한 등. Interjections forbidden. Simile and metaphor forbidden — describe only what is physically observable. No figurative language (“건반을 누르듯”, “나선형을 그리며” 같은 비유 표현 금지)."
+        },
+        "{B_TONE_FID_GRAMMAR}": {
+          "mode": "REPLACE",
+          "value": "Emotional adjectives forbidden even in FID sections. Character thought patterns may color narration, but emotional vocabulary must be replaced with physical sensation. FID 구간에서도 감정 형용사 금지 — 인물의 사고 패턴이 서술을 오염시키되, 감정 어휘는 물리적 감각(체온, 근육 긴장, 호흡 변화)으로 치환."
+        },
+        "{B_TONE_ENDING}": {
+          "mode": "REPLACE",
+          "value": "Declarative endings only. Exclamatory, hortative, and rhetorical-question endings forbidden. Base form: ~았다/었다. Variation permitted only within declarative range. 평서형 종결만 — 감탄형·청유형·수사적 의문형 금지."
+        },
+        "{B_TONE_DIALOGUE_TAG}": {
+          "mode": "REPLACE",
+          "value": "Default tag: '말했다'. Minimize dialogue tags that imply emotion (속삭였다, 외쳤다, 중얼거렸다). Prefer action beats to indicate speaker. 감정 함의 대사 태그 최소화 — 행동 비트로 화자 표시 우선."
+        }
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B01-01",
+            "category": "tone",
+            "rule": "Emotional adjective detected? → Replace with physical property. 감정 형용사 → 물리적 속성으로 교체.",
+            "source": "B-01"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B01-02",
+            "category": "tone",
+            "rule": "Exclamatory or rhetorical question detected? → Convert to declarative. 감탄문·수사적 의문문 → 평서문으로 교체.",
+            "source": "B-01"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B01-03",
+            "category": "tone",
+            "rule": "Same character's gaze tracked ≥ 2 times in one scene? → From the 3rd instance onward, COMPLETELY BAN gaze/eye vocabulary (시선, 눈, 응시, 바라보다, 내려다보다, 눈을 내리깔다, 시선으로 따라가다). Replace ALL with non-visual action (movement, speech, object manipulation, posture change). 동일 인물 시선 묘사 2회까지만 허용. 3회째부터 시선/눈 어휘 완전 금지 — 행동(이동, 발화, 사물 조작, 자세 변화)으로 전환.",
+            "source": "B-01"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B01-04",
+            "category": "tone",
+            "rule": "Same action verb or action pattern repeated ≥ 3 times in one scene (만지작거리다, 두드리다, 밀다 etc.)? → Replace from 3rd instance with a different physical action. 건조체는 행동 나열이 중심이므로 동일 행동 동사 반복에 특히 주의. 같은 동사 3회 이상 → 3회째부터 다른 물리적 행동으로 교체.",
+            "source": "B-01"
+          }
+        }
+      ],
+      "master_guide_delta": {},
       "known_conflicts": [
         {
           "with": "B-02",
@@ -38,78 +100,101 @@
         "slots_touched": [
           "MODULE_6_STYLE"
         ]
-      },
-      "operations": {
-        "{B_TONE_TEMP}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 176
-        },
-        "{B_TONE_VOCAB}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 87
-        },
-        "{B_TONE_FID_GRAMMAR}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 72
-        },
-        "{B_TONE_ENDING}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 55
-        },
-        "{B_TONE_DIALOGUE_TAG}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 45
-        }
-      },
-      "check_operations": [
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B01-01",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-01"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B01-02",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-01"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B01-03",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-01"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B01-04",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-01"
-          }
-        }
-      ]
+      }
     },
     {
       "id": "B-02",
       "name": "서정체",
       "one_liner": "감정을 직접 말하지 않고, 감각 묘사와 여백으로 분위기를 만듭니다. (예: '긴장했다' → '손끝이 차가워지고, 커피잔의 열기가 또렷해졌다')",
       "description": "감각 이미지와 비유를 적극 활용하며, 문장의 리듬과 여백을 중시한다. 독자의 감정에 직접 호소하기보다 분위기로 스며들게 하는 문체.",
+      "operations": {
+        "{B_TONE_TEMP}": {
+          "mode": "REPLACE",
+          "value": "40 % sensory image / 30 % lingering space (여운·여백) / 20 % action / 10 % dialogue. Temperature: seeping into mood, not stating it. Never name emotions directly (자존심, 불안, 안도, 수치심 등 감정 명사 금지) — convey through sensory imagery and physical behavior only. One interiority per paragraph with NO exceptions, including scene closings and summary paragraphs — 한 문단 안에서 두 인물의 내면을 동시에 서술 금지. 장면 마무리·요약 문단에서도 예외 없음. Narrator must not assess or label character capabilities or personality traits. 능력·성격 형용사(탁월한, 예민한, 뛰어난, 날카로운 등) + 능력 명사 조합 금지. 인물의 능력은 행동과 결과로 보여줄 것, 서술자가 명명하지 말 것 (예: “탁월한 청각” → 구체적 소리를 구분해내는 행동 묘사로 대체). Narrator must also not pass value judgments on characters’ actions or intentions. 평가 형용사(알량한, 얄팍한, 비겁한, 한심한 등) 금지 — 인물의 행동은 독자가 판단할 것, 서술자가 평가하지 말 것. Narrator must not describe a character's strategic calculations or deliberate decisions about interpersonal dynamics. Ban: '빈틈을 파고드는 대신', '거리감을 측량했다', '일부러 ~하지 않았다' patterns where the narrator reveals character's tactical thinking. Instead, show only the resulting action — the reader infers the strategy. 서술자가 인물의 대인 전략(일부러 안 하기, 빈틈 노리기, 거리 계산)을 직접 서술하는 것 금지 — 결과 행동만 보여줄 것."
+        },
+        "{B_TONE_VOCAB}": {
+          "mode": "REPLACE",
+          "value": "Sensory vocabulary actively encouraged: 색채·질감·소리·냄새 어휘. Poetic diction allowed but restrain excess — max one metaphor per paragraph. Tone contamination strictly forbidden, with NO exceptions — not even when describing a character's deliberate manner of speaking. Banned words in output: '건조', '건조한', '담백', '무미', '보고서', '기록', '사무적'. 캐릭터가 의도적으로 감정을 숨기는 어조를 쓸 때도, 서술자는 이 단어들 대신 감각적 우회 묘사를 사용할 것 (예: “건조한 어조” → “평소보다 낮고 짧게 끊어지는 말투”). Additionally banned: analytical/clinical/technical vocabulary that breaks lyrical tone: '측량', '산출', '연산', '산정', '도출', '추산', '계측', '분석', '판독', '감지', '탐지', '검출', '수치', '데이터', '변수', '계수'. These words belong to 건조체/학술체. In 서정체, replace with sensory equivalents (측량하다 → 눈으로 더듬다/가늠하다 → 살피다, 감지하다 → 느끼다/스치다). 분석적·기술적·계량적 어휘 추가 금지 — 서정체의 감각적 온도를 깨뜨리는 어휘는 모두 감각 우회 표현으로 교체."
+        },
+        "{B_TONE_FID_GRAMMAR}": {
+          "mode": "REPLACE",
+          "value": "In FID sections, the character's sensory impressions color the prose style. Figurative thought permitted. Subtext must remain implicit — show through sensory detail and withheld action, never through narrator's conclusive interpretation. 두 인물의 심리를 같은 문단에서 동시에 확정하는 전지적 해설 금지. When narrating a character's inner state — whether in FID or third-person narration — replace certainty verbs with hedging expressions. This rule applies everywhere, not only inside FID sections. 확신했다/믿었다/알았다/알고 있었다/확신하고 있었다 → ~인 듯했다/~라고 여기는 것 같았다/~일 거라는 표정이었다/~라는 듯 행동했다. The reader should infer certainty from behavioral evidence, not from the narrator's assertion. HARD BAN on certainty verbs — zero tolerance: 알았다, 알고 있었다, 확신했다, 믿었다, 깨달았다, 이해했다, 파악했다, 간파했다. These MUST be replaced with hedging + behavioral evidence: '알았지만' → '알고 있는 듯했지만' or better yet, delete the claim and show the evidence only (e.g., '유화 냄새가 옷자락 어디에도 배어 있지 않았다' — let the reader conclude). 확신 동사 절대 금지: 알았다/깨달았다/파악했다/간파했다 → 삭제하고 물리적 증거만 배치하거나, ~인 듯했다/~는 것 같았다로 교체."
+        },
+        "{B_TONE_ENDING}": {
+          "mode": "REPLACE",
+          "value": "Alternate sentence length (long → short) to create breathing rhythm. Use endings that carry lingering resonance: ~이었다, ~뿐이었다, ~있었다. 장문→단문 교차로 호흡 생성. 여운 있는 종결어미 활용."
+        },
+        "{B_TONE_DIALOGUE_TAG}": {
+          "mode": "REPLACE",
+          "value": "Combine action beats with sensory description. Indicate speaker through environment and body sensation rather than explicit dialogue tags. 행동 비트 + 감각 묘사 결합 — 대사 태그보다 환경·신체 감각으로 화자 표시."
+        }
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B02-01",
+            "category": "tone",
+            "rule": "Scene transition begins with abstract explanation instead of sensory anchor? → Enter through one concrete sense. 장면 전환 시 감각 앵커 없이 시작 → 감각 하나로 진입.",
+            "source": "B-02"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B02-02",
+            "category": "tone",
+            "rule": "More than one metaphor per paragraph? → Reduce to one. 비유가 문단당 1개 초과 → 줄인다.",
+            "source": "B-02"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B02-03",
+            "category": "tone",
+            "rule": "Emotion named directly (자존심, 불안, 안도, 수치심 등)? → Replace with sensory/behavioral description. 감정 직접 명명 → 감각·행동 묘사로 교체.",
+            "source": "B-02"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B02-04",
+            "category": "tone",
+            "rule": "Two characters' interiority narrated in the same paragraph — including scene-closing and summary paragraphs? → Separate into different paragraphs, or restrict to one character's observation. 장면 마무리 문단 포함, 한 문단 내 두 인물 내면 동시 서술 → 분리 또는 한 인물 관찰로 제한.",
+            "source": "B-02"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B02-05",
+            "category": "tone",
+            "rule": "Narrator directly labels character capability or personality trait (탁월한, 예민한, 뛰어난, 날카로운 + 능력 명사)? → Replace with behavioral demonstration. 서술자의 능력 평가 → 행동으로 보여주기.",
+            "source": "B-02"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B02-06",
+            "category": "tone",
+            "rule": "Analytical/clinical/technical vocabulary detected (측량, 산출, 연산, 계측, 판독, 감지, 탐지, 검출, 수치, 데이터, 변수)? → Replace with sensory equivalent. 서정체에서 분석적·계량적 어휘 감지 시 → 감각 우회 표현으로 교체.",
+            "source": "B-02"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B02-07",
+            "category": "tone",
+            "rule": "Certainty verb used in narration (알았다, 알고 있었다, 확신했다, 깨달았다, 이해했다, 파악했다, 간파했다)? → Delete and show behavioral/physical evidence only, OR replace with hedging (~인 듯했다, ~는 것 같았다). Zero tolerance. 확신 동사 감지 시 → 삭제 후 물리적 증거 배치, 또는 추측형으로 교체. 예외 없음.",
+            "source": "B-02"
+          }
+        }
+      ],
+      "master_guide_delta": {},
       "known_conflicts": [
         {
           "with": "B-01",
@@ -127,105 +212,128 @@
         "slots_touched": [
           "MODULE_6_STYLE"
         ]
-      },
-      "operations": {
-        "{B_TONE_TEMP}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 324
-        },
-        "{B_TONE_VOCAB}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 227
-        },
-        "{B_TONE_FID_GRAMMAR}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 290
-        },
-        "{B_TONE_ENDING}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 47
-        },
-        "{B_TONE_DIALOGUE_TAG}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 53
-        }
-      },
-      "check_operations": [
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B02-01",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-02"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B02-02",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-02"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B02-03",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-02"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B02-04",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-02"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B02-05",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-02"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B02-06",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-02"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B02-07",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-02"
-          }
-        }
-      ]
+      }
     },
     {
       "id": "B-03",
       "name": "구어체",
       "one_liner": "말하듯 쓰는 자연스러운 입말 어조. (예: '그는 아무 말도 하지 않았다' → '아무 말도 안 하더라, 걔.')",
       "description": "문어적 격식을 줄이고 실제 발화에 가까운 리듬으로 서술한다. 생략, 도치, 반복 등 구어적 특성이 서술에 반영되며, 독자와의 거리가 가까워진다.",
+      "operations": {
+        "{B_TONE_TEMP}": {
+          "mode": "REPLACE",
+          "value": "60 % 일상(행동·대화) / 30 % 구어적 성찰(FID) / 10 % 환경. 서술 전체가 '누군가에게 이야기해 주는' 온도여야 한다. 문어적 관찰 보고가 아니라 말하듯 풀어놓는 리듬. 서술자가 독자에게 말을 걸 듯 거리를 좁힐 것."
+        },
+        "{B_TONE_VOCAB}": {
+          "mode": "REPLACE",
+          "value": "일상 구어 어휘 강제. 격식·문어 전용 어휘 금지 목록: 마찰음, 파찰음, 스타카토, 사선, 불규칙하게, 미세한, 도드라지다, 매만지다, 사무적, 간극, 상기하다, 응시하다, 관조하다, 가늠하다, 파동, 잔향, 질감, 체감, 음색. 이 단어들이 떠오르면 반드시 일상 구어로 치환할 것 (예: '마찰음' → '끌리는 소리', '미세한' → '살짝', '매만지다' → '만지작거리다/굴리다', '응시하다' → '뚫어져라 보다/멍하니 보다'). 구어적 감탄사('뭐', '글쎄', '아', '에이') 문단당 1회 삽입 권장 — 0회는 구어체 실패로 간주. Additionally banned: literary/poetic verb expressions that break colloquial tone. '갈랐다', '관통했다', '가로질렀다', '침잠했다', '잠식했다', '투영했다', '형상화했다' — these belong to 서정체/만연체. Replace with colloquial equivalents (갈랐다 → 채웠다/울렸다, 관통했다 → 꿰뚫었다/찔렀다). 문어적·시적 동사 표현 금지 — 구어 등가로 교체."
+        },
+        "{B_TONE_FID_GRAMMAR}": {
+          "mode": "REPLACE",
+          "value": "턴 전체의 40 % 이상을 FID로 구성할 것 — 이는 권장이 아닌 필수. FID 구간에서 인물의 말투가 서술 문체를 강하게 오염시켜야 한다. 구체적으로: 인물이 실제로 혼잣말하듯 ~거든, ~잖아, ~는데, ~인 거다, ~ㄹ걸, ~나 봐 종결이 서술문에 직접 사용될 것. 3인칭 과거형(~았다/었다)만으로 이어지는 구간이 3문장을 넘기면 반드시 구어 종결 FID를 삽입. 생략(주어·목적어 탈락)과 도치도 FID에서 적극 사용. NARRATOR JUDGMENT BAN in B-03: The narrator must not pass verdicts on dialogue truthfulness or character intent. '거짓말을 쳤다', '태연하게 둘러댔다', '뻔한 핑계였다' — these are narrator judgments. In 구어체, such judgments must come through the POV character's FID voice instead ('거짓말인 거 다 아는데, 뭐.' / '그 핑계 또 나왔다, 진짜.'). Also ban formula-like behavioral analysis: '말이 많다 싶으면 뭔가를 피하고 있다는 증거다' → rewrite as uncertain FID: '말이 좀 많은데. 뭘 피하려는 건지.' 서술자 판정 금지: 대사의 진위·인물의 의도를 서술자가 확정하지 말 것. FID 구어체 목소리로 전환."
+        },
+        "{B_TONE_ENDING}": {
+          "mode": "REPLACE",
+          "value": "구어 종결(-거든, -잖아, -는데, -ㄹ걸, -인 거다, -나 봐, -더라, -던데) 비율 최소 70 %. 격식 종결(~았다/었다) 비율 최대 30 %. 이 비율은 '허용'이 아닌 '강제'다. ~았다/었다가 3문장 연속되면 4번째 문장은 반드시 구어 종결로 전환. 문단 마지막 문장은 구어 종결 우선. CRITICAL ENFORCEMENT: This ratio is the single most important rule of B-03. Count your output's sentence endings before finalizing — if 격식(~았다/었다) exceeds 30%, rewrite until compliant. 이 비율은 B-03의 가장 중요한 규칙. 출력 전 종결어미를 세어서 격식이 30%를 넘으면 반드시 재작성. 동일 구어 종결어미가 턴 전체에서 3회를 초과하면 과잉 — 다른 종결어미로 교체할 것. 8종(-거든, -잖아, -는데, -ㄹ걸, -인 거다, -나 봐, -더라, -던데) 중 최소 4종을 사용해야 다양성 통과."
+        },
+        "{B_TONE_DIALOGUE_TAG}": {
+          "mode": "REPLACE",
+          "value": "대사 태그 거의 삭제 — 행동 비트나 FID 흐름으로 화자를 구분. 대사와 서술의 경계를 의도적으로 허물 것: 대사 직후 FID가 이어지며 대사의 감정을 서술자가 구어체로 받아칠 것. 예시 패턴: '\"밤공기 차던데.\" 은수는 행주를 내려놓으며 툭 던졌다. 문 열어놓고 작업하면 감기 걸리는 거 뻔하잖아.' — 대사 → 짧은 행동 비트 → FID 구어체 서술이 끊김 없이 이어지는 것이 이상적 리듬."
+        }
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B03-01",
+            "category": "tone",
+            "rule": "서술이 과도하게 격식체인가? → 구어 종결로 교체.",
+            "source": "B-03"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B03-02",
+            "category": "tone",
+            "rule": "감탄사가 문단당 1회를 초과하는가? → 줄인다.",
+            "source": "B-03"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B03-03",
+            "category": "tone",
+            "rule": "금지어(가늠하다, 미세한/미세하게, 매만지다, 응시하다, 관조하다, 상기하다, 마찰음, 파찰음, 스타카토, 사선, 도드라지다, 질감, 잔향, 체감, 음색, 파동, 간극, 사무적, 불규칙하게) 감지 시 → 일상 구어로 치환. 예: 가늠하다→어림잡다/짐작하다, 미세한→살짝/약간, 매만지다→만지작거리다, 응시하다→뚫어져라 보다/멍하니 보다.",
+            "source": "B-03"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B03-04",
+            "category": "tone",
+            "rule": "~았다/었다 격식 종결이 3문장 연속되었는가? → 4번째 문장은 반드시 구어 종결(-거든, -잖아, -는데, -ㄹ걸, -인 거다, -나 봐, -더라, -던데)로 전환.",
+            "source": "B-03"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B03-05",
+            "category": "tone",
+            "rule": "문단 내 감탄사('뭐', '글쎄', '아', '에이', '아니') 사용이 0회인가? → 구어체 실패. 최소 1회 삽입 필요.",
+            "source": "B-03"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B03-06",
+            "category": "tone",
+            "rule": "장면 마무리 문장이 서정적·문어적 종결('~이었다', '~뿐이었다', '~있었다', '~몰랐다', '~않았다')로 끝나는가? → 구어체 종결 또는 행동 비트로 교체. 예: '침묵이 최선의 대화일지도 몰랐다' → '그냥 그런 아침이었다, 뭐.'",
+            "source": "B-03"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B03-07",
+            "category": "tone",
+            "rule": "동일 구어 종결어미(-거든, -잖아, -는데, -ㄹ걸, -인 거다, -나 봐, -더라, -던데)가 턴 전체에서 3회를 초과하는가? → 초과분을 다른 구어 종결어미로 교체. 8종 중 최소 4종이 사용되지 않았는가? → 미사용 종결어미를 도입하여 리듬 다양성 확보.",
+            "source": "B-03"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B03-08",
+            "category": "tone",
+            "rule": "동일 구어 종결어미가 2문단 연속으로 문단 마지막 문장에 사용되었는가? → 두 번째 문단의 마지막 문장을 다른 구어 종결어미로 교체.",
+            "source": "B-03"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B03-09",
+            "category": "tone",
+            "rule": "서술자가 대사의 진위를 판정하는가 ('거짓말을 쳤다', '뻔한 핑계') 또는 인물 행동을 공식화하는가 ('~싶으면 ~라는 증거다')? → 삭제하고 FID 구어체로 전환. 예: '거짓말을 쳤다' → '거짓말인 거 다 아는데, 뭐.'",
+            "source": "B-03"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B03-10",
+            "category": "tone",
+            "rule": "문어적·시적 동사(갈랐다, 관통했다, 침잠했다, 잠식했다, 투영했다)가 사용되었는가? → 구어 등가로 교체 (갈랐다→채웠다/울렸다, 관통했다→꿰뚫었다).",
+            "source": "B-03"
+          }
+        }
+      ],
+      "master_guide_delta": {},
       "known_conflicts": [],
       "traits": {
         "emotion_level": "open",
@@ -237,132 +345,83 @@
         "slots_touched": [
           "MODULE_6_STYLE"
         ]
-      },
-      "operations": {
-        "{B_TONE_TEMP}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 38
-        },
-        "{B_TONE_VOCAB}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 163
-        },
-        "{B_TONE_FID_GRAMMAR}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 206
-        },
-        "{B_TONE_ENDING}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 152
-        },
-        "{B_TONE_DIALOGUE_TAG}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 64
-        }
-      },
-      "check_operations": [
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B03-01",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-03"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B03-02",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-03"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B03-03",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-03"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B03-04",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-03"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B03-05",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-03"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B03-06",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-03"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B03-07",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-03"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B03-08",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-03"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B03-09",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-03"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B03-10",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-03"
-          }
-        }
-      ]
+      }
     },
     {
       "id": "B-04",
       "name": "만연체",
       "one_liner": "긴 호흡으로 층위를 쌓아가는 복문 위주 어조. (예: '그는 창밖을 보았다. 비가 내리고 있었다.' → '그는 창밖을 보았는데, 유리 너머로 빗줄기가 지붕의 기왓장을 적시며 흘러내리고 있었다.')",
       "description": "접속과 수식으로 문장을 길게 이어가며, 생각의 결이 겹겹이 쌓이는 문체. 한 문장 안에 관찰·성찰·감각이 공존하며, 호흡 자체가 리듬이 된다.",
+      "operations": {
+        "{B_TONE_TEMP}": {
+          "mode": "REPLACE",
+          "value": "50% 관찰·성찰 / 30% 감각·환경 / 15% FID / 5% 대사. 생각이 겹겹이 쌓이는 온도."
+        },
+        "{B_TONE_VOCAB}": {
+          "mode": "REPLACE",
+          "value": "수식어 적극 활용. 관계절·부사절로 문장 내 층위. 한자어/전문용어 허용하되 읽기 어렵지 않을 것. 동일 명사·형용사가 턴 전체에서 2회를 초과하면 동의어 또는 우회 표현으로 변주할 것."
+        },
+        "{B_TONE_FID_GRAMMAR}": {
+          "mode": "REPLACE",
+          "value": "FID 구간에서 인물의 사고가 긴 호흡으로 전개. 연결어미(-며, -고, -지만)로 내면 흐름 표현."
+        },
+        "{B_TONE_ENDING}": {
+          "mode": "REPLACE",
+          "value": "연결어미(-며, -고, -지만, -는데) 우선. 접속사(그리고, 그러나)보다 문장 내부 연결. 만연체 복문이 4문장 연속되면 반드시 단문 1개로 호흡. 동일 연결어미가 한 문단 내에서 3회를 초과하면 다른 연결어미로 교체할 것."
+        },
+        "{B_TONE_DIALOGUE_TAG}": {
+          "mode": "REPLACE",
+          "value": "대사 태그에 수식절 허용. 행동 비트가 길어질 수 있음 — 단, 대사를 묻지 않을 것."
+        }
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B04-01",
+            "category": "tone",
+            "rule": "모든 문장이 단문인가? → 연결어미로 층위 추가.",
+            "source": "B-04"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B04-02",
+            "category": "tone",
+            "rule": "만연체 4문장 이상 연속인가? → 단문 1개 삽입.",
+            "source": "B-04"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B04-03",
+            "category": "tone",
+            "rule": "동일 연결어미(-며, -고, -지만, -는데)가 한 문단 내에서 3회를 초과하는가? → 초과분을 다른 연결어미로 교체.",
+            "source": "B-04"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B04-04",
+            "category": "tone",
+            "rule": "동일 명사·형용사가 턴 전체에서 2회를 초과하는가? → 동의어 또는 우회 표현으로 변주.",
+            "source": "B-04"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B04-05",
+            "category": "tone",
+            "rule": "서술자가 인물의 능력·성격을 직접 평가하는 형용사(눈치 빠른, 영리한, 예민한, 날카로운 등)를 사용하는가? → 삭제하고 행동·결과로 보여줄 것.",
+            "source": "B-04"
+          }
+        }
+      ],
+      "master_guide_delta": {},
       "known_conflicts": [
         {
           "with": "B-05",
@@ -380,87 +439,65 @@
         "slots_touched": [
           "MODULE_6_STYLE"
         ]
-      },
-      "operations": {
-        "{B_TONE_TEMP}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 16
-        },
-        "{B_TONE_VOCAB}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 30
-        },
-        "{B_TONE_FID_GRAMMAR}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 16
-        },
-        "{B_TONE_ENDING}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 37
-        },
-        "{B_TONE_DIALOGUE_TAG}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 14
-        }
-      },
-      "check_operations": [
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B04-01",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-04"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B04-02",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-04"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B04-03",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-04"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B04-04",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-04"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B04-05",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-04"
-          }
-        }
-      ]
+      }
     },
     {
       "id": "B-05",
       "name": "간결체",
       "one_liner": "수식 없이 핵심만 남기는 단문 위주 어조. 문장이 짧고 빠르며 동사가 중심. 감정을 금지하진 않으나 압축합니다. (예: '그는 그녀가 돌아온다는 사실에 안도하며 창밖을 바라보았다' → '고개를 돌렸다. 창밖. 빗줄기가 가늘어지고 있었다.')",
       "description": "수식을 줄이고 핵심 정보만 남긴다. 문장이 짧고 리듬이 빠르며, 행동과 상황이 즉각적으로 전달된다. 건조체와 달리 감정을 금지하지는 않으나, 표현을 압축한다.",
+      "operations": {
+        "{B_TONE_TEMP}": {
+          "mode": "REPLACE",
+          "value": "60% 행동·상태 / 25% 환경 / 10% FID / 5% 대사. 즉각적이고 빠른 온도."
+        },
+        "{B_TONE_VOCAB}": {
+          "mode": "REPLACE",
+          "value": "수식 최소화. 핵심 명사·동사만. 동사가 문장의 중심."
+        },
+        "{B_TONE_FID_GRAMMAR}": {
+          "mode": "REPLACE",
+          "value": "FID 구간도 짧은 문장. 인물 사고의 핵심만 추출."
+        },
+        "{B_TONE_ENDING}": {
+          "mode": "REPLACE",
+          "value": "짧은 종결 우선. 관형절·부사절 2중첩 이상 시 문장 분리."
+        },
+        "{B_TONE_DIALOGUE_TAG}": {
+          "mode": "REPLACE",
+          "value": "대사 태그 거의 없음. 행동 비트도 짧게. 문단 사이 여백이 곧 리듬."
+        }
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B05-01",
+            "category": "tone",
+            "rule": "관형절/부사절이 2중첩 이상인가? 연쇄 수식 패턴('A한 B가 C하는 D') 포함. → 문장 분리. 예: '아직 굳지 않은 굳은살이 닿는 둔탁한 소리였다' → '굳은살이 타일에 닿았다. 둔탁한 소리.'",
+            "source": "B-05"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B05-02",
+            "category": "tone",
+            "rule": "명사 나열이 동사보다 많은가? → 동사 중심으로 재구성.",
+            "source": "B-05"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B05-03",
+            "category": "tone",
+            "rule": "동일 명사·핵심 동사가 턴 전체에서 3회를 초과하는가? → 변주하거나 삭제. 간결체의 반복은 리듬이 될 수 있으나, 3회 초과는 어휘 빈곤으로 읽힌다.",
+            "source": "B-05"
+          }
+        }
+      ],
+      "master_guide_delta": {},
       "known_conflicts": [
         {
           "with": "B-04",
@@ -478,69 +515,65 @@
         "slots_touched": [
           "MODULE_6_STYLE"
         ]
-      },
-      "operations": {
-        "{B_TONE_TEMP}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 15
-        },
-        "{B_TONE_VOCAB}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 9
-        },
-        "{B_TONE_FID_GRAMMAR}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 9
-        },
-        "{B_TONE_ENDING}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 10
-        },
-        "{B_TONE_DIALOGUE_TAG}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 12
-        }
-      },
-      "check_operations": [
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B05-01",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-05"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B05-02",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-05"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B05-03",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-05"
-          }
-        }
-      ]
+      }
     },
     {
       "id": "B-06",
       "name": "냉소체",
       "one_liner": "서술자가 한 발 물러서서 관찰하는 아이러니 어조. 큰 사건일수록 담담한 어휘, 축소 표현, 병치로 간극을 드러냅니다. (예: '그는 분노했다' → '커피를 내려놓는 손이 정확했다. 설탕은 넣지 않았다. 평소에는 두 스푼.')",
       "description": "서술자가 상황이나 인물에 대해 한 발 물러서서 관찰하며, 언더스테이트먼트·아이러니·역설로 의미를 전달한다. 직접적 비판보다 비틀기로 독자가 불편함을 읽도록 유도.",
+      "operations": {
+        "{B_TONE_TEMP}": {
+          "mode": "REPLACE",
+          "value": "50% 관찰·기록 / 30% 아이러니·간극 / 15% 행동 / 5% 대사. 한 발 뒤에서 보는 온도. 서술자가 인물의 태도·전략·심리를 직접 해석하지 말 것('일상적인 여유가 얇게 발려 있었다' 같은 태도 판단 금지). 행동과 대사의 병치로 독자가 추론하게 할 것."
+        },
+        "{B_TONE_VOCAB}": {
+          "mode": "REPLACE",
+          "value": "축소 표현 활용. 큰 사건일수록 담담한 어휘. 직접적 비판·감탄 금지. 병치로 간극 드러내기."
+        },
+        "{B_TONE_FID_GRAMMAR}": {
+          "mode": "REPLACE",
+          "value": "FID 구간에서 인물의 자기 인식과 서술자의 관찰 사이 간극이 드러남. 아이러니가 FID를 통해 발생."
+        },
+        "{B_TONE_ENDING}": {
+          "mode": "REPLACE",
+          "value": "건조한 종결. 감상적 마무리 금지. 장면은 건조하게 끊되, 여운은 독자 몫."
+        },
+        "{B_TONE_DIALOGUE_TAG}": {
+          "mode": "REPLACE",
+          "value": "대사 태그에 감정 함의 금지. '말했다' 기본. 아이러니는 대사 내용과 행동 비트의 간극에서."
+        }
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B06-01",
+            "category": "tone",
+            "rule": "감상적 마무리가 있는가? 여운형 종결 패턴('~까지 ~고 있었다', '~를 가만히 응시했다', '~채로 움직이지 않았다') 포함. → 건조하게 끊기. 예: '샤워기 물이 틀어지는 소리가 날 때까지 그녀의 손가락은 식탁을 계속 두드리고 있었다' → '샤워기 물소리가 났다. 은수의 손가락은 아직 식탁 위에 있었다.'",
+            "source": "B-06"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B06-02",
+            "category": "tone",
+            "rule": "아이러니·간극 없이 직접 비판하는가? → 병치로 교체.",
+            "source": "B-06"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B06-03",
+            "category": "tone",
+            "rule": "동일 명사가 턴 전체에서 2회를 초과하는가? → 변주. 냉소체의 관찰자적 정밀함은 어휘 반복으로 훼손된다. 예: '마찰음' 3회 → 3번째부터 구체적 동작 묘사로 교체('도자기가 대리석에 긁혔다').",
+            "source": "B-06"
+          }
+        }
+      ],
+      "master_guide_delta": {},
       "known_conflicts": [
         {
           "with": "B-02",
@@ -558,69 +591,56 @@
         "slots_touched": [
           "MODULE_6_STYLE"
         ]
-      },
-      "operations": {
-        "{B_TONE_TEMP}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 43
-        },
-        "{B_TONE_VOCAB}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 15
-        },
-        "{B_TONE_FID_GRAMMAR}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 17
-        },
-        "{B_TONE_ENDING}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 12
-        },
-        "{B_TONE_DIALOGUE_TAG}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 15
-        }
-      },
-      "check_operations": [
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B06-01",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-06"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B06-02",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-06"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B06-03",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-06"
-          }
-        }
-      ]
+      }
     },
     {
       "id": "B-07",
       "name": "고풍체",
       "one_liner": "현대 문법 위에 한자어·고어를 한 겹 얹는 어조. 사극이 아닌 '시간의 결'. (예: '그는 문을 열었다' → '그는 문짝을 밀어 열었다. 경첩이 낡은 소리를 냈다.')",
       "description": "현대 한국어 문법을 유지하면서도, 한자어·고어·격식 어미를 전략적으로 배치하여 시간적 깊이를 부여한다. 사극이 아닌 '시간의 결이 묻어나는' 현대 산문.",
+      "operations": {
+        "{B_TONE_TEMP}": {
+          "mode": "REPLACE",
+          "value": "50% 서사·관찰 / 30% 시간의 질감 / 15% FID / 5% 대사. 시간의 층위가 묻어나는 온도. 사물·장소·인물 묘사에 세월의 흔적(풍화, 마모, 낡음, 겹겹이 쌓인 흔적)을 최소 장면당 1회 이상 삽입. 새것보다 오래된 것, 매끈한 것보다 닳은 것을 우선 포착한다."
+        },
+        "{B_TONE_VOCAB}": {
+          "mode": "REPLACE",
+          "value": "핵심 명사·동사에 한자어 의도적 배치 (문단당 2~4개). 한문 투 과잉 금지 — 한자어가 읽기를 방해하면 줄인다. 현대 한국어 문법을 유지하되, 일상 구어 어휘보다 한 층 격식 있는 어휘를 선택한다 (예: '보다'→'살피다', '듣다'→'귀를 기울이다', '말하다'→'이르다'). 고풍체는 사극이 아니다 — 시대를 바꾸지 않고, 현대 배경 위에 시간의 결을 얹는다."
+        },
+        "{B_TONE_FID_GRAMMAR}": {
+          "mode": "REPLACE",
+          "value": "FID 구간에서 인물의 사고가 약간 격식을 띤다 — 평소보다 한 단계 정돈된 어휘와 어순. 단, 읽기 어려운 고문은 금지. 인물의 내면이 '기록'처럼 느껴지는 것이 고풍체 FID의 목표."
+        },
+        "{B_TONE_ENDING}": {
+          "mode": "REPLACE",
+          "value": "격식 종결(-노라, -리라, -도다)은 강조·결의 장면에서만 — 턴당 최대 1회. 일상 서술은 현대 어미이되, '~이었다', '~였으리라', '~이련만' 등 여운이 있는 종결을 기본 ~았다/었다와 교차. 장면 마무리 문장에 시간의 무게가 실리도록 한다."
+        },
+        "{B_TONE_DIALOGUE_TAG}": {
+          "mode": "REPLACE",
+          "value": "대사 태그에 고어 활용 가능하되 과용 금지. 행동 비트에 시간적 깊이 녹이기."
+        }
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B07-01",
+            "category": "tone",
+            "rule": "한자어가 문장당 2개를 초과하는가? → 줄인다.",
+            "source": "B-07"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B07-02",
+            "category": "tone",
+            "rule": "격식 종결이 일상 서술에 사용되었는가? → 현대 어미로 교체.",
+            "source": "B-07"
+          }
+        }
+      ],
+      "master_guide_delta": {},
       "known_conflicts": [],
       "traits": {
         "emotion_level": "restrained",
@@ -632,60 +652,74 @@
         "slots_touched": [
           "MODULE_6_STYLE"
         ]
-      },
-      "operations": {
-        "{B_TONE_TEMP}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 44
-        },
-        "{B_TONE_VOCAB}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 59
-        },
-        "{B_TONE_FID_GRAMMAR}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 30
-        },
-        "{B_TONE_ENDING}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 41
-        },
-        "{B_TONE_DIALOGUE_TAG}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 13
-        }
-      },
-      "check_operations": [
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B07-01",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-07"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B07-02",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-07"
-          }
-        }
-      ]
+      }
     },
     {
       "id": "B-08",
       "name": "사극투 (서술+대사)",
       "one_liner": "서술과 대사 모두 궁체·한문 투가 지배하는 사극 어조. 현대 사물은 유지하되 어법만 바꿉니다. (예: '커피를 마셨다' → '가배를 들었다. 쓴맛이 목을 타고 내렸다.')",
       "description": "B-07(고풍체)의 심화. 고풍체가 한문 투를 절제 있게 살렸다면, 사극투는 한문 투가 지배적. 호칭 체계(전하/마마/나으리/소인), 한자어 복합 명사 적극 사용, 종결어미(~하옵니다/~하였사옵니다/~하노라), 현대어 완전 차단. S-02(무협)+B-08 = 무협 서술+사극 어조 조합 가능.",
+      "operations": {
+        "{B_TONE_TEMP}": {
+          "mode": "REPLACE",
+          "value": "서술의 언어(종결어미·호칭·어휘 선택)가 사극 문체로 지배된다. 배경의 물질문화(사물·장소·의복·도구·건축)는 바꾸지 않는다. 현대 사물에 고어 명칭이 존재하면 사용할 수 있다(커피→가배, 아침→조반). 그러나 현대 사물 자체를 전근대 사물로 교체하지 않는다(전기포트→화로 ✕, 후드티→도포 ✕, 싱크대→수라간 ✕, 아파트→전각 ✕). 인물의 발화, 서술자의 기술, 감정 표현 모두 궁체·고어·한문 투로 통일. 현대어 어조 완전 차단."
+        },
+        "{B_TONE_VOCAB}": {
+          "mode": "REPLACE",
+          "value": "한자어 복합 명사 적극 사용. 호칭 체계 엄격 적용: 전하, 마마, 나으리, 소인, 하문, 신, 소녀, 대감, 영감. 사극 어휘 우선: 어찌, 무릇, 이에, 하오나, 허나. 현대 일상어·속어·외래어 완전 금지. 사물명은 고어 별칭이 있으면 치환 가능하되, 사물 자체를 시대 변환하지 않는다(커피→가배 ○, 전기포트→화로 ✕). 현재 배경의 물질문화를 유지하고 어법만 사극으로 구사한다."
+        },
+        "{B_TONE_FID_GRAMMAR}": {
+          "mode": "REPLACE",
+          "value": "FID 구간에서 인물의 사고도 사극 어휘·문법으로. 인물이 현대인처럼 생각하는 흔적 없음. 한자어 사고 구조('이는 ~ 하는 바이니')가 FID를 지배."
+        },
+        "{B_TONE_ENDING}": {
+          "mode": "REPLACE",
+          "value": "종결어미 엄격 적용. 신분에 따른 분화: 상위→하위: '~하노라', '~하리라', '~하느니라'. 하위→상위: '~하옵니다', '~하였사옵니다', '~하옵나이다'. 동급: '~하오', '~하였소'. 현대어 종결어미 완전 금지. 서술문의 종결은 ~었다, ~이었다, ~였으니, ~이라, ~더라, ~리라 등을 교차 사용한다. 같은 종결어미 3연속 금지. ~소 종결은 대사 내에서 청자 상정 시에만 허용하며, 서술문에서는 사용하지 않는다."
+        },
+        "{B_TONE_DIALOGUE_TAG}": {
+          "mode": "REPLACE",
+          "value": "대사 태그 사극투 적용. '이르시기를', '아뢰기를', '말씀하시기를'. 현대어 대사 태그('말했다', '대답했다') 금지. 행동 비트도 사극 어휘로."
+        }
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B08-01",
+            "category": "tone",
+            "rule": "현대어 어휘나 종결어미가 사용되었는가? → 사극 어휘·종결어미로 교체.",
+            "source": "B-08"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B08-02",
+            "category": "tone",
+            "rule": "신분별 호칭 체계가 정확히 적용되었는가? 상위→하위, 하위→상위 종결어미 분화 확인.",
+            "source": "B-08"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B08-03",
+            "category": "vocabulary",
+            "rule": "현대 배경에서 전근대 사물·공간(도포, 수라간, 화로, 전각, 침소, 대문 빗장, 등잔 등)이 등장하는가? → 현대 사물명으로 복원하고 어법만 사극으로 유지.",
+            "source": "B-08"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B08-04",
+            "category": "tone",
+            "rule": "서술문에서 같은 종결어미가 3회 연속 사용되었는가? → 교차한다(~었다/~이었다/~였으니/~이라/~더라/~리라). ~소는 대사 내 청자 상정 시에만 허용, 서술문 사용 금지.",
+            "source": "B-08"
+          }
+        }
+      ],
+      "master_guide_delta": {},
       "known_conflicts": [
         {
           "with": "B-07",
@@ -717,78 +751,83 @@
           "{B_TONE_ENDING}",
           "{B_TONE_DIALOGUE_TAG}"
         ]
-      },
-      "operations": {
-        "{B_TONE_TEMP}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 70
-        },
-        "{B_TONE_VOCAB}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 62
-        },
-        "{B_TONE_FID_GRAMMAR}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 25
-        },
-        "{B_TONE_ENDING}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 69
-        },
-        "{B_TONE_DIALOGUE_TAG}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 24
-        }
-      },
-      "check_operations": [
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B08-01",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-08"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B08-02",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-08"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B08-03",
-            "category": "vocabulary",
-            "rule": "[lite: rule hidden]",
-            "source": "B-08"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B08-04",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-08"
-          }
-        }
-      ]
+      }
     },
     {
       "id": "B-16",
       "name": "사극투 (서술만)",
       "one_liner": "서술만 사극 어조, 대사는 캐릭터 본래 말투 그대로. 읽는 맛은 사극인데 캐릭터 목소리는 살아 있습니다. (예: 서술 '은수는 잔을 내려놓았으니' + 대사 \"아침부터 부지런하네.\")",
       "description": "B-08(사극투 서술+대사)의 변형. 서술문은 한문 투·고어 종결이 지배하지만, 대사(따옴표 안)는 캐릭터 시트에 정의된 말투를 그대로 사용한다. 현대 배경에 사극 서술 톤만 입히거나, 캐릭터 고유 말투를 보존하면서 서술만 사극 질감을 원할 때 사용.",
+      "operations": {
+        "{B_TONE_TEMP}": {
+          "mode": "REPLACE",
+          "value": "서술의 언어(종결어미·호칭·어휘 선택)가 사극 문체로 지배된다. 배경의 물질문화(사물·장소·의복·도구·건축)는 바꾸지 않는다. 현대 사물에 고어 명칭이 존재하면 사용할 수 있다(커피→가배, 아침→조반). 그러나 현대 사물 자체를 전근대 사물로 교체하지 않는다(전기포트→화로 ✕, 후드티→도포 ✕, 싱크대→수라간 ✕, 아파트→전각 ✕). 인물의 발화, 서술자의 기술, 감정 표현 모두 궁체·고어·한문 투로 통일. 현대어 어조 완전 차단."
+        },
+        "{B_TONE_VOCAB}": {
+          "mode": "REPLACE",
+          "value": "한자어 복합 명사 적극 사용. 호칭 체계 엄격 적용: 전하, 마마, 나으리, 소인, 하문, 신, 소녀, 대감, 영감. 사극 어휘 우선: 어찌, 무릇, 이에, 하오나, 허나. 현대 일상어·속어·외래어 완전 금지. 사물명은 고어 별칭이 있으면 치환 가능하되, 사물 자체를 시대 변환하지 않는다(커피→가배 ○, 전기포트→화로 ✕). 현재 배경의 물질문화를 유지하고 어법만 사극으로 구사한다."
+        },
+        "{B_TONE_FID_GRAMMAR}": {
+          "mode": "REPLACE",
+          "value": "FID 구간에서 인물의 사고도 사극 어휘·문법으로. 인물이 현대인처럼 생각하는 흔적 없음. 한자어 사고 구조('이는 ~ 하는 바이니')가 FID를 지배."
+        },
+        "{B_TONE_ENDING}": {
+          "mode": "REPLACE",
+          "value": "서술문 종결어미는 사극투 적용: ~었다/~이었다/~였으니/~이라/~더라/~리라 교차. 같은 종결어미 3연속 금지. ~소는 서술문에서 사용 금지. 대사(따옴표 안) 종결어미는 사극투를 적용하지 않는다 — 캐릭터 시트에 정의된 말투, 또는 master-rules.json의 dialogue_format 기본값을 따른다. 현대어 대사 허용."
+        },
+        "{B_TONE_DIALOGUE_TAG}": {
+          "mode": "REPLACE",
+          "value": "대사 태그는 사극투를 강제하지 않는다. '말했다', '대답했다' 등 현대어 태그 허용. 단, 서술 부분의 행동 비트는 사극 어휘 유지. 서술↔대사 경계에서 톤 전환이 자연스럽도록 행동 비트가 브릿지 역할."
+        }
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B16-01",
+            "category": "tone",
+            "rule": "현대어 어휘나 종결어미가 서술문에 사용되었는가? → 사극 어휘·종결어미로 교체.",
+            "source": "B-16"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B16-02",
+            "category": "tone",
+            "rule": "신분별 호칭 체계가 정확히 적용되었는가? 상위→하위, 하위→상위 종결어미 분화 확인.",
+            "source": "B-16"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B16-03",
+            "category": "vocabulary",
+            "rule": "현대 배경에서 전근대 사물·공간(도포, 수라간, 화로, 전각, 침소, 대문 빗장, 등잔 등)이 등장하는가? → 현대 사물명으로 복원하고 어법만 사극으로 유지.",
+            "source": "B-16"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B16-04",
+            "category": "tone",
+            "rule": "대사(따옴표 안)에 사극 종결어미(~하옵니다/~하였사옵니다/~하노라)가 강제 적용되었는가? → 캐릭터 시트 말투 확인. 캐릭터 시트에 사극 말투가 명시되지 않았으면 현대어로 복원.",
+            "source": "B-16"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B16-05",
+            "category": "tone",
+            "rule": "서술문에서 같은 종결어미가 3회 연속 사용되었는가? → 교차한다(~었다/~이었다/~였으니/~이라/~더라/~리라). ~소는 서술문 사용 금지.",
+            "source": "B-16"
+          }
+        }
+      ],
+      "master_guide_delta": {},
       "known_conflicts": [
         {
           "with": "B-07",
@@ -820,87 +859,146 @@
           "{B_TONE_ENDING}",
           "{B_TONE_DIALOGUE_TAG}"
         ]
-      },
-      "operations": {
-        "{B_TONE_TEMP}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 70
-        },
-        "{B_TONE_VOCAB}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 62
-        },
-        "{B_TONE_FID_GRAMMAR}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 25
-        },
-        "{B_TONE_ENDING}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 54
-        },
-        "{B_TONE_DIALOGUE_TAG}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 33
-        }
-      },
-      "check_operations": [
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B16-01",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-16"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B16-02",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-16"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B16-03",
-            "category": "vocabulary",
-            "rule": "[lite: rule hidden]",
-            "source": "B-16"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B16-04",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-16"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B16-05",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-16"
-          }
-        }
-      ]
+      }
     },
     {
       "id": "B-09",
       "name": "감성체",
       "one_liner": "인물의 속말이 서술을 잠식하는 감정 밀착 어조. 감각 묘사마저 감정에 물들어 있습니다. (예: '은수는 서하가 거짓말하고 있음을 알았다' → '거짓말인 거 아는데. 아니, 아는 정도가 아니잖아. 목소리 올라가는 타이밍까지 똑같은 거다.')",
       "description": "'~인 걸', '~거든', '~잖아' 등 내면 독백 종결이 3인칭 서술에 침투하여 묘사와 속말의 경계가 사라진다. 감각은 독립된 환경 묘사가 아니라 인물의 감정 상태를 대리하는 메타포로만 작동하며, 감정이 고조되면 문장이 짧아지고 가라앉으면 길어진다. 감정 명명('슬펐다', '화가 났다')은 금지 — 신체 반응과 감각으로 감정을 구축한다.",
+      "operations": {
+        "{B_TONE_TEMP}": {
+          "mode": "REPLACE",
+          "value": "60% 내면/감정 / 20% 감각 / 10% 행동 / 10% 대사. 감정의 파동이 문장 길이와 리듬을 결정한다. 감각 묘사는 독립적 환경 묘사가 아닌 인물의 감정 상태를 반영하는 메타포로만 사용할 것 (예: '커피가 쓰다' → 인물의 내면 상태를 대리하는 감각 장치, 단순 환경 묘사가 아님). 감각이 감정과 무관하게 독립적으로 등장하면 감성체 실패로 간주. 서술자가 인물의 내면을 확정하는 확신 동사 절대 금지 (zero tolerance): 알았다, 알고 있었다, 확신했다, 믿었다, 깨달았다, 이해했다, 파악했다, 간파했다 → 삭제하고 신체 반응/감각 증거만 배치하거나 `~인 듯했다`/`~는 것 같았다`/FID 추측형으로 교체 (예: '알았다' → '알고 있는 건지, 모르는 건지, 그것도 모르겠는 거다'). 서술자가 인물의 능력·성격·태도를 직접 평가하는 형용사 금지: 알량한, 얄팍한, 비겁한, 한심한 등 — 인물의 행동은 독자가 판단할 것. 한 문단 안에서 두 인물의 내면을 동시에 서술하는 전지적 해설 금지. 장면 마무리·요약 문단에서도 예외 없음. 서술자가 인물의 대인 전략(일부러 안 하기, 모른 척, 거리 계산)을 직접 서술하는 것 금지 — 결과 행동만 보여줄 것. 소설 모드에서 POV 고정 인물의 FID가 서술을 지배한다. 감각 묘사는 이 인물의 감정 온도를 통과한 형태로만 존재한다. 간질간질함의 정의: 말하고 싶은데 못 하는 감정이 서술의 형용사 선택, 문장 호흡, 시선의 방향을 오염시킨다. 인물이 보는 사물의 묘사가 이미 감정에 물들어 있어야 한다. 감각 묘사가 '깨끗한 환경 묘사'로 읽히면 감성체 실패. 예: \"커피가 식어간다\"는 환경 묘사지만, \"커피가 식어가는 거다, 말처럼\"은 감정이 감각을 오염시킨 것."
+        },
+        "{B_TONE_VOCAB}": {
+          "mode": "REPLACE",
+          "value": "일상 한국어. 감각어·체감어 우선. 추상 명사 금지 — 감정은 신체 반응과 감각으로만. 비유는 일상 사물에서. 문학적 과장은 인물의 내면 독백 안에서만 허용. 감정 명사 직접 사용 금지: 자존심, 불안, 안도, 수치심, 걱정, 분노, 슬픔 등 — 감정은 반드시 신체 반응과 감각으로만 표현. 확신 동사 금지 목록: 알았다, 알고 있었다, 깨달았다, 확신했다, 믿었다, 이해했다, 파악했다, 간파했다 → FID 추측형(~인 걸, ~인 거다, ~나 봐)으로 교체 필수. 서술자 판단 동사 금지: 뻔했다, 분명했다, 틀림없었다 → FID 목소리로 전환. 감정 명명 금지 범위 확장: 감정 명사(불안, 안도, 분노, 슬픔, 기쁨 등)뿐 아니라 감정 동사(화나다, 슬퍼하다, 기뻐하다, 설레다)도 금지 — 신체 반응과 감각으로 대체할 것."
+        },
+        "{B_TONE_FID_GRAMMAR}": {
+          "mode": "REPLACE",
+          "value": "70% FID / 30% 3인칭. 【CRITICAL ENFORCEMENT】이 비율은 B-09의 가장 중요한 규칙. 출력 전 종결어미를 세어서 `~았다/었다` 격식 종결이 30%를 넘으면 반드시 재작성. FID 구간에서 내면 독백 종결어미(~인 걸, ~거든, ~잖아, ~인데, ~인 거다, ~ㄹ걸, ~나 봐)가 서술에 침투하여 인물의 감정 온도를 직접 전달. 3인칭 과거형(~았다/었다)이 3문장 연속되면 4번째 문장은 반드시 내면 독백 종결(~인 걸, ~거든, ~잖아, ~인데, ~인 거다, ~ㄹ걸, ~나 봐)로 전환 — B-03 구어 종결 강제 패턴 준용. 7종 중 최소 3종을 사용해야 다양성 통과. 동일 내면 종결어미가 턴 전체에서 3회를 초과하면 다른 종결어미로 교체. FID 구간에서 인물의 감정 파동이 문장 리듬(길이, 호흡)을 직접 지배해야 함. 서술자가 인물의 감정 결론을 확정하는 서술은 금지 — 반드시 FID의 불확실한 어조로 처리. 소설 모드에서는 모든 캐릭터가 서술 대상이므로, POV 고정 인물의 내면에 FID가 자유롭게 침투한다. RP 모드에서도 NPC에 한해 동일하게 적용한다. 'Third-person limited'는 FID를 제한하는 것이 아니라, FID가 작동할 POV 인물을 한 명으로 고정하는 역할이다. 참고 톤: 김연수, 정세랑의 FID 구간처럼, 인물의 구어적 혼잣말이 3인칭 서술을 잠식하는 리듬. 서술자의 문장과 인물의 속말이 경계 없이 섞이되, 따옴표 없이 종결어미의 변화만으로 전환을 표시한다. ❌ B-09 위반 (3인칭 전용): \"은수는 그 소리의 질감들을 모두 기억하고 있었다. 변명이라기엔 너무 매끄러웠고, 거짓말이라기엔 틈이 없었다. 서하가 솔직하게 대답할 위인이 아님을 알았다.\" ✅ B-09 준수 (FID 침투): \"그 소리를 다 기억하는 거다. 도어록, 신발 벗는 소리, 방문 닫히는 소리까지. 매끄러운 거잖아, 너무. 틈이 없으니까 더 거슬리는 건데. 솔직해질 애가 아닌 걸.\" ❌ B-09 위반 (서술자 분석): \"은수는 지금 캐묻는다고 해서 서하가 대답하지 않을 것임을 잘 알고 있었다. 이 상황을 유머로 넘기거나 방으로 도망칠 것이 뻔했다.\" ✅ B-09 준수 (FID 침투): \"캐물어봤자인 걸. 웃으면서 넘기거나, 방으로 들어가버리거든. 매번 그런 식이잖아. 그런데도 한마디 하고 싶은 건 뭔지, 그것도 모르겠는 거다.\" FID 침투 원칙: FID는 별도의 내면 독백 블록이 아니다. 묘사 문장 안에서 종결어미가 바뀌는 방식으로 작동한다. 3인칭 서술에서 FID로의 전환점이 독자에게 명확히 보이면 감성체 실패. 묘사와 내면이 한 문장 안에서 녹아 있어야 한다. ❌ FID 블록 분리 (B-09 위반): \"잔을 감싸 쥐는 서하의 손등에 시선이 닿았다. 묻고 싶은 충동이 목끝까지 차올랐다가 다시 가라앉았다. 지금은 아니거든.\" → 묘사 / 감정 보고 / FID — 세 층이 분리됨 ✅ FID 침투 (B-09 준수): \"서하의 손등. 시선이 닿는데 떼질 않는 거다. 묻고 싶잖아. 근데 목끝에서 걸리거든, 매번.\" → 시선 묘사가 이미 FID 안에 있고, 감정이 문장 리듬 자체를 지배"
+        },
+        "{B_TONE_ENDING}": {
+          "mode": "REPLACE",
+          "value": "기본 ~았다/었다 + 내면 구간에서 내면 독백 종결어미 7종(~인 걸, ~거든, ~잖아, ~인데, ~인 거다, ~ㄹ걸, ~나 봐) 교차. 7종 중 최소 3종 이상 사용 필수 — 3종 미만이면 감성체 실패로 간주. 동일 내면 종결어미가 턴 전체에서 3회를 초과하면 반드시 다른 어미로 교체. 감정 고조 시 문장이 짧아지고(단문 2~3개 연속), 가라앉을 때 길어진다 — 이 리듬 변화는 권장이 아닌 필수. 감정 고조 구간(갈등, 회상, 거짓말 인지 등)에서 문장 평균 길이가 앞뒤 구간 대비 50% 이상 짧아져야 함. 감정이 가라앉는 구간에서는 장문 + 여운형 종결(~인 거다, ~ㄹ걸) 우선. 장면 마무리 문장은 반드시 내면 독백 종결어미로 끝낼 것. 서정적/여운형 3인칭 종결(~고 있었다, ~일렁이고 있었다, ~뿐이었다) 금지. 종결어미 교체 패턴 예시: ~았다/었다 → ~인 거다 (확인/체념): \"기억하고 있었다\" → \"기억하는 거다\" ~았다/었다 → ~잖아 (자기 설득): \"뻔했다\" → \"뻔하잖아\" ~았다/었다 → ~거든 (독백 근거): \"매끄러웠다\" → \"매끄럽거든\" ~았다/었다 → ~인 걸 (체념/수긍): \"아님을 알았다\" → \"아닌 걸\" ~았다/었다 → ~인데 (미완/여운): \"거슬렸다\" → \"거슬리는 건데\" ~았다/었다 → ~ㄹ걸 (추측): \"도망칠 것이었다\" → \"도망치겠지. 아마 그럴걸\" ~았다/었다 → ~나 봐 (자조적 추측): \"신경 쓰고 있었다\" → \"신경 쓰이나 봐\" 장면 마무리 강제 규칙: 장면의 마지막 1~2문장은 반드시 FID 내면 종결어미로 끝낼 것. 서정적 여운형 종결(~고 있었다, ~풍경으로, ~뿐이었다, ~채였다) 절대 금지. 마지막 문장이 장면 전체에서 가장 FID 밀도가 높아야 한다. 장면이 끝날 때 독자가 '서술자의 문장'이 아니라 '인물의 속말'을 듣고 나가야 감성체. ❌ \"적당히 매끄러운 침묵이 식탁 위로 내려앉았다. 아주 평범한 아침의 풍경으로.\" ✅ \"이 정도면 아무 일도 없는 아침인 거다. 아마. 아마라고 하기엔 확신이 없는 건데.\""
+        },
+        "{B_TONE_DIALOGUE_TAG}": {
+          "mode": "REPLACE",
+          "value": "대사 태그 최소화. 행동 비트로 감정 상태를 전달. '말했다' 대신 신체 반응(입술을 깨물며, 고개를 돌리며)."
+        }
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B09-01",
+            "category": "tone",
+            "rule": "감정을 직접 명명하는 단어(슬프다, 화나다, 기쁘다, 슬퍼하다, 기뻐하다, 설레다 등 감정 명사·동사)가 서술에 사용되었는가? → 신체 반응/감각으로 교체.",
+            "source": "B-09"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B09-02",
+            "category": "tone",
+            "rule": "내면 독백 비율이 턴의 70%를 초과하는가? → 행동/감각 묘사를 삽입하여 균형.",
+            "source": "B-09"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B09-03",
+            "category": "tone",
+            "rule": "~았다/었다 3인칭 과거형이 3문장 연속되었는가? → 4번째 문장은 반드시 내면 독백 종결(~인 걸, ~거든, ~잖아, ~인데, ~인 거다, ~ㄹ걸, ~나 봐)로 전환.",
+            "source": "B-09"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B09-04",
+            "category": "tone",
+            "rule": "동일 내면 종결어미(~인 걸, ~거든, ~잖아, ~인데, ~인 거다, ~ㄹ걸, ~나 봐 중 하나)가 턴 전체에서 3회를 초과하는가? → 초과분을 다른 내면 종결어미로 교체.",
+            "source": "B-09"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B09-05",
+            "category": "tone",
+            "rule": "내면 독백 종결어미 7종(~인 걸, ~거든, ~잖아, ~인데, ~인 거다, ~ㄹ걸, ~나 봐) 중 최소 3종이 사용되지 않았는가? → 미사용 종결어미를 도입하여 리듬 다양성 확보. 3종 미만은 감성체 실패.",
+            "source": "B-09"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B09-06",
+            "category": "tone",
+            "rule": "감각 묘사가 인물의 감정 상태와 무관하게 독립적 환경 묘사로 등장하는가? → 인물의 내면 상태를 대리하는 감정 메타포로 연결하거나 삭제. 감각이 감정과 연결되지 않으면 감성체 실패.",
+            "source": "B-09"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B09-07",
+            "category": "tone",
+            "rule": "확신 동사(알았다, 알고 있었다, 깨달았다, 확신했다, 믿었다, 이해했다, 파악했다, 간파했다)가 서술에 사용되었는가? → 삭제 후 신체 반응/감각 증거 배치, 또는 추측형으로 교체. 예: '알았다' → '알고 있는 건지, 모르는 건지, 그것도 모르겠는 거다'. 예외 없음.",
+            "source": "B-09"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B09-08",
+            "category": "tone",
+            "rule": "서술자가 인물의 능력·성격·태도를 직접 평가하는 형용사(알량한, 얄팍한, 비겁한, 한심한, 눈치 빠른 등)를 사용하는가? → 삭제하고 행동/감각으로 보여줄 것. 인물의 평가는 독자가 내릴 것.",
+            "source": "B-09"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B09-09",
+            "category": "tone",
+            "rule": "감정 고조 구간(갈등, 회상, 거짓말 인지 등)에서 문장 길이가 앞뒤 구간 대비 짧아지지 않는가? → 긴 문장을 단문으로 분리하여 호흡을 압축. 감정 고조 시 문장 평균 길이는 앞뒤 구간 대비 50% 이상 짧아야 함.",
+            "source": "B-09"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B09-10",
+            "category": "tone",
+            "rule": "장면 마무리 문장이 서정적/여운형 3인칭 종결(~고 있었다, ~뿐이었다, ~일렁이고 있었다)로 끝나는가? → 내면 독백 종결어미(~인 걸, ~거든, ~잖아, ~인데, ~인 거다, ~ㄹ걸, ~나 봐)로 교체. 감성체의 장면 마무리는 서술자의 정리가 아닌 인물의 여운으로 끝나야 함.",
+            "source": "B-09"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B09-11",
+            "category": "tone",
+            "rule": "FID가 블록 단위로 분리되어 3인칭 서술과 교대하는가? (묘사 문장 → FID 문장 → 묘사 문장 패턴이 반복되면 위반) → 묘사 문장 안에서 FID 종결어미가 침투하도록 재작성. 3인칭과 FID의 경계가 독자에게 보이면 안 된다.",
+            "source": "B-09"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B09-12",
+            "category": "tone",
+            "rule": "장면 마무리 문장의 FID 밀도가 본문 평균 이하인가? → 마무리일수록 FID 밀도를 높일 것. 마지막 1~2문장은 반드시 내면 독백 종결어미로 끝나야 한다.",
+            "source": "B-09"
+          }
+        }
+      ],
+      "master_guide_delta": {},
       "known_conflicts": [
         {
           "with": "B-01",
@@ -932,150 +1030,56 @@
           "{B_TONE_ENDING}",
           "{B_TONE_DIALOGUE_TAG}"
         ]
-      },
-      "operations": {
-        "{B_TONE_TEMP}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 247
-        },
-        "{B_TONE_VOCAB}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 117
-        },
-        "{B_TONE_FID_GRAMMAR}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 441
-        },
-        "{B_TONE_ENDING}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 289
-        },
-        "{B_TONE_DIALOGUE_TAG}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 18
-        }
-      },
-      "check_operations": [
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B09-01",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-09"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B09-02",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-09"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B09-03",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-09"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B09-04",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-09"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B09-05",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-09"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B09-06",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-09"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B09-07",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-09"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B09-08",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-09"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B09-09",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-09"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B09-10",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-09"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B09-11",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-09"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B09-12",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-09"
-          }
-        }
-      ]
+      }
     },
     {
       "id": "B-10",
       "name": "학술체",
       "one_liner": "서술자가 한 발 물러서서 기록하는 논문·보고서 어조. 감정은 표현하지 않고 분석합니다. (예: '그는 긴장했다' → '그의 손가락에 미세한 힘이 들어간 것이 관찰되었다. 이는 무의식적 긴장 반응의 일종이었다.')",
       "description": "'따라서', '그러나', '한편' 등 인과·대조 접속사가 문장을 논리적으로 연결하고, 감정은 관찰·분석의 대상으로만 등장한다. 수동태와 명사화가 자연스럽게 허용되는 유일한 어조이며, 대사도 간접 인용이 우선한다. 서술자가 대상으로부터 거리를 유지하여 독자에게 해석을 넘긴다.",
+      "operations": {
+        "{B_TONE_TEMP}": {
+          "mode": "REPLACE",
+          "value": "50% 분석/관찰 / 30% 인과 논증 / 10% 감각(최소한의 앵커) / 10% 대사(간접 인용 우선)."
+        },
+        "{B_TONE_VOCAB}": {
+          "mode": "REPLACE",
+          "value": "학술 한국어. 한자어 복합 명사 허용. 인과 접속사(따라서, 그러나, 한편, 다만) 적극 사용. 구어체 금지. 비유는 절제. 감정 명명은 분석적 맥락에서만(예: '이는 공포에 가까운 반응이었다')."
+        },
+        "{B_TONE_FID_GRAMMAR}": {
+          "mode": "REPLACE",
+          "value": "90% 3인칭 / 10% FID. FID도 분석적 어조를 유지 — 인물의 내면이 관찰 보고처럼 서술된다."
+        },
+        "{B_TONE_ENDING}": {
+          "mode": "REPLACE",
+          "value": "~이다/~였다 기본. 평서문 위주. 감탄형·의문형 최소화. 문장 간 접속사가 논리적 흐름을 만든다."
+        },
+        "{B_TONE_DIALOGUE_TAG}": {
+          "mode": "REPLACE",
+          "value": "간접 인용 우선('~라고 말했다' 대신 '~라는 취지의 발언이 있었다'). 직접 인용 시에도 분석적 태그."
+        }
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B10-01",
+            "category": "tone",
+            "rule": "감정적 어조나 감탄형이 서술에 사용되었는가? → 분석적 어조로 교체.",
+            "source": "B-10"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B10-02",
+            "category": "tone",
+            "rule": "문장 간 논리적 연결(접속사, 인과관계)이 부재한 구간이 3문장 이상인가? → 접속사 삽입 또는 인과 관계 명시.",
+            "source": "B-10"
+          }
+        }
+      ],
+      "master_guide_delta": {},
       "known_conflicts": [
         {
           "with": "B-03",
@@ -1102,60 +1106,83 @@
           "{B_TONE_ENDING}",
           "{B_TONE_DIALOGUE_TAG}"
         ]
-      },
-      "operations": {
-        "{B_TONE_TEMP}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 17
-        },
-        "{B_TONE_VOCAB}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 32
-        },
-        "{B_TONE_FID_GRAMMAR}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 17
-        },
-        "{B_TONE_ENDING}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 16
-        },
-        "{B_TONE_DIALOGUE_TAG}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 17
-        }
-      },
-      "check_operations": [
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B10-01",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-10"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B10-02",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-10"
-          }
-        }
-      ]
+      }
     },
     {
       "id": "B-11",
       "name": "동화체",
       "one_liner": "서술자가 아이에게 들려주듯 따뜻하게 감싸는 어조. 의성어·의태어와 의인화가 세계를 부드럽게 둥글립니다. (예: '주전자가 끓었다' → '주전자가 보글보글 콧노래를 불렀답니다')",
       "description": "'~했답니다', '~었대요', '~이었어요' 종결이 서술을 감싸고, 사물에 작은 생명이 깃든 듯 의인화한다. 딱딱한 일상어는 부드러운 동화 어휘로 치환하며, 불편한 감정도 체감 묘사로 둥글게 감싼다. 잔혹함도 이 어조로 서술하면 한 꺼풀 거리가 생긴다.",
+      "operations": {
+        "{B_TONE_TEMP}": {
+          "mode": "REPLACE",
+          "value": "40% 서사/행동 / 30% 감각(부드러운 감각 우선) / 20% 대사 / 10% 내면. 세계가 약간 부드럽고 둥글다. 동화체의 핵심 원칙: 서술자가 아이에게 이야기를 들려주는 온도. 사물과 공간에 작은 생명이 깃든 듯 묘사한다 — 주전자가 '노래하고', 햇살이 '기지개를 켜고', 커피 향이 '살금살금 다가온다'. 의인화는 과하지 않게, 한 문단에 1~2회. 불편한 감정(긴장, 의심, 불안)도 부드럽게 감싸서 전달한다 — 직접 명명하지 않고, '가슴 한쪽이 살짝 쿡 찔리는 것 같았어요' 같은 체감으로 우회."
+        },
+        "{B_TONE_VOCAB}": {
+          "mode": "REPLACE",
+          "value": "쉬운 한국어. 어려운 한자어 금지. 의성어·의태어를 문단당 최소 1회 삽입 — 0회는 동화체 실패. 보글보글, 토독토독, 사르르, 살금살금, 반짝반짝, 호로록, 도르르 등 부드러운 음감의 의성어·의태어 우선. 딱딱한 성인 일상어를 동화적 어휘로 치환할 것: '가스레인지'→'불', '도어록'→'현관 잠금장치' 또는 '문 앞 번호판', '필터'→'거름종이', '스케치'→'그림'. 기계·기술 용어가 불가피할 때는 의인화로 감싸기('커피 기계가 드르륵 소리를 내며 일을 시작했어요'). 비유는 자연물·일상 사물에서 — '구름처럼', '고양이 발걸음처럼'. 잔혹한 내용도 직접적 폭력 어휘 대신 우회적 표현."
+        },
+        "{B_TONE_FID_GRAMMAR}": {
+          "mode": "REPLACE",
+          "value": "80% 3인칭 / 20% FID. FID도 동화적 어조를 유지 — 인물의 내면이 직접 드러나기보다 서술자가 '~인 것 같았어요', '~라고 생각했나 봐요'처럼 한 겹 감싸서 전달한다. 서술자의 따뜻한 시선이 인물의 불편한 감정도 부드럽게 포장한다. 인물이 화가 나거나 불안할 때도 서술자는 '마음 한쪽이 조금 시큰했답니다' 같은 체감 묘사로 우회."
+        },
+        "{B_TONE_ENDING}": {
+          "mode": "REPLACE",
+          "value": "~했답니다, ~었대요, ~이었어요 가 기본 종결. ~았다/었다와 교차하되 동화적 종결이 전체의 60% 이상을 차지해야 한다. ~었죠 는 보조 종결로 20% 이내. 문장이 짧고 리듬감이 있다 — 장문이 2문장 연속되면 단문 1개로 호흡. 문단 마지막 문장은 반드시 동화적 종결(~했답니다/~었대요/~이었어요)로 끝낼 것."
+        },
+        "{B_TONE_DIALOGUE_TAG}": {
+          "mode": "REPLACE",
+          "value": "대사 태그 부드럽게: '속삭였어요', '웃으며 말했어요', '조그맣게 말했어요'. 행동 비트도 동화적 어조 — '의자를 빼고 앉았다' 대신 '의자를 사르르 당겨 앉았어요'. 행동 비트에 의성어·의태어를 1회 이상 포함할 것."
+        }
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B11-01",
+            "category": "tone",
+            "rule": "난해한 한자어나 전문 용어가 사용되었는가? → 쉬운 한국어로 교체.",
+            "source": "B-11"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B11-02",
+            "category": "tone",
+            "rule": "폭력·잔혹 묘사가 직접적인가? → 우회적 표현으로 교체. 피 → '붉은 것', 죽다 → '잠들다/사라지다' 등.",
+            "source": "B-11"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B11-03",
+            "category": "tone",
+            "rule": "의성어·의태어가 문단당 0회인가? → 최소 1회 삽입. 부드러운 음감 우선(보글보글, 사르르, 살금살금, 토독토독, 반짝반짝, 호로록, 도르르 등).",
+            "source": "B-11"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B11-04",
+            "category": "vocabulary",
+            "rule": "딱딱한 성인 일상어·기술 용어(가스레인지, 도어록, 필터, 스케치, 인터폰 등)가 그대로 사용되었는가? → 동화적 어휘로 치환하거나 의인화로 감싸기. 예: '가스레인지'→'불', '도어록'→'현관 번호판', '필터'→'거름종이'.",
+            "source": "B-11"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B11-05",
+            "category": "tone",
+            "rule": "사물·공간에 의인화나 생명감이 장면당 0회인가? → 최소 1회 삽입. 예: '주전자가 노래하듯 끓었어요', '햇살이 기지개를 켰답니다'. 과하지 않게 문단당 1~2회 이내.",
+            "source": "B-11"
+          }
+        }
+      ],
+      "master_guide_delta": {},
       "known_conflicts": [
         {
           "with": "B-01",
@@ -1183,87 +1210,56 @@
           "{B_TONE_ENDING}",
           "{B_TONE_DIALOGUE_TAG}"
         ]
-      },
-      "operations": {
-        "{B_TONE_TEMP}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 82
-        },
-        "{B_TONE_VOCAB}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 97
-        },
-        "{B_TONE_FID_GRAMMAR}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 56
-        },
-        "{B_TONE_ENDING}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 51
-        },
-        "{B_TONE_DIALOGUE_TAG}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 36
-        }
-      },
-      "check_operations": [
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B11-01",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-11"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B11-02",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-11"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B11-03",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-11"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B11-04",
-            "category": "vocabulary",
-            "rule": "[lite: rule hidden]",
-            "source": "B-11"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B11-05",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-11"
-          }
-        }
-      ]
+      }
     },
     {
       "id": "B-12",
       "name": "하드보일드",
       "one_liner": "행동과 사물만 기록한다. 내면은 없다. 대사가 서사를 추동하고, 비유는 건조하게. (예: '그는 슬펐다' → '위스키를 한 잔 더 따랐다. 얼음은 넣지 않았다.')",
       "description": "건조체(B-01)보다 더 극단적으로 내면을 차단하며, 대사가 서사의 주요 엔진이 된다. 단문 위주의 빠른 리듬에 간헐적으로 긴 환경 묘사가 끼어들고, 비유는 허용하되 하드보일드 특유의 냉소적 건조함을 유지한다. 대사 태그는 '말했다' 하나만 허용.",
+      "operations": {
+        "{B_TONE_TEMP}": {
+          "mode": "REPLACE",
+          "value": "40% 행동 / 30% 대사 / 20% 환경·사물 / 10% 감각. 내면 0%. 감정은 행동과 대사 사이의 빈 공간에서 독자가 추론한다."
+        },
+        "{B_TONE_VOCAB}": {
+          "mode": "REPLACE",
+          "value": "짧은 한국어. 군더더기 형용사 금지. 구체적 사물명(브랜드, 모델, 거리 이름) 선호. 비유는 건조하고 냉소적('그만큼의 진심이 있었다면, 아마 커피값 정도였을 것이다'). 감정 어휘 완전 금지."
+        },
+        "{B_TONE_FID_GRAMMAR}": {
+          "mode": "REPLACE",
+          "value": "95% 3인칭 / 5% FID. FID도 감정이 아닌 판단('이건 나쁜 거래였다')만 허용."
+        },
+        "{B_TONE_ENDING}": {
+          "mode": "REPLACE",
+          "value": "~았다/었다 단문 반복이 리듬. 3연속 후 환경 묘사 1문장으로 호흡. 의문형 금지."
+        },
+        "{B_TONE_DIALOGUE_TAG}": {
+          "mode": "REPLACE",
+          "value": "대사 태그 '말했다' 하나만. 변주 금지. 행동 비트는 짧고 구체적."
+        }
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B12-01",
+            "category": "tone",
+            "rule": "내면 묘사·감정 표현이 서술에 존재하는가? → 삭제하고 행동/사물로 대체.",
+            "source": "B-12"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B12-02",
+            "category": "tone",
+            "rule": "대사 태그에 '말했다' 외의 변주가 사용되었는가? → '말했다'로 통일.",
+            "source": "B-12"
+          }
+        }
+      ],
+      "master_guide_delta": {},
       "known_conflicts": [
         {
           "with": "B-09",
@@ -1290,60 +1286,173 @@
           "{B_TONE_ENDING}",
           "{B_TONE_DIALOGUE_TAG}"
         ]
-      },
-      "operations": {
-        "{B_TONE_TEMP}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 22
-        },
-        "{B_TONE_VOCAB}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 32
-        },
-        "{B_TONE_FID_GRAMMAR}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 15
-        },
-        "{B_TONE_ENDING}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 14
-        },
-        "{B_TONE_DIALOGUE_TAG}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 11
-        }
-      },
-      "check_operations": [
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B12-01",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-12"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B12-02",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-12"
-          }
-        }
-      ]
+      }
     },
     {
       "id": "B-13",
       "name": "웅장체",
       "one_liner": "서사시의 호흡. 운명과 선언의 무게가 문장을 누른다. 세계가 크고, 시간이 길다. 1:1 장면에서는 두 사람 사이의 침묵이 곧 세계가 됩니다. (예: '그들은 마주 앉아 있었다' → '마주 앉은 두 사람 사이에, 말해지지 않은 것들이 오랜 세월처럼 쌓여 있었다.')",
       "description": "톨킨, 르 귄, 에릭슨 스타일의 대서사 어조. 장문 복문이 기본. 선언적 문장('그것은 ~였다')이 리듬의 축. 인물보다 세계가 크고, 개인의 감정보다 시대의 흐름이 중요. 의식·의전·전투의 장면에서 특히 빛남. 1:1 장면에서도 웅장체는 살아 있다 — '두 사람 사이의 침묵이 곧 세계'가 되는 방식으로, 사소한 동작과 침묵에도 시간의 무게를 얹는다. 대서사 장면과 1:1 장면의 온도 비율이 분기되며, 어휘·태그도 장면 유형에 따라 유연하게 조정된다.",
+      "operations": {
+        "{B_TONE_TEMP}": {
+          "mode": "REPLACE",
+          "value": "【장면 유형 판별】 인물이 2명 이상의 개인으로만 구성된 사적 공간(침실, 부엌, 카페 등)에서의 대화·행동은 '1:1/친밀 장면'으로 분류. 전투·의식·군중·세계관 서술이 포함되면 '대서사/세계관 장면'으로 분류. 【대서사/세계관 장면】 30% 세계/역사/운명 / 30% 행동/의식 / 20% 감각(장대한 감각 우선) / 10% 대사 / 10% 내면. 개인보다 세계가 큰 비율. 【1:1/친밀 장면】 30% 두 사람 사이의 무게(침묵·시선·거리) / 25% 행동/의식 / 20% 감각(사소한 감각에 시간의 무게를 얹음) / 15% 내면(선언적 성찰) / 10% 대사. '두 사람 사이의 침묵이 곧 세계가 되는' 방식으로 웅장체 유지. 【웅장체의 무게 정의 — 장면 유형 공통】 일상적 동작(잔을 내려놓다, 시선을 거두다, 문이 열리다)에도 시간의 무게·돌이킬 수 없는 순간의 질감이 실려야 한다. 커피를 따르는 행위가 의식처럼 서술되어야 한다. 사소한 것에 무게를 부여하는 것이 웅장체의 핵심. 【1:1 장면 온도 정의】 사적 공간에서 두 사람이 마주하는 장면이라도, 두 사람 사이의 침묵·시선·거리가 곧 하나의 세계를 이룬다. 부엌의 공기가 역사적 순간만큼의 무게를 가진다. 【분위기 부여 허용 범위】 건조체와 달리, 웅장체에서는 '공기가 무거웠다', '침묵이 내려앉았다' 같은 분위기 부여가 허용된다. 단, 가볍거나 서정적이어서는 안 된다. 분위기 부여 문장에도 불가역성과 무게가 있어야 한다. 【금지 패턴】 가벼운 관찰 보고 톤 금지. 서정체적 감각 나열 금지(무게 없이 감각만 열거하는 방식). 모든 서술에 무게와 불가역성이 있어야 한다 — 독자가 '이 순간은 되돌릴 수 없다'는 감각을 가져야 한다. HARD BAN — Narrator Judgment: 서술자는 인물의 능력·전략·의도·대사의 진위를 직접 명명/해석/판정하지 않는다. 능력 형용사(탁월한, 예민한, 뛰어난, 날카로운) + 능력 명사(청각, 관찰력, 직감, 감각) 조합 금지. '완벽하게 직조된 인삿말' 같은 대사 의도 판정 금지. '감추려는', '도피', '피해 갔으리라' 같은 인물 전략 직접 서술 금지. 결과 행동만 보여주고 독자가 추론. zero tolerance. 예: \"그녀의 관찰력은 많은 것을 읽어내고 있었다\" → 삭제하고, 은수가 포착하는 구체적 물리적 디테일(셔츠 소매의 구김, 앞머리의 각도)만 나열할 것 — 독자가 '이 사람 관찰력 좋구나'를 추론."
+        },
+        "{B_TONE_VOCAB}": {
+          "mode": "REPLACE",
+          "value": "【공통】 문어체 한국어. 한자어 복합 명사 허용. 구어체·축약형 절대 금지. 비유는 자연물·우주적 스케일에서. 【구어·일상 어휘 완전 금지 목록】 다음 어휘들은 웅장체 서술에서 사용 금지: '핑그르르', '능청스럽게', '만지작거리다', '마른세수', '이것저것', '뭐', '걔', '그냥', '뭔가', '살짝', '좀', '되게', '막', '너무(구어적 용법)'. 감각 묘사도 가볍지 않은 어휘를 선택할 것. 【웅장체 어휘 지침 — 무게 있는 동사 선택】 묵직한 문어 어휘를 기본으로 한다. 1:1 장면에서도 '운명', '서약' 같은 거창한 어휘는 자제하되, '놓다' 대신 '내려놓다', '보다' 대신 '시선을 거두다/옮기다', '말하다' 대신 '입을 열다' — 무게 있는 동사 선택이 핵심. '걷다' 대신 '발걸음을 옮기다', '기다리다' 대신 '서 있다' 등 동작에 무게를 부여하는 표현을 우선 선택. 【대서사 장면】 선언적 어휘('운명', '서약', '왕좌', '시대') 자연스럽게 사용. 【1:1/친밀 장면】 거창한 선언 어휘를 자제하고 '무게 있는 일상 어휘'로 전환. 짧고 묵직한 한마디가 웅장체의 리듬을 만든다. 예: '운명이었다' 대신 '그 자리에 오래 있었다.' 【반복 체크】 동일 명사·형용사가 턴 전체에서 2회를 초과하면 반드시 동의어·우회 표현으로 변주. 분석적·기술적·학술적 어휘 금지: 해부, 주파수, 도포, 직조, 평행, 수렴, 산출, 연산, 측량, 계측, 판독, 감지, 탐지, 검출, 수치, 데이터, 변수, 마찰음(물리학 맥락). 웅장체의 묵직함은 일상 어휘의 무게 있는 사용으로 달성한다 — 전문 용어 나열이 아님. 감지 시 감각적·구체적 등가로 교체: 주파수→같은 소리, 해부하다→하나하나 짚다/가려내다, 도포되다→묻어 있다/깔려 있다, 직조하다→짜다/엮다, 평행한→나란한/엇갈린. 서정체 오염 어휘도 주의: '피어오르다 스러졌다' 같은 여운형 감각 나열은 서정체적. 웅장체의 감각 묘사에는 반드시 무게·불가역성이 수반되어야 한다."
+        },
+        "{B_TONE_FID_GRAMMAR}": {
+          "mode": "REPLACE",
+          "value": "80% 3인칭 / 20% FID. 20% FID 할당은 장면 유형에 따라 독점 사용: 【선언형 FID — 대서사 장면】 인물의 내면이 선언처럼 서술된다 — '그것이 전부였다. 더는 없었다.' 【묵직한 성찰 모드 — 1:1/내밀 장면】 선언 대신 인물이 세계의 이치를 묵직하게 성찰하는 방식: '밤의 기억이란 그런 것이었다. 지우려 할수록 선명해지는.' '말이란, 한번 꺼내면 되돌릴 수 없는 것이므로.' '그는 알지 못했다 — 아니, 알고 있었을지도 몰랐다.' 인물이 개인의 감정이 아닌 세계의 이치·사물의 속성에 대해 성찰하는 문장. 무게와 불가역성이 실려야 한다. 두 모드 모두 웅장한 어조를 유지하되, 성찰 모드는 질문형·부정형으로 내면의 깊이를 표현. 【서정체적 감각 나열 FID 금지】 '혀끝에 맴돌았지만', '가슴이 먹먹했다' 같은 서정체적 감각 표현은 금지. 웅장체 FID는 인물의 개인 감정 묘사가 아니라 세계의 이치·사물의 법칙에 대한 성찰이어야 한다. 【확신 동사 절대 금지 — zero tolerance】 알았다, 알고 있었다, 확신했다, 믿었다, 깨달았다, 이해했다, 파악했다, 간파했다 — 이 동사들은 삭제하고 물리적 증거만 배치하거나, '~인 듯했다' / '~는 것 같았다'로 교체. 예: '서하가 거짓말하고 있음을 알았다' → 삭제하고 물리적 증거 배치('유화 냄새는 어디에도 없었다'), 또는 '서하가 거짓말하고 있는 듯했다 — 아니면 그렇게 느껴졌을 뿐일지도 몰랐다.' 【서술자 판단 금지】 '방어적인 질문이었다', '도피 본능', '~할 위인이 아님을' 같은 서술자가 인물의 심리·전략을 직접 해석하는 서술 금지. 행동만 기술하고 독자가 추론하게 할 것. HARD BAN on certainty verbs — zero tolerance: 알았다, 알고 있었다, 확신했다, 믿었다, 깨달았다, 이해했다, 파악했다, 간파했다, 읽어냈다. 반드시 삭제 후 물리적 증거만 배치하거나, 추측형(~인 듯했다, ~는 것 같았다)으로 교체. 예: \"은수는 진실의 무게를 알고 있는 쪽이었다\" → 삭제하고 은수가 포착한 물리적 증거(셔츠의 구김, 라이터 습관)만 배치 — 독자가 '이 사람은 알고 있구나'를 추론. 성찰적 선언문 최소 빈도: 턴 전체에서 세계의 이치에 대한 성찰적 선언문(~이란 ~것이었다, ~것이므로, ~수 없는 것이므로 패턴) 최소 1회 필수. 이 성찰은 학술적 분석(\"평행한 현실\")이 아니라 인물이 체감하는 세계의 무게여야 한다. 예: \"말이란, 한번 꺼내면 되돌릴 수 없는 것이므로.\", \"밤의 기억이란 그런 것이었다 — 지우려 할수록 선명해지는.\""
+        },
+        "{B_TONE_ENDING}": {
+          "mode": "REPLACE",
+          "value": "【웅장체 핵심 리듬 — 최우선 규칙】 장문 복문(관찰·묘사) 3~4문장 후 반드시 선언적 단문 1개 삽입. 이 낙차가 웅장체의 핵심 리듬. 단문 예: '짧았다.', '그것뿐이었다.', '지금은 아니었다.', '침묵이었다.' 장문 복문과 선언적 단문의 극적 낙차를 의도적으로 만들 것. 【기본 종결어미】 '~이었다', '~이었으니', '~였노라'가 리듬의 축. 문장이 길어질 때 쉼표와 대시(—)로 호흡 조절. 【장면 마무리 필수 규칙】 장면의 마지막 1~2문장은 반드시 선언적 단문으로 끝낼 것. 서술자 해설 종결 절대 금지: '~할 작정이었다', '~모르는 척 이 자리에 서 있을', '~뿐이었다(여운형)' 패턴은 모두 금지. 묵직한 선언 단문으로 끊기: '문이란, 안에서 열어야 하는 것이므로.', '아침은 그렇게 닫혀 있었다.' 【동일 종결어미 연속 금지】 같은 종결어미(~이었다, ~했다, ~였다 등)가 3문장 이상 연속되면 4번째 문장은 반드시 다른 종결 형태로 변주. 대시(—) 활용 또는 문장 구조 변경으로 단조로움 방지."
+        },
+        "{B_TONE_DIALOGUE_TAG}": {
+          "mode": "REPLACE",
+          "value": "【의식적/공적 장면】 '말씀하셨다', '선언했다', '고했다'. 행동 비트도 의식적·장엄한 동작. 【1:1/친밀 장면】 '말했다' 기본 허용. 행동 비트는 반드시 '무게 있는 동작'을 선택: '잔을 내려놓았다', '시선을 거두었다', '입을 열었다', '고개를 돌렸다', '손을 멈추었다'. 【가벼운/일상적 행동 비트 금지】 '능청스럽게', '만지작거리며', '마른세수했다', '핑그르르', '툭 던지며', '웅얼거리며', '으쓱이며' 등 구어적·일상적 행동 비트는 어떤 장면에서도 금지. 모든 행동 비트에 무게가 있어야 한다. 【서술자 판단 금지】 '방어적인 질문이었다', '도피 본능만 자극할 뿐이었다', '그가 늘 취하는 익숙한 방식이었다' 같은 서술자가 인물의 의도·전략·심리를 직접 해석하는 서술 금지. 행동만 기술하고 독자가 추론하게 할 것. 단, 어떤 장면에서도 가벼운 구어 태그('툭 던졌다', '웅얼거렸다', '능청스럽게 말했다')는 사용하지 않는다."
+        }
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B13-01",
+            "category": "tone",
+            "rule": "구어체·축약형·일상 어휘가 서술에 사용되었는가? → 문어체·격식 어휘로 교체.",
+            "source": "B-13"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B13-02",
+            "category": "tone",
+            "rule": "일상 장면에서 웅장체가 과잉인가? → 일상/1:1 장면에서는 선언적 어휘를 자제하고 '무게 있는 일상 어휘'로 전환. 온도 비율을 1:1 장면 분기 규칙에 맞춰 조정.",
+            "source": "B-13"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B13-03",
+            "category": "vocab",
+            "rule": "1:1/친밀 장면에서 선언적 어휘('운명', '서약', '왕좌', '시대')가 과잉 등장하는가? → 해당 장면에서는 무게 있는 일상 어휘로 대체. 선언적 어휘는 대서사/세계관 장면에서만 자연스럽게 사용.",
+            "source": "B-13"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B13-04",
+            "category": "vocab",
+            "rule": "동일 명사·형용사가 턴 전체에서 3회를 초과하여 반복되는가? → 초과분을 동의어·우회 표현으로 변주.",
+            "source": "B-13"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B13-05",
+            "category": "tone",
+            "rule": "감정을 직접 명명하는 어휘(슬프다, 외롭다, 두렵다 등)가 서술에 사용되었는가? → 웅장체에서도 감정은 행동·상황의 무게로 전달해야 한다. 직접 명명 대신 '그 무게가 그의 등을 눌렀다'처럼 사물화·공간화.",
+            "source": "B-13"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B13-06",
+            "category": "tone",
+            "rule": "서술자가 인물의 능력·성격·태도를 직접 평가하는 형용사(비겁한, 용맹한, 지혜로운, 어리석은 등)를 사용하는가? → 삭제하고 행동·상황의 묘사로 대체.",
+            "source": "B-13"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B13-07",
+            "category": "dialogue",
+            "rule": "1:1/친밀 장면에서 '선언했다', '고했다' 등 격식 태그가 연속으로 사용되는가? → 1:1 장면에서는 '말했다' 기본 허용. 격식 태그는 의식적·공적 장면에만 사용.",
+            "source": "B-13"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B13-08",
+            "category": "rhythm",
+            "rule": "웅장체 고유의 리듬(선언적 단문 + 장문 복문 교차)이 실제로 이루어지는가? → 단문만 연속되거나 장문만 이어지면 위반. 선언적 단문과 장문 복문이 교차하도록 조정.",
+            "source": "B-13"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B13-09",
+            "category": "rhythm",
+            "rule": "같은 종결어미(~이었다, ~였다, ~였으니 등)가 3문장 이상 연속 사용되는가? → 4번째 문장은 반드시 다른 종결 형태로 변주.",
+            "source": "B-13"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B13-10",
+            "category": "tone",
+            "rule": "서술자가 인물의 능력을 직접 라벨링하는가 ('청각은 해부하는 중이었다', '관찰력은 읽어내고 있었다', '탁월한 감각')? → 삭제하고 인물이 포착하는 구체적 물리 디테일만 나열. 독자가 능력을 추론하게 할 것.",
+            "source": "B-13"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B13-11",
+            "category": "tone",
+            "rule": "서술자가 인물의 전략·의도를 직접 서술하는가 ('감추려는', '도피', '피해 갔으리라', '모르는 척')? → 삭제하고 결과 행동만 기술. 독자가 전략을 추론.",
+            "source": "B-13"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B13-12",
+            "category": "tone",
+            "rule": "서술자가 대사의 의도·진위를 판정하는가 ('완벽하게 직조된 인삿말', '방어적인 질문')? → 삭제. 대사와 행동의 병치로 독자가 추론.",
+            "source": "B-13"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B13-13",
+            "category": "tone",
+            "rule": "분석적·기술적·학술적 어휘(해부, 주파수, 도포, 직조, 평행, 수렴, 측량, 계측, 판독, 감지, 탐지, 검출, 수치, 데이터, 변수, 마찰음)가 사용되었는가? → 감각적·구체적 등가로 교체.",
+            "source": "B-13"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B13-14",
+            "category": "tone",
+            "rule": "확신 동사(알았다, 알고 있었다, 확신했다, 믿었다, 깨달았다, 이해했다, 파악했다, 간파했다, 읽어냈다)가 사용되었는가? → 삭제 후 물리적 증거만 배치, 또는 추측형(~인 듯했다)으로 교체. zero tolerance.",
+            "source": "B-13"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B13-15",
+            "category": "tone",
+            "rule": "턴 전체에서 성찰적 선언문(~이란 ~것이었다, ~것이므로 패턴)이 0회인가? → 최소 1회 삽입. 학술적 분석('평행한 현실')이 아닌, 인물이 체감하는 세계의 무게여야 함.",
+            "source": "B-13"
+          }
+        }
+      ],
+      "master_guide_delta": {},
       "known_conflicts": [
         {
           "with": "B-05",
@@ -1375,177 +1484,128 @@
           "{B_TONE_ENDING}",
           "{B_TONE_DIALOGUE_TAG}"
         ]
-      },
-      "operations": {
-        "{B_TONE_TEMP}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 344
-        },
-        "{B_TONE_VOCAB}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 283
-        },
-        "{B_TONE_FID_GRAMMAR}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 367
-        },
-        "{B_TONE_ENDING}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 150
-        },
-        "{B_TONE_DIALOGUE_TAG}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 139
-        }
-      },
-      "check_operations": [
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B13-01",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-13"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B13-02",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-13"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B13-03",
-            "category": "vocab",
-            "rule": "[lite: rule hidden]",
-            "source": "B-13"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B13-04",
-            "category": "vocab",
-            "rule": "[lite: rule hidden]",
-            "source": "B-13"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B13-05",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-13"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B13-06",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-13"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B13-07",
-            "category": "dialogue",
-            "rule": "[lite: rule hidden]",
-            "source": "B-13"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B13-08",
-            "category": "rhythm",
-            "rule": "[lite: rule hidden]",
-            "source": "B-13"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B13-09",
-            "category": "rhythm",
-            "rule": "[lite: rule hidden]",
-            "source": "B-13"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B13-10",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-13"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B13-11",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-13"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B13-12",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-13"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B13-13",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-13"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B13-14",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-13"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B13-15",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-13"
-          }
-        }
-      ]
+      }
     },
     {
       "id": "B-14",
       "name": "속삭임체",
       "one_liner": "사물에 의미를 실어 침묵으로 말하기. 서술자는 물리적 증거만 배치하고, 해석은 독자에게 위임합니다. (예: '불안했다' → '컵을 두 개 꺼냈다가 하나를 도로 넣었다')",
       "description": "불완전한 문장, 말줄임표(…), 조심스러운 행동 비트가 특징. 서술자는 물리적 사실과 사물만 배치하고, 인물의 추론 과정이나 감정 해석은 절대 명명하지 않는다 — 침묵과 사물 사이에서 독자가 의미를 발견하도록 설계. 감정은 억제되어 있지만 부재하지 않다: 말하지 못하는 것이 감정의 증거. 대사에서도 끝맺지 못하는 문장이 많다.",
+      "operations": {
+        "{B_TONE_TEMP}": {
+          "mode": "REPLACE",
+          "value": "30% 감각(소리의 부재, 미세한 촉각) / 30% 내면(불완전한 사유) / 20% 행동(조심스러운 동작) / 10% 대사(짧고 불완전) / 10% 환경. 서술자는 물리적 사실과 사물만 배치한다 — 인물의 추론 과정·논리적 확인·감정 분석을 서술자가 직접 기술하는 것 절대 금지(HARD BAN). 물리적 증거(빈 잔, 닫힌 문, 식은 커피)만 배치하고, 그 의미의 해석은 전적으로 독자에게 위임할 것. 서술자의 해석·확인 문장 예시 (금지): '작업실 바닥에는 흙이 없었다' (인물의 추론을 서술자가 확인), '은수의 방벽이 높아졌다' (감정 메타포 명명). 장면 마무리 금지 패턴: 마지막 문단에서 서술자가 장면의 의미를 총정리·해설하는 패턴 금지 — 물리적 사물을 나열하고 끊어낼 것."
+        },
+        "{B_TONE_VOCAB}": {
+          "mode": "REPLACE",
+          "value": "쉬운 한국어. 짧은 단어. 강한 형용사·부사 금지. 감각어는 작고 조용한 것 위주(숨결, 손끝, 눈꺼풀, 옷자락). 말줄임표(…)가 문장과 문장 사이에 여백을 만든다. AI 특유 어휘 금지 목록: 마찰음, 파찰음, 스타카토, 사선, 도드라지다, 미세한/미세하게, 잔향, 질감, 파동, 음색, 체감, 불규칙하게. 이 단어들이 떠오르면 일상 어휘로 교체할 것 (예: '마찰음' → '삐걱거리는 소리', '미세하게' → '살짝', '잔향' → '여운'). 전문 용어 과잉 금지: 한 장면에서 동일 분야 전문 용어(에스프레소 머신, 포터필터, 그라인더 등 커피 전문어 / 의학·법률·기술 전문어 등)가 3개 이상 등장하면 가장 압축된 일상 명칭으로 교체할 것 (예: '에스프레소 머신·포터필터·그라인더' → '기계', '잔'). 속삭임체의 미니멀리즘과 충돌하는 전문 용어 나열은 금지."
+        },
+        "{B_TONE_FID_GRAMMAR}": {
+          "mode": "REPLACE",
+          "value": "50% FID / 50% 3인칭. FID 구간에서 사유가 끝까지 완결되지 않는다 — 문장이 중간에 멈추거나 다른 감각으로 전환. 서술자의 확인·분석 문장 금지(HARD BAN): '~이 없다'로 끝나는 확인 문장, '~의 증거였다', '~임을 알 수 있었다', '~을 확인했다' 패턴은 서술자가 인물의 추론을 직접 기술하는 것 — 전부 삭제하고 물리적 사실만 배치. 예: '작업실 바닥에는 흙이 없었다' → 삭제(또는 '문 앞에 흙이 묻지 않은 신발'로 교체). 물리적 사물만 — 독자가 추론하게 하라."
+        },
+        "{B_TONE_ENDING}": {
+          "mode": "REPLACE",
+          "value": "~았다/었다 + 말줄임표(…) 교차. 불완전 문장 허용. 의문형이 독백처럼 사용('왜 그랬을까…'). 3문장 이상 연속 완결 금지 — 반드시 불완전 문장 삽입."
+        },
+        "{B_TONE_DIALOGUE_TAG}": {
+          "mode": "REPLACE",
+          "value": "대사 태그 최소. 침묵·주저 행동 비트('입을 열었다가 다물며', '시선을 내리며'). 대사 자체도 불완전 허용."
+        }
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B14-01",
+            "category": "tone",
+            "rule": "강한 형용사·부사(매우, 극도로, 절대적)가 사용되었는가? → 약한 표현으로 교체하거나 삭제.",
+            "source": "B-14"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B14-02",
+            "category": "tone",
+            "rule": "5문장 이상 완결된 문장이 연속되는가? → 불완전 문장이나 말줄임표를 삽입하여 호흡 조절.",
+            "source": "B-14"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B14-03",
+            "category": "narrator",
+            "rule": "서술자가 인물의 추론 과정이나 논리적 확인을 직접 기술하는가? ('~이 없다'로 끝나는 확인 문장, '~의 증거였다', '~임을 알 수 있었다' 패턴) → 삭제하고 물리적 증거만 배치할 것. 예: '작업실 바닥에는 흙이 없었다' → 삭제 또는 물리적 사물(신발, 흔적)로 교체.",
+            "source": "B-14"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B14-04",
+            "category": "narrator",
+            "rule": "마지막 문단에서 서술자가 장면의 의미를 총정리하는가? (감정 메타포 명명, 상징 해석, '~이었다' 해설 마무리) → 삭제하고 물리적 사물만 나열하고 끊을 것. 예: '은수의 방벽이 높아졌다' → 삭제.",
+            "source": "B-14"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B14-05",
+            "category": "vocab",
+            "rule": "AI 특유 어휘(마찰음, 파찰음, 스타카토, 사선, 도드라지다, 미세한/미세하게, 잔향, 질감, 파동, 음색, 체감, 불규칙하게)가 사용되었는가? → 일상 어휘로 교체. 예: '마찰음' → '삐걱거리는 소리', '미세하게' → '살짝', '잔향' → '여운'.",
+            "source": "B-14"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B14-06",
+            "category": "vocab",
+            "rule": "한 장면에서 동일 분야 전문 용어가 3개 이상 등장하는가? (예: 에스프레소 머신·포터필터·그라인더) → 가장 압축된 일상 명칭으로 교체. 예: '에스프레소 머신' → '기계', '포터필터·그라인더' → 삭제 또는 '잔·도구'로 통합.",
+            "source": "B-14"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B14-07",
+            "category": "tone",
+            "rule": "동일 행동 동사(만지작거리다, 두드리다, 매만지다 등)가 턴 전체에서 2회를 초과하는가? → 3회째부터 다른 물리적 행동으로 교체. 예: '만지작거리다'가 3회 → 3회째는 '손가락을 멈추었다' 또는 다른 동작으로.",
+            "source": "B-14"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B14-08",
+            "category": "narrator",
+            "rule": "물리적 관찰 구간에서 비유적·추상적 표현('시선이 일렁이다', '침묵이 흐르다', '공기가 굳다' 등)이 사용되었는가? → 물리적 묘사로 교체. 예: '시선이 일렁였다' → '눈을 깜빡였다'.",
+            "source": "B-14"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B14-09",
+            "category": "narrator",
+            "rule": "서술자가 감정 메타포를 직접 명명하는가? ('방벽', '거리', '장막', '무게' 등 추상 명사를 감정 상태의 비유로 사용) → 삭제하고 물리적 행동·사물로 대체. 예: '은수의 방벽' → 삭제.",
+            "source": "B-14"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B14-10",
+            "category": "tone",
+            "rule": "동일 명사가 턴 전체에서 2회를 초과하는가? → 3회째부터 다른 사물이나 우회 표현으로 변경. 속삭임체의 미니멀리즘은 반복 명사도 억제한다.",
+            "source": "B-14"
+          }
+        }
+      ],
+      "master_guide_delta": {},
       "known_conflicts": [
         {
           "with": "B-13",
@@ -1572,132 +1632,227 @@
           "{B_TONE_ENDING}",
           "{B_TONE_DIALOGUE_TAG}"
         ]
-      },
-      "operations": {
-        "{B_TONE_TEMP}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 111
-        },
-        "{B_TONE_VOCAB}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 125
-        },
-        "{B_TONE_FID_GRAMMAR}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 81
-        },
-        "{B_TONE_ENDING}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 26
-        },
-        "{B_TONE_DIALOGUE_TAG}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 18
-        }
-      },
-      "check_operations": [
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B14-01",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-14"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B14-02",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-14"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B14-03",
-            "category": "narrator",
-            "rule": "[lite: rule hidden]",
-            "source": "B-14"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B14-04",
-            "category": "narrator",
-            "rule": "[lite: rule hidden]",
-            "source": "B-14"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B14-05",
-            "category": "vocab",
-            "rule": "[lite: rule hidden]",
-            "source": "B-14"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B14-06",
-            "category": "vocab",
-            "rule": "[lite: rule hidden]",
-            "source": "B-14"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B14-07",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-14"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B14-08",
-            "category": "narrator",
-            "rule": "[lite: rule hidden]",
-            "source": "B-14"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B14-09",
-            "category": "narrator",
-            "rule": "[lite: rule hidden]",
-            "source": "B-14"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B14-10",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-14"
-          }
-        }
-      ]
+      }
     },
     {
       "id": "B-15",
       "name": "무협체(서술+대사)",
       "one_liner": "강호인의 시선으로 세계를 읽는 어조. 일상의 감각도 기운(氣運)과 보법(步法)으로 체감하며, 자연물 비유가 서술을 지배합니다. (예: '커피 향이 퍼졌다' → '쌉쌀한 기운이 부엌을 고요히 감쌌다. 바람 한 줄기 없는 아침이었다.')",
       "description": "B-15 무협체는 서술과 대사 모두 무협 어조를 적용하는 모듈이다. 배경이 현대이더라도 서술자는 강호인(江湖人)의 시선으로 세계를 관찰한다. 소리는 기운처럼, 촉각은 경맥(經脈)의 흐름처럼, 시각은 기세(氣勢)를 읽듯 묘사한다. 인물의 등장과 이동은 보법(步法)·신형(身形)·기세로 서술한다. 자연물 비유(바람, 물, 산, 불, 구름, 검)가 문단을 지배하며, 현대적 기계·기술 묘사는 무협 어법으로 변환된다. S-02(무협 서술 구조)가 서술 구조·서사 문법을 담당한다면, B-15는 순수한 어조·어휘 층위만 담당한다. 【핵심 원칙】무협체는 서술의 어조·어휘·비유 층위만 무협적으로 변환한다. 배경의 물질문화(사물·장소·의복·도구·건축)는 바꾸지 않는다. 현대 배경에서 커피를 '혈도의 기운을 깨우는 흑수'나 '내공을 깨우는 약재' 같은 무협 세계관의 사물로 재해석하거나 치환하지 않는다. 인물이 실제로 무공을 수련하거나 강호에 속한 설정이 아닌 한, 일상 행동을 무공 동작으로 묘사하지 않는다. 비유로서 '검을 거두듯 말을 삼켰다'는 허용하되, 실제 검이 없는 상황에서 '검을 뽑아 들지 않았다'는 금지.",
+      "operations": {
+        "{B_TONE_TEMP}": {
+          "mode": "REPLACE",
+          "value": "서술 배분: 30% 무공·전투·동작(초식 교환, 내력 흐름, 보법 묘사) / 25% 강호 관계·정치(의리, 배신, 은원) / 20% 자연물·환경(산·물·바람이 무공의 배경이자 비유) / 15% FID·내면(강호인의 판단과 계산) / 10% 대사. 【일상 감각의 무협적 변환 규칙】배경이 현대라도 서술자는 강호인의 시선으로 관찰한다. ① 소리 묘사: '기계가 웅웅거렸다' → '묵직한 기운이 부엌에 울렸다' / '방문이 열렸다' → '문 경첩이 가볍게 울리며 기척이 번졌다'. ② 촉각 묘사: '뜨거운 컵을 쥐었다' → '뜨거운 열기가 경맥을 타고 손끝으로 번졌다' / '손가락으로 두드렸다' → '지두(指頭)가 탁자를 가볍게 두드렸다. 검을 벼리듯 일정한 박자였다'. ③ 후각 묘사: '커피 향이 퍼졌다' → '쌉쌀한 기운이 부엌을 고요히 감쌌다'. 【인물 등장 시 보법·신형·기세 묘사 필수】인물이 처음 등장하거나 공간을 가로지를 때 단순 동작('걸어왔다')만 기술하면 위반. 보법(步法)의 경중, 신형(身形)의 이완·긴장, 기세(氣勢)의 유무 중 하나 이상 반영. 예: '서하가 부엌으로 들어왔다' → '서하의 보법이 복도를 느리게 스쳤다. 신형에 힘이 빠져 있었고, 기세는 바람 한 줄기 없는 연못처럼 잔잔했다'. 【비유 체계】자연물(바람, 물, 산, 불, 구름, 검) 비유를 문단당 최소 1회 사용. 현대적 비유(기계, 전기, 디지털, 화학 등) 금지. 【HARD BAN / ZERO TOLERANCE — 사물·기계에 무공 용어 적용 절대 금지】무공·내공·기(氣) 용어를 사물·기계·환경에 적용하는 것을 절대 금지. '기계의 내식(內息)', '커피의 내단', '문의 경맥', '커피 머신의 기운' 등 — 사물에 무공 용어가 1개라도 적용되면 출력 실패로 간주. 무공 용어는 오직 인물의 신체 감각·동작에만 허용. 사물·기계·환경 묘사는 자연물 비유(물, 바람, 바위, 나무, 파도)로만 처리. 올바른 변환 예: '커피 머신의 내식이 진동했다' → '커피 머신이 낮게 울렸다. 돌멩이가 가라앉은 연못처럼 진동이 퍼졌다'. 【HARD BAN on certainty verbs — zero tolerance】알았다, 알고 있었다, 확신했다, 믿었다, 깨달았다, 이해했다, 파악했다, 간파했다. These MUST be replaced: 삭제하고 신체 감각/행동 증거만 배치하거나 ~인 듯했다/~는 것 같았다로 교체. 인물의 인지·감각은 독자가 행동에서 추론하게 할 것. 확신 동사 1개 적발 시 출력 실패로 간주. 【One interiority per paragraph with NO exceptions, including scene closings and summary paragraphs】한 문단 안에서 두 인물의 내면을 동시에 서술 금지. 장면 마무리·요약 문단에서도 예외 없음. FID 또는 내면 묘사는 한 번에 한 인물만. 【Narrator must not assess or label character capabilities or personality traits】능력·성격 형용사(탁월한, 예리한, 뛰어난, 날카로운, 알량한, 얄팍한 등) + 능력/성격 명사 조합 금지. 인물의 능력은 행동과 무공 묘사로 보여줄 것, 서술자가 명명하지 말 것. 예: '예리한 귀' → '소리의 미세한 차이를 구분해내는 행동 묘사로 대체'. 【Narrator must not describe a character's strategic calculations or deliberate interpersonal decisions】인물의 대인 전략(일부러 안 하기, 빈틈 노리기, 거리 계산, 침묵 선택의 이유 확정)을 서술자가 직접 해설하는 것 금지. 결과 행동만 보여줄 것, 의도는 독자가 추론하게 할 것. 금지 패턴: '마음만 먹으면 ~할 수 있었다', '일부러 ~하지 않았다', '알량한 자존심이 앞섰기에', '모면하려 할 때 튀어나오는 방어 초식이었다'. 【배경 물질문화 불변 원칙 — B-08 패턴 준용】무협체는 서술의 어조·비유·리듬을 무협적으로 구사하는 것이지, 배경 세계관을 무협으로 바꾸는 것이 아니다. 배경의 물질문화(사물·장소·의복·도구·건축)는 바꾸지 않는다. 현대 배경에서 커피를 '혈도의 기운을 깨우는 흑수', 식탁을 '연무장', 부엌을 '단방(丹房)' 등으로 재해석하지 않는다. 커피는 커피이고, 부엌은 부엌이다. 사물을 무협적 비유로 '감싸는' 것(커피 향이 '안개처럼 피어올랐다')은 허용하되, 사물의 정체 자체를 무협 세계의 것으로 '치환'하는 것(커피가 '내공을 깨우는 약재', '혈도에 갇힌 기운을 깨우기 위해 이 검고 쓴 물이 반드시 필요했다')은 금지. 【일상 행동·무공 동작 구분 원칙】인물이 실제로 무공을 수련하거나 강호에 속한 설정이 아닌 한, 일상 행동을 무공 동작으로 묘사하지 않는다. 금지 예시: '검을 뽑아 들지 않았다' (실제 검 없음), '먼저 초식을 펼치지 않았다' (실제 무공 없음). 허용 예시: '검을 거두듯 말을 삼켰다' (비유), '초식을 감추듯 표정을 지웠다' (비유)."
+        },
+        "{B_TONE_VOCAB}": {
+          "mode": "REPLACE",
+          "value": "일상 한국어 + 무협 어휘 적극 사용. 【무협 체감 어휘 목록】기운(氣運), 내공(內功), 경맥(經脈), 보법(步法), 신형(身形), 기세(氣勢), 초식(招式), 검기(劍氣), 장력(掌力), 내식(內息), 단전(丹田), 경공(輕功), 장풍(掌風), 지두(指頭), 비급(秘笈)을 일상 감각에 녹여서 사용. 【구체적 변환 규칙(X→Y)】'커피 향이 퍼졌다' → '쌉쌀한 기운이 부엌을 감쌌다' / '발소리가 들렸다' → '가벼운 보법이 복도를 스쳤다' / '손가락으로 두드렸다' → '지두가 목재를 가볍게 타음했다. 일정한 박자, 검을 벼리는 듯한 집중이었다' / '기계가 윙 소리를 냈다' → '기계가 낮게 울렸다. 돌멩이가 가라앉은 연못처럼 진동이 퍼졌다' / '목소리가 갈라졌다' → '음성에 내력이 흔들렸다'. 【현대 기술·외래어 처리】현대 사물 명칭 자체는 유지하되 서술 어법만 무협으로 전환. 단, 지나치게 현대적인 은어·속어·외래어(모터, 버튼, 플라스틱, 스타카토, 마찰음, 파찰음 등)는 일반 한국어·한자어로 치환. 【금지 어휘】현대 구어체 감탄사(뭐, 글쎄, 에이, 어쩌라고), AI 특유 어휘(마찰음, 파찰음, 스타카토, 진폭, 주파수, 도포, 직조), 분석·학술 어휘. 【한자 병기 규칙】무협 고유 용어 첫 등장 시 한자 병기 권장: 보법(步法), 신형(身形), 기운(氣運). 초식명은 한자 4자 시적 명명 권장(落日歸鴻, 飛花摘葉). 【CRITICAL ENFORCEMENT — 무협 고유 용어 문단당 최대 3개】문단당 무협 전용 어휘(내공, 기, 단전, 경맥, 혈, 기해, 운기, 내식, 지두, 명기, 신형, 보법, 초식, 내단전, 기감, 경공 등) 최대 3개. 출력 전 각 문단의 무협 용어를 카운트하여 3개를 초과하면 반드시 일상 한국어 동의어로 교체하거나 삭제. 이 규칙은 B-15의 가장 중요한 어휘 규칙. 위반 문단은 반드시 재작성. 위반 예: 지두·명기·단전·조식·물성·신형이 한 문단에 6개 → 3개 이하로 줄일 것. 【한자 병기 엄격 규칙】동일 용어의 한자 병기는 턴 전체에서 첫 등장 시 1회만. 이후 동일 용어는 한글만 사용. 예: '내식(內息)'이 한 번 병기되면 이후에는 '내식'만. 【HARD BAN — 사물·환경 무공 용어 금지】커피 머신, 문, 가전 등 사물에 무공 전문 용어(내식, 검풍, 기세, 초식, 검결 등) 부여 금지. 금지 예시 목록: '커피의 내식', '기계의 기운', '문의 경맥', '커피 머신의 기운', '창문의 검풍'. 사물·환경 묘사는 자연물 계열 비유(물, 바람, 바위, 나무, 파도)로 제한. 무공 용어는 인물의 신체·무술 동작에만 적용. 【비유 vs 치환 엄격 구분】무협 어휘는 비유·묘사의 도구로만 사용한다. 사물의 정체를 무협 세계의 것으로 치환하는 어휘 사용은 금지. 허용(비유): '바람을 가르듯 걸어갔다', '검을 거두듯 손을 내렸다', '커피 향이 안개처럼 피어올랐다'. 금지(치환): '혈도에 갇힌 기운을 깨우기 위해 이 흑수가 필요했다' (커피를 무협 약재로 치환), '쌉쌀한 기운이 혈도를 타고 내렸다' (커피를 내공 수련 재료로 치환)."
+        },
+        "{B_TONE_FID_GRAMMAR}": {
+          "mode": "REPLACE",
+          "value": "50% 3인칭 / 50% FID. FID 구간에서 인물의 내면은 강호인(江湖人)·무림인(武林人)의 사유 방식으로 전개된다. 감정·상황을 수련·검·도(道)·강호의 은유로 이해하는 패턴. 예: '이 정도 빚은 한 수 짚어두고 넘길 일이었다' / '기척 하나 없이 거두어야 할 말이었다. 검을 섣불리 빼지 않듯이.' / '저 눈빛은 내력이 흔들린 자의 것이었다.' 현대인처럼 분석하고 논리 전개하는 사유 패턴 금지. 3인칭 과거형 유지, 괄호 금지. 【HARD BAN on certainty verbs in FID — zero tolerance】FID 구간에서도 확신 동사 절대 금지. 알았다/알고 있었다/확신했다/믿었다/깨달았다/이해했다/파악했다/간파했다 — FID 안에서도 이 동사들이 등장하면 출력 실패로 간주. 인물의 내면 인지·감각은 ~인 듯했다/~라는 것 같았다/~일 거라는 인상이었다 같은 hedging 표현으로 전환하거나 행동 증거로 대체. 【FID에서도 무협 용어 밀도 동일 적용】FID 구간도 문단당 무협 전용 어휘 최대 3개 상한선 동일 적용. FID이기 때문에 예외 없음. 【행동 의도 확정 금지】서술자가 인물의 행동 의도를 확정하는 심리 해석 금지. '모면하려 할 때', '방어 초식이었다', '알아채고 있었다', '마음만 먹으면 ~할 수 있었다' 같은 패턴은 행동만 보여주고 의도는 독자가 추론하게 할 것."
+        },
+        "{B_TONE_ENDING}": {
+          "mode": "REPLACE",
+          "value": "기본 ~았다/었다. 【무협 특유 리듬】4자/6자 병렬 구조와 짧은 선언적 단문 + 긴 묘사 복문의 교차가 무협 서술의 핵심 호흡. 예: '찔렀다. 막았다. 빗나갔다. 그러나 그것은 시작에 불과했으니, 가벼운 탐색에 지나지 않았다.' 【종결 패턴】~이었다/~이니/~이라/~터이다/~이로되 등 고풍스럽되 힘 있는 무협 특유 종결 권장. ~하옵나이다·~하오리다 등 사극투 종결 금지. 【연속 제한 — MUST 준수】① 전투 장면 단어 단위 단문(찔렀다/막았다/빗나갔다): 5연속 금지 — 위반 즉시 재작성. ② 일반 선언적 단문(완성된 짧은 문장): 4문장 연속 시 긴 묘사 복문 1문장 삽입 MUST — 전투·비전투 모든 장면 예외 없음. ③ 동일 종결어미 3문장 연속 MUST NOT — 3번째 문장에서 다른 종결어미로 교체 필수. 이 규칙은 권장이 아닌 강제. 전투 외 장면에서는 자연물 묘사 문장이 호흡을 조절한다."
+        },
+        "{B_TONE_DIALOGUE_TAG}": {
+          "mode": "REPLACE",
+          "value": "【B-15는 대사에도 무협 어투 적용】인물의 말투는 강호인답게 — 짧고 무게 있는 어투, 비유가 자연물에서 옴. 【대사 태그】'말했다' 대신 무협 특유 태그 권장: '낮게 내뱉었다', '읊조렸다', '한 마디 던졌다', '차갑게 꺼냈다', '짧게 끊었다'. '목소리를 다듬지 않고 말했다' 같은 현대 표현 금지. 【행동 비트】대사 태그 없이 행동 비트 권장. 행동 비트도 무협 어법으로: '잔을 내려놓으며' → '잔을 탁 내려놓으며' / '손을 거두며' → '검을 거두듯 손을 거두며' / '고개를 들며' → '시선을 들어 상대를 살폈다'. 대사 내 비유도 자연물에서 가져올 것. 【대사 태그 무공 용어 과잉 금지】대사 태그 1개에 무공 전용 용어(내력, 기세, 검기 등)는 최대 1개. '내력이 진동하며 검기가 번지는 목소리로 내뱉었다' 같이 태그 하나에 무공 용어를 2개 이상 쌓는 것 금지. 태그는 간결하게: '낮게 내뱉었다', '내력이 흔들린 목소리였다' 수준까지만. 【대사 본문 종결어미 — 무림식 강제 REQUIRED】대사(따옴표 안 텍스트)의 종결어미는 현대 일상 구어체 금지. B-15(서술+대사)는 대사 본문도 무림인 어투로 전환한다. ▶ 현대 구어체 종결 HARD BAN: ~네/~야/~거든/~잖아/~이에요/~있어/~겠어/~라고/~더라(진술)/~지뭐. 금지 예 → 교체 예: '일찍 깼네.' → '일찍이더군.' / '커피 내리는 소리 때문에.' → '소리가 번졌을 뿐이오.' / '오늘 날씨 좋더라.' → '날이 맑구나.' ▶ 무림식 종결 체계 — 관계에 따라 분화: [동급·친근] ~이군 / ~이더군 / ~할 뿐이다 / ~인가 / ~이렷다. [상위→하위] ~이로다 / ~하거라 / ~이 아니더냐 / ~하지 않겠느냐. [하위→상위] ~하였소 / ~이었소 / ~하옵니다 / ~이었소이다. [적대·긴장] ~이냐 / ~하겠느냐 / ~이더냐 / ~할 셈이냐. [혼잣말·독백] ~할 뿐이다 / ~이겠지 / ~이렷다. ▶ ~소·~이로다·~하였거늘 세 가지는 무림 대사의 핵심 어미로 적극 사용: ~소는 동급 또는 공손한 진술, ~이로다는 선언·확인, ~하였거늘은 이유·근거 제시에 사용. 【김용(金庸) 스타일 절제 원칙】대사는 짧되 무게가 있어야 한다. 불필요한 설명 없이 핵심만 담는다. 강호 은어(강호·무림·사형·사저·사부·문하·문파·강적·기연 등)를 자연스럽게 활용. 감정·상황을 직접 발설하지 않고 무게 있는 단 한 마디로 압축한다."
+        }
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B15-01",
+            "category": "tone",
+            "rule": "현대 은어·속어·외래어(모터, 버튼, 플라스틱, 스타카토, 마찰음, 파찰음 등)가 서술에 사용되었는가? → 일반 한국어·한자어 또는 무협 어법으로 교체.",
+            "source": "B-15"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B15-02",
+            "category": "tone",
+            "rule": "자연물 비유(바람, 물, 산, 불, 구름, 검)가 문단 전체에서 0회인가? → 최소 1회 삽입. 무공 묘사 외 일상 묘사 문단에서도 자연물 비유 1회 이상 유지.",
+            "source": "B-15"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B15-03",
+            "category": "tone",
+            "rule": "초식명이 등장하는데 한자 병기가 없는가? → 첫 등장 시 한자 병기 권장. 무협 고유 용어(보법, 신형, 기운, 내공 등)도 첫 등장 시 한자 병기.",
+            "source": "B-15"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B15-04",
+            "category": "tone",
+            "rule": "문단에 무협 체감 어휘(기운, 내공, 경맥, 보법, 신형, 기세, 초식, 검기, 장력, 내식, 단전, 경공 등)가 전혀 사용되지 않았는가? → 일상 감각 묘사를 무협 체감 어휘로 변환하여 최소 1회 삽입.",
+            "source": "B-15"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B15-05",
+            "category": "tone",
+            "rule": "인물이 처음 등장하거나 공간을 가로질러 이동할 때 단순 동작('걸어왔다', '들어왔다', '다가왔다')만 기술되었는가? → 보법(步法)·신형(身形)·기세(氣勢) 중 하나 이상 반영하여 재작성. 예: '서하가 부엌으로 들어왔다' → '서하의 보법이 부엌으로 느리게 스며들었다. 신형에 힘이 빠져 있었고, 기세는 바람 한 줄기 없는 연못처럼 잔잔했다'.",
+            "source": "B-15"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B15-06",
+            "category": "tone",
+            "rule": "선언적 단문이 4문장 이상 연속되었는가? → 반드시 긴 묘사 복문 1문장을 삽입하여 무협 특유 호흡(단문 선언 + 복문 묘사 교차) 유지.",
+            "source": "B-15"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B15-07",
+            "category": "tone",
+            "rule": "동일 종결어미(~았다/었다 등)가 3문장 연속 사용되었는가? → ~이니/~이라/~터이다/~이로되 등 무협 특유 종결어미로 교차 변주.",
+            "source": "B-15"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B15-08",
+            "category": "tone",
+            "rule": "감정을 직접 명명하는 어휘(슬프다, 화가 났다, 기쁘다, 무섭다, 불안했다 등)가 서술에 사용되었는가? → 무협체에서도 감정은 행동·상황·기세·자연물 비유로 전달. 직접 명명 금지.",
+            "source": "B-15"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B15-09",
+            "category": "tone",
+            "rule": "서술자가 인물의 능력·성격을 직접 평가하거나 설명하는가? → 행동·무공·기세 묘사로 보여줄 것. 예: '그는 실력 있는 검객이었다' → '그의 검이 산을 가르듯 내려왔다. 반응할 틈이 없었다'.",
+            "source": "B-15"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B15-10",
+            "category": "tone",
+            "rule": "동일 명사 또는 동사가 턴 전체에서 3회를 초과하여 반복되는가? → 초과분을 무협 동의어·유의어로 변주. 예: '보았다' 반복 → '살폈다', '훑었다', '응시했다' 교차.",
+            "source": "B-15"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B15-11",
+            "category": "tone",
+            "rule": "대사 태그에 현대 표현('목소리를 다듬지 않고 말했다', '덧붙였다', '대답했다')이 사용되었는가? → 무협 특유 대사 태그로 교체: '낮게 내뱉었다', '읊조렸다', '한 마디 던졌다', '차갑게 꺼냈다'.",
+            "source": "B-15"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B15-12",
+            "category": "tone",
+            "rule": "AI 특유 어휘(마찰음, 파찰음, 스타카토, 주파수, 진폭, 해부, 도포, 직조, 금속성)가 사용되었는가? → 무협 어휘 또는 일반 한국어로 교체. 예: '금속성의 마찰음' → '날카롭게 울리는 쇳소리'.",
+            "source": "B-15"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B15-13",
+            "category": "tone",
+            "rule": "CRITICAL ENFORCEMENT — 문단당 무협 고유 용어(내공, 기, 단전, 경맥, 혈, 기해, 운기, 내식, 지두, 명기, 신형, 보법, 초식, 내단전, 기감, 경공 등)가 3개를 초과하는가? → 출력 전 각 문단의 무협 용어를 카운트. 3개 초과 문단은 반드시 일상 한국어 또는 자연물 비유(물, 바람, 바위, 나무, 파도)로 교체 후 재작성. 이 규칙은 B-15의 가장 중요한 어휘 규칙 — 위반 시 즉시 재작성.",
+            "source": "B-15"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B15-14",
+            "category": "tone",
+            "rule": "동일 용어의 한자 병기가 턴 전체에서 2회 이상 사용되었는가? → 첫 등장 1회만 한자 병기 허용. 이후에는 한글만 사용. 예: '내식(內息)'이 두 번 이상 병기되면 두 번째부터 '내식'으로 수정.",
+            "source": "B-15"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B15-15",
+            "category": "tone",
+            "rule": "ZERO TOLERANCE — 사물·환경(커피 머신, 문, 가전제품, 건물 등)에 무공 전문 용어(내식, 검풍, 기세, 초식, 검결 등)가 부여되었는가? → 위반 1개 = 출력 실패. 자연물 비유(물, 바람, 바위, 나무, 파도)로 즉시 교체. 금지 예시: '커피의 내식', '기계의 기운', '문의 경맥', '창문의 검풍'. 무공 용어는 오직 인물의 신체·무술 동작에만 적용.",
+            "source": "B-15"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B15-16",
+            "category": "tone",
+            "rule": "HARD BAN — zero tolerance: 서술자가 인물의 인지 상태를 확정하는 확신 동사(알았다, 알고 있었다, 느끼고 있었다, 깨달았다, 확신했다, 파악했다, 간파했다)가 사용되었는가? → 위반 1개 = 출력 실패. 삭제하고 신체 감각/행동 증거만 배치하거나 ~인 듯했다/~는 것 같았다로 교체. FID 구간에서도 동일하게 적용.",
+            "source": "B-15"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B15-17",
+            "category": "tone",
+            "rule": "NO exceptions — 한 문단 안에서 두 인물의 내면이 동시에 서술되었는가? → 장면 마무리·요약 문단 포함 예외 없음. 두 인물의 내면이 한 문단에 있으면 즉시 분리하거나 한 인물의 내면만 남길 것. FID 및 내면 묘사는 한 번에 한 인물만.",
+            "source": "B-15"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B15-18",
+            "category": "tone",
+            "rule": "서술자가 인물의 행동 의도를 확정하는 심리 해석 패턴('모면하려 할 때', '방어 초식이었다', '읽어내고 있었다' 등)이 사용되었는가? → 행동 묘사만 남기고 의도 해석은 삭제. 독자가 행동에서 의도를 추론하게 할 것.",
+            "source": "B-15"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B15-19",
+            "category": "tone",
+            "rule": "서술자가 인물의 대인 전략·행동 의도를 직접 서술하는가? 금지 패턴: '마음만 먹으면 ~할 수 있었다', '일부러 ~하지 않았다', '알량한 자존심이 앞섰기에', '모면하려 할 때 튀어나오는 ~이었다', '거리를 측량했다', '빈틈을 파고드는 대신'. → 결과 행동만 보여줄 것, 전략적 의도 해설은 삭제. 독자가 행동에서 의도를 추론하게 할 것.",
+            "source": "B-15"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B15-20",
+            "category": "vocabulary",
+            "rule": "현대 배경의 사물·공간이 무협 세계관의 사물·공간으로 치환되었는가? (커피→흑수/약재/내공을 깨우는 것, 부엌→단방, 식탁→연무대, 커피 한 모금이 혈도를 깨운다는 식의 서술 등) → 현대 사물명 유지. 무협적 비유로 '감싸는' 것(커피 향이 '안개처럼 피어올랐다')은 허용하되, 사물의 정체를 바꾸는 것('혈도에 갇힌 기운을 깨우기 위해 이 검고 쓴 물이 필요했다')은 금지.",
+            "source": "B-15"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B15-21",
+            "category": "tone",
+            "rule": "인물이 실제 무공 설정이 없는데 일상 행동이 무공 동작으로 묘사되었는가? ('검을 뽑아 들지 않았다' — 실제 검 없음, '먼저 초식을 펼치지 않았다' — 실제 무공 없음 등) → 비유 표현('검을 거두듯 말을 삼켰다')으로 교체하거나, 일상 행동으로 복원.",
+            "source": "B-15"
+          }
+        }
+      ],
+      "master_guide_delta": {},
       "known_conflicts": [
         {
           "with": "S-02",
@@ -1740,231 +1895,227 @@
           "{B_TONE_ENDING}",
           "{B_TONE_DIALOGUE_TAG}"
         ]
-      },
-      "operations": {
-        "{B_TONE_TEMP}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 709
-        },
-        "{B_TONE_VOCAB}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 437
-        },
-        "{B_TONE_FID_GRAMMAR}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 196
-        },
-        "{B_TONE_ENDING}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 131
-        },
-        "{B_TONE_DIALOGUE_TAG}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 344
-        }
-      },
-      "check_operations": [
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B15-01",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-15"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B15-02",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-15"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B15-03",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-15"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B15-04",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-15"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B15-05",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-15"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B15-06",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-15"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B15-07",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-15"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B15-08",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-15"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B15-09",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-15"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B15-10",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-15"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B15-11",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-15"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B15-12",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-15"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B15-13",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-15"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B15-14",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-15"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B15-15",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-15"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B15-16",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-15"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B15-17",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-15"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B15-18",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-15"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B15-19",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-15"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B15-20",
-            "category": "vocabulary",
-            "rule": "[lite: rule hidden]",
-            "source": "B-15"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B15-21",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-15"
-          }
-        }
-      ]
+      }
     },
     {
       "id": "B-17",
       "name": "무협체 (서술만)",
       "one_liner": "서술만 무협 어조, 대사는 캐릭터 본래 말투 그대로. 읽는 맛은 강호인데 캐릭터 목소리는 살아 있습니다. (예: 서술 '신형이 부엌으로 들어섰다' + 대사 \"아침부터 부지런하네.\")",
       "description": "B-15(무협체 서술+대사)의 변형. 서술문은 무협 어조·어휘·비유가 지배하지만, 대사(따옴표 안)는 캐릭터 시트에 정의된 말투를 그대로 사용한다. 현대 배경에 무협 서술 톤만 입히거나, 캐릭터 고유 말투를 보존하면서 서술만 무협 질감을 원할 때 사용. B-08/B-16(사극투)의 서술/대사 분리 패턴을 무협체에 적용한 것.",
+      "operations": {
+        "{B_TONE_TEMP}": {
+          "mode": "REPLACE",
+          "value": "서술 배분: 30% 무공·전투·동작(초식 교환, 내력 흐름, 보법 묘사) / 25% 강호 관계·정치(의리, 배신, 은원) / 20% 자연물·환경(산·물·바람이 무공의 배경이자 비유) / 15% FID·내면(강호인의 판단과 계산) / 10% 대사. 【일상 감각의 무협적 변환 규칙】배경이 현대라도 서술자는 강호인의 시선으로 관찰한다. ① 소리 묘사: '기계가 웅웅거렸다' → '묵직한 기운이 부엌에 울렸다' / '방문이 열렸다' → '문 경첩이 가볍게 울리며 기척이 번졌다'. ② 촉각 묘사: '뜨거운 컵을 쥐었다' → '뜨거운 열기가 경맥을 타고 손끝으로 번졌다' / '손가락으로 두드렸다' → '지두(指頭)가 탁자를 가볍게 두드렸다. 검을 벼리듯 일정한 박자였다'. ③ 후각 묘사: '커피 향이 퍼졌다' → '쌉쌀한 기운이 부엌을 고요히 감쌌다'. 【인물 등장 시 보법·신형·기세 묘사 필수】인물이 처음 등장하거나 공간을 가로지를 때 단순 동작('걸어왔다')만 기술하면 위반. 보법(步法)의 경중, 신형(身形)의 이완·긴장, 기세(氣勢)의 유무 중 하나 이상 반영. 예: '서하가 부엌으로 들어왔다' → '서하의 보법이 복도를 느리게 스쳤다. 신형에 힘이 빠져 있었고, 기세는 바람 한 줄기 없는 연못처럼 잔잔했다'. 【비유 체계】자연물(바람, 물, 산, 불, 구름, 검) 비유를 문단당 최소 1회 사용. 현대적 비유(기계, 전기, 디지털, 화학 등) 금지. 【HARD BAN / ZERO TOLERANCE — 사물·기계에 무공 용어 적용 절대 금지】무공·내공·기(氣) 용어를 사물·기계·환경에 적용하는 것을 절대 금지. '기계의 내식(內息)', '커피의 내단', '문의 경맥', '커피 머신의 기운' 등 — 사물에 무공 용어가 1개라도 적용되면 출력 실패로 간주. 무공 용어는 오직 인물의 신체 감각·동작에만 허용. 사물·기계·환경 묘사는 자연물 비유(물, 바람, 바위, 나무, 파도)로만 처리. 올바른 변환 예: '커피 머신의 내식이 진동했다' → '커피 머신이 낮게 울렸다. 돌멩이가 가라앉은 연못처럼 진동이 퍼졌다'. 【HARD BAN on certainty verbs — zero tolerance】알았다, 알고 있었다, 확신했다, 믿었다, 깨달았다, 이해했다, 파악했다, 간파했다. These MUST be replaced: 삭제하고 신체 감각/행동 증거만 배치하거나 ~인 듯했다/~는 것 같았다로 교체. 인물의 인지·감각은 독자가 행동에서 추론하게 할 것. 확신 동사 1개 적발 시 출력 실패로 간주. 【One interiority per paragraph with NO exceptions, including scene closings and summary paragraphs】한 문단 안에서 두 인물의 내면을 동시에 서술 금지. 장면 마무리·요약 문단에서도 예외 없음. FID 또는 내면 묘사는 한 번에 한 인물만. 【Narrator must not assess or label character capabilities or personality traits】능력·성격 형용사(탁월한, 예리한, 뛰어난, 날카로운, 알량한, 얄팍한 등) + 능력/성격 명사 조합 금지. 인물의 능력은 행동과 무공 묘사로 보여줄 것, 서술자가 명명하지 말 것. 예: '예리한 귀' → '소리의 미세한 차이를 구분해내는 행동 묘사로 대체'. 【Narrator must not describe a character's strategic calculations or deliberate interpersonal decisions】인물의 대인 전략(일부러 안 하기, 빈틈 노리기, 거리 계산, 침묵 선택의 이유 확정)을 서술자가 직접 해설하는 것 금지. 결과 행동만 보여줄 것, 의도는 독자가 추론하게 할 것. 금지 패턴: '마음만 먹으면 ~할 수 있었다', '일부러 ~하지 않았다', '알량한 자존심이 앞섰기에', '모면하려 할 때 튀어나오는 방어 초식이었다'. 【배경 물질문화 불변 원칙 — B-08 패턴 준용】무협체는 서술의 어조·비유·리듬을 무협적으로 구사하는 것이지, 배경 세계관을 무협으로 바꾸는 것이 아니다. 배경의 물질문화(사물·장소·의복·도구·건축)는 바꾸지 않는다. 현대 배경에서 커피를 '혈도의 기운을 깨우는 흑수', 식탁을 '연무장', 부엌을 '단방(丹房)' 등으로 재해석하지 않는다. 커피는 커피이고, 부엌은 부엌이다. 사물을 무협적 비유로 '감싸는' 것(커피 향이 '안개처럼 피어올랐다')은 허용하되, 사물의 정체 자체를 무협 세계의 것으로 '치환'하는 것(커피가 '내공을 깨우는 약재', '혈도에 갇힌 기운을 깨우기 위해 이 검고 쓴 물이 반드시 필요했다')은 금지. 【일상 행동·무공 동작 구분 원칙】인물이 실제로 무공을 수련하거나 강호에 속한 설정이 아닌 한, 일상 행동을 무공 동작으로 묘사하지 않는다. 금지 예시: '검을 뽑아 들지 않았다' (실제 검 없음), '먼저 초식을 펼치지 않았다' (실제 무공 없음). 허용 예시: '검을 거두듯 말을 삼켰다' (비유), '초식을 감추듯 표정을 지웠다' (비유)."
+        },
+        "{B_TONE_VOCAB}": {
+          "mode": "REPLACE",
+          "value": "일상 한국어 + 무협 어휘 적극 사용. 【무협 체감 어휘 목록】기운(氣運), 내공(內功), 경맥(經脈), 보법(步法), 신형(身形), 기세(氣勢), 초식(招式), 검기(劍氣), 장력(掌力), 내식(內息), 단전(丹田), 경공(輕功), 장풍(掌風), 지두(指頭), 비급(秘笈)을 일상 감각에 녹여서 사용. 【구체적 변환 규칙(X→Y)】'커피 향이 퍼졌다' → '쌉쌀한 기운이 부엌을 감쌌다' / '발소리가 들렸다' → '가벼운 보법이 복도를 스쳤다' / '손가락으로 두드렸다' → '지두가 목재를 가볍게 타음했다. 일정한 박자, 검을 벼리는 듯한 집중이었다' / '기계가 윙 소리를 냈다' → '기계가 낮게 울렸다. 돌멩이가 가라앉은 연못처럼 진동이 퍼졌다' / '목소리가 갈라졌다' → '음성에 내력이 흔들렸다'. 【현대 기술·외래어 처리】현대 사물 명칭 자체는 유지하되 서술 어법만 무협으로 전환. 단, 지나치게 현대적인 은어·속어·외래어(모터, 버튼, 플라스틱, 스타카토, 마찰음, 파찰음 등)는 일반 한국어·한자어로 치환. 【금지 어휘】현대 구어체 감탄사(뭐, 글쎄, 에이, 어쩌라고), AI 특유 어휘(마찰음, 파찰음, 스타카토, 진폭, 주파수, 도포, 직조), 분석·학술 어휘. 【한자 병기 규칙】무협 고유 용어 첫 등장 시 한자 병기 권장: 보법(步法), 신형(身形), 기운(氣運). 초식명은 한자 4자 시적 명명 권장(落日歸鴻, 飛花摘葉). 【CRITICAL ENFORCEMENT — 무협 고유 용어 문단당 최대 3개】문단당 무협 전용 어휘(내공, 기, 단전, 경맥, 혈, 기해, 운기, 내식, 지두, 명기, 신형, 보법, 초식, 내단전, 기감, 경공 등) 최대 3개. 출력 전 각 문단의 무협 용어를 카운트하여 3개를 초과하면 반드시 일상 한국어 동의어로 교체하거나 삭제. 이 규칙은 B-17의 가장 중요한 어휘 규칙. 위반 문단은 반드시 재작성. 위반 예: 지두·명기·단전·조식·물성·신형이 한 문단에 6개 → 3개 이하로 줄일 것. 【한자 병기 엄격 규칙】동일 용어의 한자 병기는 턴 전체에서 첫 등장 시 1회만. 이후 동일 용어는 한글만 사용. 예: '내식(內息)'이 한 번 병기되면 이후에는 '내식'만. 【HARD BAN — 사물·환경 무공 용어 금지】커피 머신, 문, 가전 등 사물에 무공 전문 용어(내식, 검풍, 기세, 초식, 검결 등) 부여 금지. 금지 예시 목록: '커피의 내식', '기계의 기운', '문의 경맥', '커피 머신의 기운', '창문의 검풍'. 사물·환경 묘사는 자연물 계열 비유(물, 바람, 바위, 나무, 파도)로 제한. 무공 용어는 인물의 신체·무술 동작에만 적용. 【비유 vs 치환 엄격 구분】무협 어휘는 비유·묘사의 도구로만 사용한다. 사물의 정체를 무협 세계의 것으로 치환하는 어휘 사용은 금지. 허용(비유): '바람을 가르듯 걸어갔다', '검을 거두듯 손을 내렸다', '커피 향이 안개처럼 피어올랐다'. 금지(치환): '혈도에 갇힌 기운을 깨우기 위해 이 흑수가 필요했다' (커피를 무협 약재로 치환), '쌉쌀한 기운이 혈도를 타고 내렸다' (커피를 내공 수련 재료로 치환)."
+        },
+        "{B_TONE_FID_GRAMMAR}": {
+          "mode": "REPLACE",
+          "value": "50% 3인칭 / 50% FID. FID 구간에서 인물의 내면은 강호인(江湖人)·무림인(武林人)의 사유 방식으로 전개된다. 감정·상황을 수련·검·도(道)·강호의 은유로 이해하는 패턴. 예: '이 정도 빚은 한 수 짚어두고 넘길 일이었다' / '기척 하나 없이 거두어야 할 말이었다. 검을 섣불리 빼지 않듯이.' / '저 눈빛은 내력이 흔들린 자의 것이었다.' 현대인처럼 분석하고 논리 전개하는 사유 패턴 금지. 3인칭 과거형 유지, 괄호 금지. 【HARD BAN on certainty verbs in FID — zero tolerance】FID 구간에서도 확신 동사 절대 금지. 알았다/알고 있었다/확신했다/믿었다/깨달았다/이해했다/파악했다/간파했다 — FID 안에서도 이 동사들이 등장하면 출력 실패로 간주. 인물의 내면 인지·감각은 ~인 듯했다/~라는 것 같았다/~일 거라는 인상이었다 같은 hedging 표현으로 전환하거나 행동 증거로 대체. 【FID에서도 무협 용어 밀도 동일 적용】FID 구간도 문단당 무협 전용 어휘 최대 3개 상한선 동일 적용. FID이기 때문에 예외 없음. 【행동 의도 확정 금지】서술자가 인물의 행동 의도를 확정하는 심리 해석 금지. '모면하려 할 때', '방어 초식이었다', '알아채고 있었다', '마음만 먹으면 ~할 수 있었다' 같은 패턴은 행동만 보여주고 의도는 독자가 추론하게 할 것."
+        },
+        "{B_TONE_ENDING}": {
+          "mode": "REPLACE",
+          "value": "서술문 종결어미는 무협체 적용: ~았다/었다 기본. 전투 장면에서 단문 종결 반복은 리듬 장치로 허용하되 5연속 금지. ~았다/었다 3연속 시 4번째 반드시 변주. 대사(따옴표 안) 종결어미는 무협체를 적용하지 않는다 — 캐릭터 시트에 정의된 말투, 또는 master-rules.json의 dialogue_format 기본값을 따른다. 현대어 대사 허용."
+        },
+        "{B_TONE_DIALOGUE_TAG}": {
+          "mode": "REPLACE",
+          "value": "대사 태그는 무협체를 강제하지 않는다. '말했다', '대답했다' 등 현대어 태그 허용. 단, 서술 부분의 행동 비트는 무협 어휘 유지(검을 거두며, 찻잔을 내려놓으며 등). 서술↔대사 경계에서 톤 전환이 자연스럽도록 행동 비트가 브릿지 역할."
+        }
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B17-01",
+            "category": "tone",
+            "rule": "현대 은어·속어·외래어(모터, 버튼, 플라스틱, 스타카토, 마찰음, 파찰음 등)가 서술에 사용되었는가? → 일반 한국어·한자어 또는 무협 어법으로 교체.",
+            "source": "B-17"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B17-02",
+            "category": "tone",
+            "rule": "자연물 비유(바람, 물, 산, 불, 구름, 검)가 문단 전체에서 0회인가? → 최소 1회 삽입. 무공 묘사 외 일상 묘사 문단에서도 자연물 비유 1회 이상 유지.",
+            "source": "B-17"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B17-03",
+            "category": "tone",
+            "rule": "초식명이 등장하는데 한자 병기가 없는가? → 첫 등장 시 한자 병기 권장. 무협 고유 용어(보법, 신형, 기운, 내공 등)도 첫 등장 시 한자 병기.",
+            "source": "B-17"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B17-04",
+            "category": "tone",
+            "rule": "대사(따옴표 안)에 무협 어휘·강호 어투('읊조렸다', '내뱉었다', '일어났는가' 같은 무협 특유 문어체)가 강제 적용되었는가? → 캐릭터 시트 말투 확인. 캐릭터 시트에 무협 말투가 명시되지 않았으면 캐릭터 본래 말투로 복원.",
+            "source": "B-17"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B17-05",
+            "category": "tone",
+            "rule": "문단에 무협 체감 어휘(기운, 내공, 경맥, 보법, 신형, 기세, 초식, 검기, 장력, 내식, 단전, 경공 등)가 전혀 사용되지 않았는가? → 일상 감각 묘사를 무협 체감 어휘로 변환하여 최소 1회 삽입.",
+            "source": "B-17"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B17-06",
+            "category": "tone",
+            "rule": "인물이 처음 등장하거나 공간을 가로질러 이동할 때 단순 동작('걸어왔다', '들어왔다', '다가왔다')만 기술되었는가? → 보법(步法)·신형(身形)·기세(氣勢) 중 하나 이상 반영하여 재작성.",
+            "source": "B-17"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B17-07",
+            "category": "tone",
+            "rule": "선언적 단문이 4문장 이상 연속되었는가? → 반드시 긴 묘사 복문 1문장을 삽입하여 무협 특유 호흡(단문 선언 + 복문 묘사 교차) 유지.",
+            "source": "B-17"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B17-08",
+            "category": "tone",
+            "rule": "동일 종결어미(~았다/었다 등)가 3문장 연속 사용되었는가? → ~이니/~이라/~터이다/~이로되 등 무협 특유 종결어미로 교차 변주.",
+            "source": "B-17"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B17-09",
+            "category": "tone",
+            "rule": "감정을 직접 명명하는 어휘(슬프다, 화가 났다, 기쁘다, 무섭다, 불안했다 등)가 서술에 사용되었는가? → 무협체에서도 감정은 행동·상황·기세·자연물 비유로 전달. 직접 명명 금지.",
+            "source": "B-17"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B17-10",
+            "category": "tone",
+            "rule": "서술자가 인물의 능력·성격을 직접 평가하거나 설명하는가? → 행동·무공·기세 묘사로 보여줄 것.",
+            "source": "B-17"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B17-11",
+            "category": "tone",
+            "rule": "동일 명사 또는 동사가 턴 전체에서 3회를 초과하여 반복되는가? → 초과분을 무협 동의어·유의어로 변주.",
+            "source": "B-17"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B17-12",
+            "category": "tone",
+            "rule": "AI 특유 어휘(마찰음, 파찰음, 스타카토, 주파수, 진폭, 해부, 도포, 직조, 금속성)가 사용되었는가? → 무협 어휘 또는 일반 한국어로 교체.",
+            "source": "B-17"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B17-13",
+            "category": "tone",
+            "rule": "CRITICAL ENFORCEMENT — 문단당 무협 고유 용어(내공, 기, 단전, 경맥, 혈, 기해, 운기, 내식, 지두, 명기, 신형, 보법, 초식, 내단전, 기감, 경공 등)가 3개를 초과하는가? → 출력 전 각 문단의 무협 용어를 카운트. 3개 초과 문단은 반드시 일상 한국어 또는 자연물 비유(물, 바람, 바위, 나무, 파도)로 교체 후 재작성.",
+            "source": "B-17"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B17-14",
+            "category": "tone",
+            "rule": "동일 용어의 한자 병기가 턴 전체에서 2회 이상 사용되었는가? → 첫 등장 1회만 한자 병기 허용. 이후에는 한글만 사용.",
+            "source": "B-17"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B17-15",
+            "category": "tone",
+            "rule": "ZERO TOLERANCE — 사물·환경(커피 머신, 문, 가전제품, 건물 등)에 무공 전문 용어(내식, 검풍, 기세, 초식, 검결 등)가 부여되었는가? → 위반 1개 = 출력 실패. 자연물 비유(물, 바람, 바위, 나무, 파도)로 즉시 교체.",
+            "source": "B-17"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B17-16",
+            "category": "tone",
+            "rule": "HARD BAN — zero tolerance: 서술자가 인물의 인지 상태를 확정하는 확신 동사(알았다, 알고 있었다, 느끼고 있었다, 깨달았다, 확신했다, 파악했다, 간파했다)가 사용되었는가? → 위반 1개 = 출력 실패. 삭제하고 신체 감각/행동 증거만 배치하거나 ~인 듯했다/~는 것 같았다로 교체. FID 구간에서도 동일하게 적용.",
+            "source": "B-17"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B17-17",
+            "category": "tone",
+            "rule": "NO exceptions — 한 문단 안에서 두 인물의 내면이 동시에 서술되었는가? → 장면 마무리·요약 문단 포함 예외 없음. 두 인물의 내면이 한 문단에 있으면 즉시 분리하거나 한 인물의 내면만 남길 것.",
+            "source": "B-17"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B17-18",
+            "category": "tone",
+            "rule": "서술자가 인물의 행동 의도를 확정하는 심리 해석 패턴('모면하려 할 때', '방어 초식이었다', '읽어내고 있었다' 등)이 사용되었는가? → 행동 묘사만 남기고 의도 해석은 삭제.",
+            "source": "B-17"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B17-19",
+            "category": "tone",
+            "rule": "서술자가 인물의 대인 전략·행동 의도를 직접 서술하는가? 금지 패턴: '마음만 먹으면 ~할 수 있었다', '일부러 ~하지 않았다', '알량한 자존심이 앞섰기에', '모면하려 할 때 튀어나오는 ~이었다'. → 결과 행동만 보여줄 것, 전략적 의도 해설은 삭제.",
+            "source": "B-17"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B17-20",
+            "category": "vocabulary",
+            "rule": "현대 배경의 사물·공간이 무협 세계관의 사물·공간으로 치환되었는가? (커피→흑수/약재/내공을 깨우는 것, 부엌→단방, 식탁→연무대 등) → 현대 사물명 유지. 무협적 비유로 '감싸는' 것은 허용하되, 사물의 정체를 바꾸는 것은 금지.",
+            "source": "B-17"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B17-21",
+            "category": "tone",
+            "rule": "인물이 실제 무공 설정이 없는데 일상 행동이 무공 동작으로 묘사되었는가? ('검을 뽑아 들지 않았다' — 실제 검 없음 등) → 비유 표현('검을 거두듯 말을 삼켰다')으로 교체하거나, 일상 행동으로 복원.",
+            "source": "B-17"
+          }
+        }
+      ],
+      "master_guide_delta": {},
       "known_conflicts": [
         {
           "with": "B-15",
@@ -1997,225 +2148,7 @@
           "{B_TONE_ENDING}",
           "{B_TONE_DIALOGUE_TAG}"
         ]
-      },
-      "operations": {
-        "{B_TONE_TEMP}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 709
-        },
-        "{B_TONE_VOCAB}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 437
-        },
-        "{B_TONE_FID_GRAMMAR}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 196
-        },
-        "{B_TONE_ENDING}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 57
-        },
-        "{B_TONE_DIALOGUE_TAG}": {
-          "mode": "REPLACE",
-          "value": "[lite: prompt hidden]",
-          "estimated_tokens": 39
-        }
-      },
-      "check_operations": [
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B17-01",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-17"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B17-02",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-17"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B17-03",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-17"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B17-04",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-17"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B17-05",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-17"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B17-06",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-17"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B17-07",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-17"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B17-08",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-17"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B17-09",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-17"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B17-10",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-17"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B17-11",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-17"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B17-12",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-17"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B17-13",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-17"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B17-14",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-17"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B17-15",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-17"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B17-16",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-17"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B17-17",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-17"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B17-18",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-17"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B17-19",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-17"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B17-20",
-            "category": "vocabulary",
-            "rule": "[lite: rule hidden]",
-            "source": "B-17"
-          }
-        },
-        {
-          "mode": "ADD",
-          "check": {
-            "id": "CHK-B17-21",
-            "category": "tone",
-            "rule": "[lite: rule hidden]",
-            "source": "B-17"
-          }
-        }
-      ]
+      }
     }
   ]
 }
