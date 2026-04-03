@@ -548,13 +548,13 @@
 
     /**
      * 한국어+영어 혼합 텍스트의 토큰 수를 보수적으로 추정한다.
-     * 한국어: ~1.5자/token, 영문/기호/공백: ~4자/token
+     * 한국어: ~1.0자/token, 영문/기호/공백: ~3.5자/token
      * 정확한 토크나이저가 아닌 근사값이므로 ≈ 표시와 함께 사용.
      */
     function estimateTokens(text) {
         const koreanChars = (text.match(/[\uAC00-\uD7AF\u3130-\u318F\u1100-\u11FF]/g) || []).length;
         const nonKoreanChars = text.length - koreanChars;
-        return Math.ceil(koreanChars / 1.5 + nonKoreanChars / 4);
+        return Math.ceil(koreanChars / 1.0 + nonKoreanChars / 3.5);
     }
 
     function formatSectionStatus(promptText) {
