@@ -125,6 +125,7 @@
 
     const DEFAULT_SETTINGS = {
         enabled: true,
+        theme: 'light',
         selections: {
             axes: {},
         },
@@ -136,6 +137,7 @@
         }
         const s = extensionSettings[EXTENSION_NAME];
         if (s.enabled === undefined) s.enabled = true;
+        if (!s.theme) s.theme = 'light';
         if (!s.selections) s.selections = { axes: {} };
         if (!s.selections.axes) s.selections.axes = {};
         return s;
@@ -167,6 +169,24 @@
         const s = getSettings();
         s.selections = { axes: {} };
     }
+
+    /* ------------------------------------------------------------------ */
+    /* 6b. 테마 헬퍼                                                         */
+    /* ------------------------------------------------------------------ */
+
+    function applyTheme(theme) {
+        const container = document.getElementById('style-nov-settings');
+        if (container) container.dataset.novTheme = theme;
+    }
+
+    function updateThemeToggleBtn(btn, theme) {
+        if (theme === 'dark') {
+            btn.innerHTML = '<i class="fa-solid fa-sun"></i> 라이트 모드';
+        } else {
+            btn.innerHTML = '<i class="fa-solid fa-moon"></i> 다크 모드';
+        }
+    }
+
 
     /* ------------------------------------------------------------------ */
     /* 7. 빌드 엔진                                                          */
@@ -673,6 +693,7 @@
         }
 
         const popupEl = buildPopupElement(_data);
+        popupEl.dataset.novTheme = getSettings().theme ?? 'light';
 
         if (typeof callGenericPopup === 'function') {
             try {
@@ -697,6 +718,7 @@
         const overlay = document.createElement('div');
         overlay.id = 'style-nov-fallback-modal';
         overlay.className = 'nov-style-modal-overlay';
+        overlay.dataset.novTheme = getSettings().theme ?? 'light';
 
         const modal = document.createElement('div');
         modal.className = 'nov-style-modal-dialog';
@@ -770,6 +792,22 @@
         if (document.getElementById('style-nov-settings')) return;
 
         targetEl.insertAdjacentHTML('beforeend', settingsHtml);
+
+        // 테마 초기화
+        applyTheme(getSettings().theme ?? 'light');
+
+        const themeToggleBtn = document.getElementById('style-nov-theme-toggle');
+        if (themeToggleBtn) {
+            updateThemeToggleBtn(themeToggleBtn, getSettings().theme ?? 'light');
+            themeToggleBtn.addEventListener('click', () => {
+                const current = getSettings().theme ?? 'light';
+                const next = current === 'light' ? 'dark' : 'light';
+                getSettings().theme = next;
+                applyTheme(next);
+                updateThemeToggleBtn(themeToggleBtn, next);
+                saveSettings();
+            });
+        }
 
         const enabledCb = document.getElementById('style-nov-enabled');
         if (enabledCb) {

@@ -357,6 +357,11 @@ const liteSettingsHtml = `<div id="style-nov-settings" class="nov-style-containe
                     <span>엔진 활성화</span>
                 </label>
             </div>
+            <div class="nov-style-sidebar-row">
+                <button id="style-nov-theme-toggle" class="menu_button" title="라이트/다크 테마 전환">
+                    <i class="fa-solid fa-moon"></i> 다크 모드
+                </button>
+            </div>
             <button id="style-nov-open-popup" class="menu_button nov-style-btn-primary" title="어조·어휘 설정 팝업을 엽니다">
                 <i class="fa-solid fa-gear"></i> 설정 열기
             </button>
