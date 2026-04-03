@@ -977,6 +977,8 @@
 
         const popupEl = buildPopupElement(_data);
         popupEl.dataset.novTheme = getSettings().theme ?? 'light';
+
+        if (typeof callGenericPopup === 'function') {
             try {
                 await callGenericPopup(popupEl, 0, '', {
                     wide: true,
