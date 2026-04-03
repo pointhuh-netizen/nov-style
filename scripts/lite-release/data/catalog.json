@@ -13,7 +13,7 @@
       "id": "B-00",
       "axis": "B",
       "name": "사용하지 않음",
-      "one_liner": "어조·어휘 지시를 주입하지 않음. default-template 기본값 그대로 사용.",
+      "one_liner": "어조·어휘 지시를 주입하지 않음. 기본값 그대로 사용.",
       "file": "axes/axis-b-tone.json"
     },
     {
