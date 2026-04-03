@@ -1,17 +1,33 @@
-/* Nov Style Engine - style.css (Modern Off-White Theme) */
+/* Nov Style Engine - style.css (Green Theme, Light / Dark) */
 
-:root {
-    /* 모던 미색 컬러 팔레트 */
-    --nov-bg-base: #FAFAF7;       /* 메인 배경 (가장 밝은 미색) */
-    --nov-bg-panel: #F0EFEA;      /* 패널/버튼 배경 (따뜻한 웜그레이) */
-    --nov-bg-hover: #E6E4DD;      /* 호버 상태 배경 */
-    --nov-text-main: #3D3C3A;     /* 메인 텍스트 (완전한 검은색을 피해 눈의 피로도 낮춤) */
-    --nov-text-muted: #85837E;    /* 보조 텍스트 */
-    --nov-border: #E8E6E1;        /* 부드러운 테두리 선 */
-    
-    --nov-accent-primary: #8CA68C; /* 부드러운 세이지 그린 (포인트) */
-    --nov-accent-success: #78A378; /* 성공/적용 상태 */
-    --nov-accent-error: #D97E7E;   /* 에러 상태 */
+/* ─── 라이트 테마 (기본값) ─── */
+.nov-style-container,
+.nov-style-container[data-nov-theme="light"],
+.nov-style-popup,
+.nov-style-popup[data-nov-theme="light"],
+.nov-style-modal-overlay,
+.nov-style-modal-overlay[data-nov-theme="light"] {
+    /* 그린 계열 라이트 팔레트 */
+    --nov-bg-base:         #F7FAF7;
+    --nov-bg-panel:        #EAF0EA;
+    --nov-bg-hover:        #DCE6DC;
+    --nov-bg-badge:        #DCE8DC;
+    --nov-bg-input:        #FFFFFF;
+    --nov-text-main:       #2D3A2D;
+    --nov-text-muted:      #6B7D6B;
+    --nov-border:          #D4E0D4;
+    --nov-accent-primary:  #6B9E6B;
+    --nov-accent-success:  #5A8F5A;
+    --nov-accent-error:    #C75050;
+
+    --nov-accent-success-bg:     rgba(90, 143, 90, 0.1);
+    --nov-accent-error-bg:       rgba(199, 80, 80, 0.1);
+    --nov-accent-focus-ring:     rgba(107, 158, 107, 0.2);
+    --nov-accent-primary-shadow: rgba(107, 158, 107, 0.3);
+    --nov-accent-primary-hover:  #5A8D5A;
+    --nov-accent-error-hover:    #B04040;
+    --nov-text-on-accent:        #FFFFFF;
+    --nov-overlay-bg:            rgba(30, 40, 30, 0.45);
 
     /* 형태 및 애니메이션 */
     --nov-radius-sm: 6px;
@@ -20,6 +36,35 @@
     --nov-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
     --nov-shadow-md: 0 8px 24px rgba(0, 0, 0, 0.08);
     --nov-transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* ─── 다크 테마 ─── */
+.nov-style-container[data-nov-theme="dark"],
+.nov-style-popup[data-nov-theme="dark"],
+.nov-style-modal-overlay[data-nov-theme="dark"] {
+    --nov-bg-base:         #1A2420;
+    --nov-bg-panel:        #222E28;
+    --nov-bg-hover:        #2A3830;
+    --nov-bg-badge:        #2A3C30;
+    --nov-bg-input:        #1E2A24;
+    --nov-text-main:       #D4E4D4;
+    --nov-text-muted:      #8FA88F;
+    --nov-border:          #344038;
+    --nov-accent-primary:  #7BB87B;
+    --nov-accent-success:  #6BAF6B;
+    --nov-accent-error:    #E06060;
+
+    --nov-accent-success-bg:     rgba(107, 175, 107, 0.15);
+    --nov-accent-error-bg:       rgba(224, 96, 96, 0.15);
+    --nov-accent-focus-ring:     rgba(123, 184, 123, 0.25);
+    --nov-accent-primary-shadow: rgba(123, 184, 123, 0.35);
+    --nov-accent-primary-hover:  #8FC88F;
+    --nov-accent-error-hover:    #F07070;
+    --nov-text-on-accent:        #FFFFFF;
+    --nov-overlay-bg:            rgba(0, 0, 0, 0.6);
+
+    --nov-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+    --nov-shadow-md: 0 8px 24px rgba(0, 0, 0, 0.3);
 }
 
 /* ---- 사이드바 패널 ---- */
@@ -112,12 +157,12 @@
 }
 
 .nov-style-status.applied {
-    background: rgba(120, 163, 120, 0.1);
+    background: var(--nov-accent-success-bg);
     color: var(--nov-accent-success);
 }
 
 .nov-style-status.error {
-    background: rgba(217, 126, 126, 0.1);
+    background: var(--nov-accent-error-bg);
     color: var(--nov-accent-error);
 }
 
@@ -186,7 +231,7 @@
     align-items: center;
     justify-content: center;
     padding: 4px 14px;
-    background: #EAE8E3;
+    background: var(--nov-bg-badge);
     border-radius: 16px;
     letter-spacing: 0.5px;
 }
@@ -209,7 +254,7 @@
 .nov-style-popup-select:focus {
     outline: none;
     border-color: var(--nov-accent-primary);
-    box-shadow: 0 0 0 3px rgba(140, 166, 140, 0.2);
+    box-shadow: 0 0 0 3px var(--nov-accent-focus-ring);
 }
 
 .nov-style-popup-oneliner {
@@ -267,7 +312,7 @@
     max-height: 240px;
     overflow-y: auto;
     padding: 8px;
-    background: #FFFFFF;
+    background: var(--nov-bg-input);
     border: 1px solid var(--nov-border);
     border-radius: var(--nov-radius-sm);
     text-align: left;
@@ -329,7 +374,7 @@
     max-height: 260px;
     margin-top: 12px;
     padding: 12px;
-    background: #F8F7F4;
+    background: var(--nov-bg-panel);
     color: var(--nov-text-main);
     border: 1px solid var(--nov-border);
     border-radius: var(--nov-radius-sm);
@@ -381,14 +426,14 @@
 
 .nov-style-popup-apply-btn {
     background: var(--nov-accent-primary) !important;
-    color: #FFFFFF !important;
+    color: var(--nov-text-on-accent) !important;
     border-color: var(--nov-accent-primary) !important;
 }
 
 .nov-style-popup-apply-btn:hover {
     filter: brightness(1.05);
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(140, 166, 140, 0.3) !important;
+    box-shadow: 0 4px 12px var(--nov-accent-primary-shadow) !important;
 }
 
 /* 팝업 상태 메시지 */
@@ -453,9 +498,9 @@
 .nov-style-config-btn.active,
 .nov-style-mutex-btn.active,
 .nov-style-comb-btn.active {
-    background: var(--nov-text-main);
-    color: #FFFFFF;
-    border-color: var(--nov-text-main);
+    background: var(--nov-accent-primary);
+    color: var(--nov-text-on-accent);
+    border-color: var(--nov-accent-primary);
     font-weight: 600;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
@@ -495,7 +540,7 @@
     position: fixed;
     inset: 0;
     z-index: 9999;
-    background: rgba(40, 38, 35, 0.4);
+    background: var(--nov-overlay-bg);
     backdrop-filter: blur(4px);
     display: flex;
     align-items: center;
@@ -523,9 +568,8 @@
     align-items: center;
     justify-content: space-between;
     padding: 16px 20px;
-    background: #FFFFFF;
+    background: var(--nov-bg-input);
     border-bottom: 1px solid var(--nov-border);
-    font-size: 1.1em;
     font-weight: 700;
     color: var(--nov-text-main);
     flex-shrink: 0;
