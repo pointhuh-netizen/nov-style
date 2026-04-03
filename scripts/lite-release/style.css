@@ -1,0 +1,641 @@
+/* Nov Style Engine - style.css (Green Theme, Light / Dark) */
+
+/* ─── 라이트 테마 (기본값) ─── */
+.nov-style-container,
+.nov-style-container[data-nov-theme="light"],
+.nov-style-popup,
+.nov-style-popup[data-nov-theme="light"],
+.nov-style-modal-overlay,
+.nov-style-modal-overlay[data-nov-theme="light"] {
+    /* 그린 계열 라이트 팔레트 */
+    --nov-bg-base:         #F7FAF7;
+    --nov-bg-panel:        #EAF0EA;
+    --nov-bg-hover:        #DCE6DC;
+    --nov-bg-badge:        #DCE8DC;
+    --nov-bg-input:        #FFFFFF;
+    --nov-text-main:       #2D3A2D;
+    --nov-text-muted:      #6B7D6B;
+    --nov-border:          #D4E0D4;
+    --nov-accent-primary:  #6B9E6B;
+    --nov-accent-success:  #5A8F5A;
+    --nov-accent-error:    #C75050;
+
+    --nov-accent-success-bg:     rgba(90, 143, 90, 0.1);
+    --nov-accent-error-bg:       rgba(199, 80, 80, 0.1);
+    --nov-accent-focus-ring:     rgba(107, 158, 107, 0.2);
+    --nov-accent-primary-shadow: rgba(107, 158, 107, 0.3);
+    --nov-accent-primary-hover:  #5A8D5A;
+    --nov-accent-error-hover:    #B04040;
+    --nov-text-on-accent:        #FFFFFF;
+    --nov-overlay-bg:            rgba(30, 40, 30, 0.45);
+
+    /* 형태 및 애니메이션 */
+    --nov-radius-sm: 6px;
+    --nov-radius-md: 10px;
+    --nov-radius-lg: 16px;
+    --nov-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+    --nov-shadow-md: 0 8px 24px rgba(0, 0, 0, 0.08);
+    --nov-transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* ─── 다크 테마 ─── */
+.nov-style-container[data-nov-theme="dark"],
+.nov-style-popup[data-nov-theme="dark"],
+.nov-style-modal-overlay[data-nov-theme="dark"] {
+    --nov-bg-base:         #1A2420;
+    --nov-bg-panel:        #222E28;
+    --nov-bg-hover:        #2A3830;
+    --nov-bg-badge:        #2A3C30;
+    --nov-bg-input:        #1E2A24;
+    --nov-text-main:       #D4E4D4;
+    --nov-text-muted:      #8FA88F;
+    --nov-border:          #344038;
+    --nov-accent-primary:  #7BB87B;
+    --nov-accent-success:  #6BAF6B;
+    --nov-accent-error:    #E06060;
+
+    --nov-accent-success-bg:     rgba(107, 175, 107, 0.15);
+    --nov-accent-error-bg:       rgba(224, 96, 96, 0.15);
+    --nov-accent-focus-ring:     rgba(123, 184, 123, 0.25);
+    --nov-accent-primary-shadow: rgba(123, 184, 123, 0.35);
+    --nov-accent-primary-hover:  #8FC88F;
+    --nov-accent-error-hover:    #F07070;
+    --nov-text-on-accent:        #FFFFFF;
+    --nov-overlay-bg:            rgba(0, 0, 0, 0.6);
+
+    --nov-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+    --nov-shadow-md: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+/* ---- 사이드바 패널 ---- */
+.nov-style-container {
+    margin: 8px 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--nov-text-main);
+}
+
+.nov-style-drawer-content {
+    padding: 12px;
+    background: var(--nov-bg-base);
+    border-radius: var(--nov-radius-md);
+    box-shadow: var(--nov-shadow-sm);
+    border: 1px solid var(--nov-border);
+    margin-top: 4px;
+}
+
+.nov-style-sidebar-row {
+    margin-bottom: 12px;
+    width: 100%;
+}
+
+.nov-style-title {
+    color: var(--nov-text-main);
+    font-size: 0.95em;
+}
+
+/* 커스텀 체크박스 스타일링 */
+.nov-style-enable-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.95em;
+    font-weight: 500;
+    cursor: pointer;
+    color: var(--nov-text-main);
+    transition: var(--nov-transition);
+}
+
+.nov-style-checkbox {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--nov-accent-primary);
+    cursor: pointer;
+}
+
+/* 버튼 모던화 */
+#nov-style-settings .menu_button,
+#nov-style-settings button.menu_button,
+.nov-style-popup .menu_button {
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    box-sizing: border-box;
+    padding: 10px 16px;
+    background: var(--nov-bg-panel);
+    color: var(--nov-text-main);
+    border: 1px solid var(--nov-border);
+    border-radius: var(--nov-radius-sm);
+    font-size: 0.9em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--nov-transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+#nov-style-settings .menu_button:hover,
+.nov-style-popup .menu_button:hover {
+    background: var(--nov-bg-hover);
+    transform: translateY(-1px);
+    box-shadow: var(--nov-shadow-sm);
+}
+
+/* 사이드바 상태 바 (뱃지 형태) */
+.nov-style-status {
+    font-size: 0.85em;
+    font-weight: 500;
+    color: var(--nov-text-muted);
+    margin: 12px 0 2px;
+    padding: 8px 12px;
+    background: var(--nov-bg-panel);
+    border-radius: var(--nov-radius-sm);
+    text-align: center;
+    transition: var(--nov-transition);
+}
+
+.nov-style-status.applied {
+    background: var(--nov-accent-success-bg);
+    color: var(--nov-accent-success);
+}
+
+.nov-style-status.error {
+    background: var(--nov-accent-error-bg);
+    color: var(--nov-accent-error);
+}
+
+/* ---- 팝업 내부 레이아웃 ---- */
+.nov-style-popup {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding: 12px 8px;
+    min-width: 320px;
+    background: var(--nov-bg-base);
+}
+
+.nov-style-popup-section {
+    margin-bottom: 24px;
+}
+
+/* 가로선 (Line-through) 스타일 구분선 */
+.nov-style-popup-section-title {
+    font-size: 0.9em;
+    font-weight: 700;
+    color: var(--nov-text-muted);
+    margin-bottom: 20px;
+    padding-bottom: 0;
+    border-bottom: none;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    
+    display: flex;
+    align-items: center;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.nov-style-popup-section-title::before,
+.nov-style-popup-section-title::after {
+    content: "";
+    flex: 1;
+    border-bottom: 1px solid var(--nov-border);
+}
+
+.nov-style-popup-section-title::before { margin-right: 12px; }
+.nov-style-popup-section-title::after { margin-left: 12px; }
+
+/* 그룹 내 중앙 정렬 강제 및 점선 추가 */
+.nov-style-popup-axis-group {
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px dashed var(--nov-border);
+    text-align: center; 
+}
+
+.nov-style-popup-axis-group:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+
+/* 뱃지 형태의 라벨 디자인으로 변경하여 중앙 정렬 복구 */
+.nov-style-popup-axis-label {
+    font-size: 0.85em;
+    font-weight: 700;
+    color: var(--nov-text-main);
+    margin: 0 auto 12px auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 14px;
+    background: var(--nov-bg-badge);
+    border-radius: 16px;
+    letter-spacing: 0.5px;
+}
+
+/* 셀렉트 박스 */
+.nov-style-popup-select {
+    width: 100%;
+    padding: 8px 12px;
+    background: var(--nov-bg-base);
+    color: var(--nov-text-main);
+    border: 1px solid var(--nov-border);
+    border-radius: var(--nov-radius-sm);
+    font-size: 0.9em;
+    cursor: pointer;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.02);
+    transition: var(--nov-transition);
+    text-align: center;
+}
+
+.nov-style-popup-select:focus {
+    outline: none;
+    border-color: var(--nov-accent-primary);
+    box-shadow: 0 0 0 3px var(--nov-accent-focus-ring);
+}
+
+.nov-style-popup-oneliner {
+    font-size: 0.82em;
+    color: var(--nov-text-muted);
+    margin-top: 6px;
+    min-height: 1.2em;
+    line-height: 1.4;
+    text-align: center;
+}
+
+/* Combinable 접이식 섹션 중앙 정렬 복구 */
+.nov-style-popup-collapse-header {
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    gap: 8px;
+    padding: 10px 14px;
+    background: var(--nov-bg-panel);
+    border-radius: var(--nov-radius-sm);
+    cursor: pointer;
+    user-select: none;
+    font-size: 0.9em;
+    font-weight: 600;
+    color: var(--nov-text-main);
+    transition: var(--nov-transition);
+    margin-bottom: 8px;
+}
+
+.nov-style-popup-collapse-header:hover {
+    background: var(--nov-bg-hover);
+}
+
+.nov-style-popup-collapse-toggle {
+    font-size: 0.8em;
+    color: var(--nov-text-muted);
+    width: 16px;
+    text-align: center;
+}
+
+.nov-style-popup-count-badge {
+    font-size: 0.8em;
+    color: var(--nov-text-base);
+    background: var(--nov-bg-base);
+    padding: 2px 8px;
+    border-radius: 12px;
+    border: 1px solid var(--nov-border);
+}
+
+/* 체크박스 리스트 (내부 텍스트는 좌측 정렬 유지) */
+.nov-style-popup-checkbox-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-height: 240px;
+    overflow-y: auto;
+    padding: 8px;
+    background: var(--nov-bg-input);
+    border: 1px solid var(--nov-border);
+    border-radius: var(--nov-radius-sm);
+    text-align: left;
+}
+
+.nov-style-popup-checkbox-list.collapsed {
+    display: none;
+}
+
+.nov-style-popup-checkbox-list::-webkit-scrollbar {
+    width: 6px;
+}
+.nov-style-popup-checkbox-list::-webkit-scrollbar-thumb {
+    background: var(--nov-bg-hover);
+    border-radius: 3px;
+}
+
+.nov-style-popup-checkbox-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 6px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: var(--nov-transition);
+}
+
+.nov-style-popup-checkbox-item:hover {
+    background: var(--nov-bg-base);
+}
+
+.nov-style-popup-checkbox-item input[type="checkbox"] {
+    margin-top: 3px;
+    flex-shrink: 0;
+    accent-color: var(--nov-accent-primary);
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+}
+
+.nov-style-popup-mod-name {
+    display: block;
+    font-size: 0.9em;
+    font-weight: 600;
+    color: var(--nov-text-main);
+}
+
+.nov-style-popup-mod-oneliner {
+    display: block;
+    font-size: 0.82em;
+    color: var(--nov-text-muted);
+    margin-top: 2px;
+}
+
+/* 팝업 미리보기 (터미널/코드 블록 스타일 부드럽게) */
+.nov-style-popup-preview {
+    width: 100%;
+    min-height: 100px;
+    max-height: 260px;
+    margin-top: 12px;
+    padding: 12px;
+    background: var(--nov-bg-panel);
+    color: var(--nov-text-main);
+    border: 1px solid var(--nov-border);
+    border-radius: var(--nov-radius-sm);
+    font-size: 0.85em;
+    font-family: "JetBrains Mono", Consolas, monospace;
+    line-height: 1.5;
+    resize: vertical;
+    box-sizing: border-box;
+    display: none;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+    text-align: left;
+}
+
+.nov-style-popup-preview.visible {
+    display: block;
+}
+
+.nov-style-popup-preview-toggle {
+    cursor: pointer;
+    user-select: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border-radius: 4px;
+    transition: var(--nov-transition);
+    margin: 0 auto;
+}
+
+.nov-style-popup-preview-toggle:hover {
+    background: var(--nov-bg-panel);
+}
+
+/* 팝업 액션 버튼 영역 (가운데 정렬) */
+.nov-style-popup-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 16px;
+}
+
+.nov-style-popup-actions .menu_button {
+    flex: 1;
+    min-width: 100px;
+    padding: 12px;
+}
+
+.nov-style-popup-apply-btn {
+    background: var(--nov-accent-primary) !important;
+    color: var(--nov-text-on-accent) !important;
+    border-color: var(--nov-accent-primary) !important;
+}
+
+.nov-style-popup-apply-btn:hover {
+    filter: brightness(1.05);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px var(--nov-accent-primary-shadow) !important;
+}
+
+/* 팝업 상태 메시지 */
+.nov-style-popup-status {
+    font-size: 0.85em;
+    font-weight: 500;
+    color: var(--nov-text-muted);
+    margin-top: 12px;
+    text-align: center;
+    min-height: 1.3em;
+}
+
+.nov-style-popup-status.applied { color: var(--nov-accent-success); }
+.nov-style-popup-status.error { color: var(--nov-accent-error); }
+
+.nov-style-token-notice {
+    display: inline-block;
+    margin-top: 4px;
+    font-size: 0.78em;
+    color: var(--nov-text-muted, #888);
+    font-weight: normal;
+    line-height: 1.4;
+}
+
+/* Config, Mutex, Combinable 공통 버튼 스타일 */
+.nov-style-config-btn,
+.nov-style-mutex-btn,
+.nov-style-comb-btn {
+    padding: 6px 14px;
+    border: 1px solid var(--nov-border);
+    border-radius: 20px; /* 알약 형태의 모던 버튼 */
+    background: var(--nov-bg-base);
+    color: var(--nov-text-muted);
+    cursor: pointer;
+    font-size: 0.85em;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: var(--nov-transition);
+    user-select: none;
+    box-shadow: var(--nov-shadow-sm);
+}
+
+/* 버튼 그룹 가운데 정렬 */
+.nov-style-config-btn-group,
+.nov-style-mutex-btn-group,
+.nov-style-comb-btn-group {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.nov-style-config-btn:hover,
+.nov-style-mutex-btn:hover,
+.nov-style-comb-btn:hover {
+    background: var(--nov-bg-hover);
+    color: var(--nov-text-main);
+    transform: translateY(-1px);
+}
+
+.nov-style-config-btn.active,
+.nov-style-mutex-btn.active,
+.nov-style-comb-btn.active {
+    background: var(--nov-accent-primary);
+    color: var(--nov-text-on-accent);
+    border-color: var(--nov-accent-primary);
+    font-weight: 600;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* '선택없음' (Default) 버튼 완전 분리 (고스트 스타일) */
+.nov-style-config-btn.default-mode {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    color: var(--nov-text-muted);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-color: var(--nov-border);
+    padding: 6px 8px;
+    opacity: 0.8;
+}
+
+.nov-style-config-btn.default-mode:hover {
+    background: transparent;
+    color: var(--nov-text-main);
+    text-decoration-color: var(--nov-text-main);
+    transform: none;
+}
+
+.nov-style-config-btn.default-mode.active {
+    background: transparent;
+    color: var(--nov-text-main);
+    font-weight: 700;
+    border: none;
+    box-shadow: none;
+    text-decoration-color: var(--nov-text-main);
+    opacity: 1;
+}
+
+/* 모달 오버레이 및 다이얼로그 (세련된 블러 및 라이트 모달) */
+.nov-style-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: var(--nov-overlay-bg);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    box-sizing: border-box;
+    animation: fadeIn 0.2s ease-out;
+}
+
+.nov-style-modal-dialog {
+    background: var(--nov-bg-base);
+    border: 1px solid var(--nov-border);
+    border-radius: var(--nov-radius-lg);
+    width: 100%;
+    max-width: 760px;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--nov-shadow-md);
+    overflow: hidden;
+}
+
+.nov-style-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    background: var(--nov-bg-input);
+    border-bottom: 1px solid var(--nov-border);
+    font-weight: 700;
+    color: var(--nov-text-main);
+    flex-shrink: 0;
+}
+
+.nov-style-modal-close {
+    padding: 6px 12px;
+    font-size: 0.9em;
+    background: transparent;
+    border: none;
+    color: var(--nov-text-muted);
+    cursor: pointer;
+    border-radius: var(--nov-radius-sm);
+    transition: var(--nov-transition);
+}
+
+.nov-style-modal-close:hover {
+    background: var(--nov-bg-panel);
+    color: var(--nov-accent-error);
+}
+
+.nov-style-modal-body {
+    overflow-y: auto;
+    padding: 24px;
+    flex: 1;
+    background: var(--nov-bg-base);
+}
+
+.nov-style-modal-body::-webkit-scrollbar {
+    width: 8px;
+}
+.nov-style-modal-body::-webkit-scrollbar-thumb {
+    background: var(--nov-border);
+    border-radius: 4px;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Nov Style Lite ID aliases ─── */
+#style-nov-settings .menu_button,
+#style-nov-settings button.menu_button {
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    box-sizing: border-box;
+    padding: 10px 16px;
+    background: var(--nov-bg-panel);
+    color: var(--nov-text-main);
+    border: 1px solid var(--nov-border);
+    border-radius: var(--nov-radius-sm);
+    font-size: 0.9em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--nov-transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+#style-nov-settings .menu_button:hover {
+    background: var(--nov-bg-hover);
+    transform: translateY(-1px);
+    box-shadow: var(--nov-shadow-sm);
+}

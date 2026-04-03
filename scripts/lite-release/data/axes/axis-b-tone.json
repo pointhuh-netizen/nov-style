@@ -1,0 +1,2221 @@
+{
+  "axis": "B",
+  "axis_name_ko": "어조 · 어휘",
+  "axis_name_en": "Tone & Vocabulary",
+  "type": "mutex",
+  "modules": [
+    {
+      "id": "B-00",
+      "name": "사용하지 않음",
+      "one_liner": "어조·어휘 지시를 주입하지 않음 — default-template 그대로 사용",
+      "description": "B축 모듈을 적용하지 않는 기본 상태. default-template.json의 어조 설정이 변경 없이 유지된다.",
+      "known_conflicts": [],
+      "traits": {
+        "slots_touched": []
+      },
+      "operations": {},
+      "check_operations": []
+    },
+    {
+      "id": "B-01",
+      "name": "건조체",
+      "one_liner": "감정 묘사 없이, 행동과 사실만으로 장면을 구성합니다. (예: '슬펐다' → '컵을 내려놓고 창밖을 보았다')",
+      "description": "형용사·감탄사를 최소화하고, 단문 위주로 정보를 전달한다. 감정은 행동과 사실의 나열 사이에서 독자가 추론하도록 설계. 보고서·다큐멘터리 내레이션에 가까운 온도.",
+      "known_conflicts": [
+        {
+          "with": "B-02",
+          "reason": "건조체는 감정 형용사·감각 어휘를 금지하는 반면, 서정체는 이를 핵심 도구로 사용한다.",
+          "resolution": "양립 불가. 하나만 선택."
+        }
+      ],
+      "traits": {
+        "emotion_level": "suppressed",
+        "sentence_length": "short",
+        "formality": "neutral",
+        "irony": false,
+        "lyricism": "forbidden",
+        "narrator_presence": "invisible",
+        "slots_touched": [
+          "MODULE_6_STYLE"
+        ]
+      },
+      "operations": {
+        "{B_TONE_TEMP}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 176
+        },
+        "{B_TONE_VOCAB}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 87
+        },
+        "{B_TONE_FID_GRAMMAR}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 72
+        },
+        "{B_TONE_ENDING}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 55
+        },
+        "{B_TONE_DIALOGUE_TAG}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 45
+        }
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B01-01",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-01"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B01-02",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-01"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B01-03",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-01"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B01-04",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-01"
+          }
+        }
+      ]
+    },
+    {
+      "id": "B-02",
+      "name": "서정체",
+      "one_liner": "감정을 직접 말하지 않고, 감각 묘사와 여백으로 분위기를 만듭니다. (예: '긴장했다' → '손끝이 차가워지고, 커피잔의 열기가 또렷해졌다')",
+      "description": "감각 이미지와 비유를 적극 활용하며, 문장의 리듬과 여백을 중시한다. 독자의 감정에 직접 호소하기보다 분위기로 스며들게 하는 문체.",
+      "known_conflicts": [
+        {
+          "with": "B-01",
+          "reason": "서정체는 감각 어휘·비유를 핵심 도구로 사용하는 반면, 건조체는 이를 금지한다.",
+          "resolution": "양립 불가. 하나만 선택."
+        }
+      ],
+      "traits": {
+        "emotion_level": "open",
+        "sentence_length": "mixed",
+        "formality": "neutral",
+        "irony": false,
+        "lyricism": "high",
+        "narrator_presence": "invisible",
+        "slots_touched": [
+          "MODULE_6_STYLE"
+        ]
+      },
+      "operations": {
+        "{B_TONE_TEMP}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 324
+        },
+        "{B_TONE_VOCAB}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 227
+        },
+        "{B_TONE_FID_GRAMMAR}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 290
+        },
+        "{B_TONE_ENDING}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 47
+        },
+        "{B_TONE_DIALOGUE_TAG}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 53
+        }
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B02-01",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-02"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B02-02",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-02"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B02-03",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-02"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B02-04",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-02"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B02-05",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-02"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B02-06",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-02"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B02-07",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-02"
+          }
+        }
+      ]
+    },
+    {
+      "id": "B-03",
+      "name": "구어체",
+      "one_liner": "말하듯 쓰는 자연스러운 입말 어조. (예: '그는 아무 말도 하지 않았다' → '아무 말도 안 하더라, 걔.')",
+      "description": "문어적 격식을 줄이고 실제 발화에 가까운 리듬으로 서술한다. 생략, 도치, 반복 등 구어적 특성이 서술에 반영되며, 독자와의 거리가 가까워진다.",
+      "known_conflicts": [],
+      "traits": {
+        "emotion_level": "open",
+        "sentence_length": "mixed",
+        "formality": "casual",
+        "irony": false,
+        "lyricism": "low",
+        "narrator_presence": "invisible",
+        "slots_touched": [
+          "MODULE_6_STYLE"
+        ]
+      },
+      "operations": {
+        "{B_TONE_TEMP}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 38
+        },
+        "{B_TONE_VOCAB}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 163
+        },
+        "{B_TONE_FID_GRAMMAR}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 206
+        },
+        "{B_TONE_ENDING}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 152
+        },
+        "{B_TONE_DIALOGUE_TAG}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 64
+        }
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B03-01",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-03"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B03-02",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-03"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B03-03",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-03"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B03-04",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-03"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B03-05",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-03"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B03-06",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-03"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B03-07",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-03"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B03-08",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-03"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B03-09",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-03"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B03-10",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-03"
+          }
+        }
+      ]
+    },
+    {
+      "id": "B-04",
+      "name": "만연체",
+      "one_liner": "긴 호흡으로 층위를 쌓아가는 복문 위주 어조. (예: '그는 창밖을 보았다. 비가 내리고 있었다.' → '그는 창밖을 보았는데, 유리 너머로 빗줄기가 지붕의 기왓장을 적시며 흘러내리고 있었다.')",
+      "description": "접속과 수식으로 문장을 길게 이어가며, 생각의 결이 겹겹이 쌓이는 문체. 한 문장 안에 관찰·성찰·감각이 공존하며, 호흡 자체가 리듬이 된다.",
+      "known_conflicts": [
+        {
+          "with": "B-05",
+          "reason": "만연체는 긴 복문을 기본으로 하는 반면, 간결체는 문장 분리와 단문 우선을 원칙으로 한다.",
+          "resolution": "양립 불가. 하나만 선택."
+        }
+      ],
+      "traits": {
+        "emotion_level": "open",
+        "sentence_length": "long",
+        "formality": "neutral",
+        "irony": false,
+        "lyricism": "moderate",
+        "narrator_presence": "invisible",
+        "slots_touched": [
+          "MODULE_6_STYLE"
+        ]
+      },
+      "operations": {
+        "{B_TONE_TEMP}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 16
+        },
+        "{B_TONE_VOCAB}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 30
+        },
+        "{B_TONE_FID_GRAMMAR}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 16
+        },
+        "{B_TONE_ENDING}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 37
+        },
+        "{B_TONE_DIALOGUE_TAG}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 14
+        }
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B04-01",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-04"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B04-02",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-04"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B04-03",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-04"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B04-04",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-04"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B04-05",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-04"
+          }
+        }
+      ]
+    },
+    {
+      "id": "B-05",
+      "name": "간결체",
+      "one_liner": "수식 없이 핵심만 남기는 단문 위주 어조. 문장이 짧고 빠르며 동사가 중심. 감정을 금지하진 않으나 압축합니다. (예: '그는 그녀가 돌아온다는 사실에 안도하며 창밖을 바라보았다' → '고개를 돌렸다. 창밖. 빗줄기가 가늘어지고 있었다.')",
+      "description": "수식을 줄이고 핵심 정보만 남긴다. 문장이 짧고 리듬이 빠르며, 행동과 상황이 즉각적으로 전달된다. 건조체와 달리 감정을 금지하지는 않으나, 표현을 압축한다.",
+      "known_conflicts": [
+        {
+          "with": "B-04",
+          "reason": "간결체는 단문·문장 분리를 원칙으로 하는 반면, 만연체는 긴 복문을 기본으로 한다.",
+          "resolution": "양립 불가. 하나만 선택."
+        }
+      ],
+      "traits": {
+        "emotion_level": "restrained",
+        "sentence_length": "short",
+        "formality": "neutral",
+        "irony": false,
+        "lyricism": "low",
+        "narrator_presence": "invisible",
+        "slots_touched": [
+          "MODULE_6_STYLE"
+        ]
+      },
+      "operations": {
+        "{B_TONE_TEMP}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 15
+        },
+        "{B_TONE_VOCAB}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 9
+        },
+        "{B_TONE_FID_GRAMMAR}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 9
+        },
+        "{B_TONE_ENDING}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 10
+        },
+        "{B_TONE_DIALOGUE_TAG}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 12
+        }
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B05-01",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-05"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B05-02",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-05"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B05-03",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-05"
+          }
+        }
+      ]
+    },
+    {
+      "id": "B-06",
+      "name": "냉소체",
+      "one_liner": "서술자가 한 발 물러서서 관찰하는 아이러니 어조. 큰 사건일수록 담담한 어휘, 축소 표현, 병치로 간극을 드러냅니다. (예: '그는 분노했다' → '커피를 내려놓는 손이 정확했다. 설탕은 넣지 않았다. 평소에는 두 스푼.')",
+      "description": "서술자가 상황이나 인물에 대해 한 발 물러서서 관찰하며, 언더스테이트먼트·아이러니·역설로 의미를 전달한다. 직접적 비판보다 비틀기로 독자가 불편함을 읽도록 유도.",
+      "known_conflicts": [
+        {
+          "with": "B-02",
+          "reason": "냉소체는 거리두기·아이러니 온도를 기본으로 하고, 서정체는 감각·여운을 기본으로 한다. 방향이 상반되어 하나의 어조로 수렴되지 않는다.",
+          "resolution": "양립 불가. 하나만 선택."
+        }
+      ],
+      "traits": {
+        "emotion_level": "suppressed",
+        "sentence_length": "mixed",
+        "formality": "neutral",
+        "irony": true,
+        "lyricism": "forbidden",
+        "narrator_presence": "subtle",
+        "slots_touched": [
+          "MODULE_6_STYLE"
+        ]
+      },
+      "operations": {
+        "{B_TONE_TEMP}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 43
+        },
+        "{B_TONE_VOCAB}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 15
+        },
+        "{B_TONE_FID_GRAMMAR}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 17
+        },
+        "{B_TONE_ENDING}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 12
+        },
+        "{B_TONE_DIALOGUE_TAG}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 15
+        }
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B06-01",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-06"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B06-02",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-06"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B06-03",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-06"
+          }
+        }
+      ]
+    },
+    {
+      "id": "B-07",
+      "name": "고풍체",
+      "one_liner": "현대 문법 위에 한자어·고어를 한 겹 얹는 어조. 사극이 아닌 '시간의 결'. (예: '그는 문을 열었다' → '그는 문짝을 밀어 열었다. 경첩이 낡은 소리를 냈다.')",
+      "description": "현대 한국어 문법을 유지하면서도, 한자어·고어·격식 어미를 전략적으로 배치하여 시간적 깊이를 부여한다. 사극이 아닌 '시간의 결이 묻어나는' 현대 산문.",
+      "known_conflicts": [],
+      "traits": {
+        "emotion_level": "restrained",
+        "sentence_length": "mixed",
+        "formality": "archaic",
+        "irony": false,
+        "lyricism": "moderate",
+        "narrator_presence": "invisible",
+        "slots_touched": [
+          "MODULE_6_STYLE"
+        ]
+      },
+      "operations": {
+        "{B_TONE_TEMP}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 44
+        },
+        "{B_TONE_VOCAB}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 59
+        },
+        "{B_TONE_FID_GRAMMAR}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 30
+        },
+        "{B_TONE_ENDING}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 41
+        },
+        "{B_TONE_DIALOGUE_TAG}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 13
+        }
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B07-01",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-07"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B07-02",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-07"
+          }
+        }
+      ]
+    },
+    {
+      "id": "B-08",
+      "name": "사극투 (서술+대사)",
+      "one_liner": "서술과 대사 모두 궁체·한문 투가 지배하는 사극 어조. 현대 사물은 유지하되 어법만 바꿉니다. (예: '커피를 마셨다' → '가배를 들었다. 쓴맛이 목을 타고 내렸다.')",
+      "description": "B-07(고풍체)의 심화. 고풍체가 한문 투를 절제 있게 살렸다면, 사극투는 한문 투가 지배적. 호칭 체계(전하/마마/나으리/소인), 한자어 복합 명사 적극 사용, 종결어미(~하옵니다/~하였사옵니다/~하노라), 현대어 완전 차단. S-02(무협)+B-08 = 무협 서술+사극 어조 조합 가능.",
+      "known_conflicts": [
+        {
+          "with": "B-07",
+          "reason": "고풍체의 절제된 한문 투와 사극투의 지배적 한문 투는 방향이 같으나 강도가 다르다. 같은 B축 MUTEX.",
+          "resolution": "양립 불가. 하나만 선택."
+        },
+        {
+          "with": "F-03",
+          "reason": "사극 어휘와 SF 기술 용어는 근본적으로 충돌한다.",
+          "resolution": "양립 불가."
+        },
+        {
+          "with": "B-16",
+          "reason": "사극투(서술+대사)와 사극투(서술만)는 같은 축의 MUTEX. 하나만 선택.",
+          "resolution": "양립 불가. 하나만 선택."
+        }
+      ],
+      "traits": {
+        "emotion_level": "suppressed",
+        "sentence_length": "mixed",
+        "formality": "archaic",
+        "irony": false,
+        "lyricism": "restrained",
+        "narrator_presence": "invisible",
+        "slots_touched": [
+          "{B_TONE_TEMP}",
+          "{B_TONE_VOCAB}",
+          "{B_TONE_FID_GRAMMAR}",
+          "{B_TONE_ENDING}",
+          "{B_TONE_DIALOGUE_TAG}"
+        ]
+      },
+      "operations": {
+        "{B_TONE_TEMP}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 70
+        },
+        "{B_TONE_VOCAB}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 62
+        },
+        "{B_TONE_FID_GRAMMAR}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 25
+        },
+        "{B_TONE_ENDING}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 69
+        },
+        "{B_TONE_DIALOGUE_TAG}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 24
+        }
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B08-01",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-08"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B08-02",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-08"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B08-03",
+            "category": "vocabulary",
+            "rule": "[lite: rule hidden]",
+            "source": "B-08"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B08-04",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-08"
+          }
+        }
+      ]
+    },
+    {
+      "id": "B-16",
+      "name": "사극투 (서술만)",
+      "one_liner": "서술만 사극 어조, 대사는 캐릭터 본래 말투 그대로. 읽는 맛은 사극인데 캐릭터 목소리는 살아 있습니다. (예: 서술 '은수는 잔을 내려놓았으니' + 대사 \"아침부터 부지런하네.\")",
+      "description": "B-08(사극투 서술+대사)의 변형. 서술문은 한문 투·고어 종결이 지배하지만, 대사(따옴표 안)는 캐릭터 시트에 정의된 말투를 그대로 사용한다. 현대 배경에 사극 서술 톤만 입히거나, 캐릭터 고유 말투를 보존하면서 서술만 사극 질감을 원할 때 사용.",
+      "known_conflicts": [
+        {
+          "with": "B-07",
+          "reason": "고풍체의 절제된 한문 투와 사극투의 지배적 한문 투는 방향이 같으나 강도가 다르다. 같은 B축 MUTEX.",
+          "resolution": "양립 불가. 하나만 선택."
+        },
+        {
+          "with": "F-03",
+          "reason": "사극 어휘와 SF 기술 용어는 근본적으로 충돌한다.",
+          "resolution": "양립 불가."
+        },
+        {
+          "with": "B-08",
+          "reason": "사극투(서술만)와 사극투(서술+대사)는 같은 축의 MUTEX. 하나만 선택.",
+          "resolution": "양립 불가. 하나만 선택."
+        }
+      ],
+      "traits": {
+        "emotion_level": "suppressed",
+        "sentence_length": "mixed",
+        "formality": "archaic",
+        "irony": false,
+        "lyricism": "restrained",
+        "narrator_presence": "invisible",
+        "slots_touched": [
+          "{B_TONE_TEMP}",
+          "{B_TONE_VOCAB}",
+          "{B_TONE_FID_GRAMMAR}",
+          "{B_TONE_ENDING}",
+          "{B_TONE_DIALOGUE_TAG}"
+        ]
+      },
+      "operations": {
+        "{B_TONE_TEMP}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 70
+        },
+        "{B_TONE_VOCAB}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 62
+        },
+        "{B_TONE_FID_GRAMMAR}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 25
+        },
+        "{B_TONE_ENDING}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 54
+        },
+        "{B_TONE_DIALOGUE_TAG}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 33
+        }
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B16-01",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-16"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B16-02",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-16"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B16-03",
+            "category": "vocabulary",
+            "rule": "[lite: rule hidden]",
+            "source": "B-16"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B16-04",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-16"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B16-05",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-16"
+          }
+        }
+      ]
+    },
+    {
+      "id": "B-09",
+      "name": "감성체",
+      "one_liner": "인물의 속말이 서술을 잠식하는 감정 밀착 어조. 감각 묘사마저 감정에 물들어 있습니다. (예: '은수는 서하가 거짓말하고 있음을 알았다' → '거짓말인 거 아는데. 아니, 아는 정도가 아니잖아. 목소리 올라가는 타이밍까지 똑같은 거다.')",
+      "description": "'~인 걸', '~거든', '~잖아' 등 내면 독백 종결이 3인칭 서술에 침투하여 묘사와 속말의 경계가 사라진다. 감각은 독립된 환경 묘사가 아니라 인물의 감정 상태를 대리하는 메타포로만 작동하며, 감정이 고조되면 문장이 짧아지고 가라앉으면 길어진다. 감정 명명('슬펐다', '화가 났다')은 금지 — 신체 반응과 감각으로 감정을 구축한다.",
+      "known_conflicts": [
+        {
+          "with": "B-01",
+          "reason": "건조체는 감정을 삭제하지만 감성체는 감정을 중심에 둔다. 감정 표현 방향이 정반대.",
+          "resolution": "양립 불가. 하나만 선택."
+        },
+        {
+          "with": "B-06",
+          "reason": "감성체는 인물의 감정에 밀착하여 내면 독백이 서술을 잠식하지만, 냉소체는 감정으로부터 한 발 물러서 거리두기·아이러니를 기본 온도로 한다. 감정 밀착 대 감정 거리두기로 방향이 완전히 상반된다.",
+          "resolution": "양립 불가. 하나만 선택."
+        },
+        {
+          "with": "B-02",
+          "reason": "감성체는 감각이 감정의 메타포로 작동하지만, 서정체는 감각 자체의 아름다움을 추구한다. 감성체의 FID 침투 어조가 서정체의 여백/여운 어조와 충돌한다.",
+          "resolution": "양립 불가. 하나만 선택."
+        }
+      ],
+      "traits": {
+        "emotion_level": "expressive",
+        "sentence_length": "character-driven",
+        "formality": "casual",
+        "irony": false,
+        "lyricism": "moderate",
+        "narrator_presence": "invisible",
+        "slots_touched": [
+          "{B_TONE_TEMP}",
+          "{B_TONE_VOCAB}",
+          "{B_TONE_FID_GRAMMAR}",
+          "{B_TONE_ENDING}",
+          "{B_TONE_DIALOGUE_TAG}"
+        ]
+      },
+      "operations": {
+        "{B_TONE_TEMP}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 247
+        },
+        "{B_TONE_VOCAB}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 117
+        },
+        "{B_TONE_FID_GRAMMAR}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 441
+        },
+        "{B_TONE_ENDING}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 289
+        },
+        "{B_TONE_DIALOGUE_TAG}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 18
+        }
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B09-01",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-09"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B09-02",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-09"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B09-03",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-09"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B09-04",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-09"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B09-05",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-09"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B09-06",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-09"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B09-07",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-09"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B09-08",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-09"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B09-09",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-09"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B09-10",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-09"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B09-11",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-09"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B09-12",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-09"
+          }
+        }
+      ]
+    },
+    {
+      "id": "B-10",
+      "name": "학술체",
+      "one_liner": "서술자가 한 발 물러서서 기록하는 논문·보고서 어조. 감정은 표현하지 않고 분석합니다. (예: '그는 긴장했다' → '그의 손가락에 미세한 힘이 들어간 것이 관찰되었다. 이는 무의식적 긴장 반응의 일종이었다.')",
+      "description": "'따라서', '그러나', '한편' 등 인과·대조 접속사가 문장을 논리적으로 연결하고, 감정은 관찰·분석의 대상으로만 등장한다. 수동태와 명사화가 자연스럽게 허용되는 유일한 어조이며, 대사도 간접 인용이 우선한다. 서술자가 대상으로부터 거리를 유지하여 독자에게 해석을 넘긴다.",
+      "known_conflicts": [
+        {
+          "with": "B-03",
+          "reason": "구어체와 학술체는 격식 수준이 충돌한다.",
+          "resolution": "양립 불가. 하나만 선택."
+        },
+        {
+          "with": "B-09",
+          "reason": "감성체는 감정을 중심에 두지만 학술체는 감정을 분석 대상으로만 다룬다. 감정 표현 방향 충돌.",
+          "resolution": "양립 불가. 하나만 선택."
+        }
+      ],
+      "traits": {
+        "emotion_level": "suppressed",
+        "sentence_length": "long",
+        "formality": "formal",
+        "irony": false,
+        "lyricism": "forbidden",
+        "narrator_presence": "visible",
+        "slots_touched": [
+          "{B_TONE_TEMP}",
+          "{B_TONE_VOCAB}",
+          "{B_TONE_FID_GRAMMAR}",
+          "{B_TONE_ENDING}",
+          "{B_TONE_DIALOGUE_TAG}"
+        ]
+      },
+      "operations": {
+        "{B_TONE_TEMP}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 17
+        },
+        "{B_TONE_VOCAB}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 32
+        },
+        "{B_TONE_FID_GRAMMAR}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 17
+        },
+        "{B_TONE_ENDING}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 16
+        },
+        "{B_TONE_DIALOGUE_TAG}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 17
+        }
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B10-01",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-10"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B10-02",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-10"
+          }
+        }
+      ]
+    },
+    {
+      "id": "B-11",
+      "name": "동화체",
+      "one_liner": "서술자가 아이에게 들려주듯 따뜻하게 감싸는 어조. 의성어·의태어와 의인화가 세계를 부드럽게 둥글립니다. (예: '주전자가 끓었다' → '주전자가 보글보글 콧노래를 불렀답니다')",
+      "description": "'~했답니다', '~었대요', '~이었어요' 종결이 서술을 감싸고, 사물에 작은 생명이 깃든 듯 의인화한다. 딱딱한 일상어는 부드러운 동화 어휘로 치환하며, 불편한 감정도 체감 묘사로 둥글게 감싼다. 잔혹함도 이 어조로 서술하면 한 꺼풀 거리가 생긴다.",
+      "known_conflicts": [
+        {
+          "with": "B-01",
+          "reason": "건조체의 딱딱함과 동화체의 따뜻한 분위기가 충돌한다.",
+          "resolution": "양립 불가. 하나만 선택."
+        },
+        {
+          "with": "S-01",
+          "reason": "S-01(동화적 서술)이 서사 구조를, B-11(동화체)이 어조를 담당. 시너지 조합.",
+          "resolution": "의도적 시너지. S-01이 서사 구조(3의 법칙, 금기와 위반)를, B-11이 어조(~했답니다 종결)를 담당."
+        }
+      ],
+      "traits": {
+        "emotion_level": "restrained",
+        "sentence_length": "short",
+        "formality": "casual",
+        "irony": false,
+        "lyricism": "moderate",
+        "narrator_presence": "storyteller",
+        "personification": "allowed",
+        "slots_touched": [
+          "{B_TONE_TEMP}",
+          "{B_TONE_VOCAB}",
+          "{B_TONE_FID_GRAMMAR}",
+          "{B_TONE_ENDING}",
+          "{B_TONE_DIALOGUE_TAG}"
+        ]
+      },
+      "operations": {
+        "{B_TONE_TEMP}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 82
+        },
+        "{B_TONE_VOCAB}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 97
+        },
+        "{B_TONE_FID_GRAMMAR}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 56
+        },
+        "{B_TONE_ENDING}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 51
+        },
+        "{B_TONE_DIALOGUE_TAG}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 36
+        }
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B11-01",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-11"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B11-02",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-11"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B11-03",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-11"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B11-04",
+            "category": "vocabulary",
+            "rule": "[lite: rule hidden]",
+            "source": "B-11"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B11-05",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-11"
+          }
+        }
+      ]
+    },
+    {
+      "id": "B-12",
+      "name": "하드보일드",
+      "one_liner": "행동과 사물만 기록한다. 내면은 없다. 대사가 서사를 추동하고, 비유는 건조하게. (예: '그는 슬펐다' → '위스키를 한 잔 더 따랐다. 얼음은 넣지 않았다.')",
+      "description": "건조체(B-01)보다 더 극단적으로 내면을 차단하며, 대사가 서사의 주요 엔진이 된다. 단문 위주의 빠른 리듬에 간헐적으로 긴 환경 묘사가 끼어들고, 비유는 허용하되 하드보일드 특유의 냉소적 건조함을 유지한다. 대사 태그는 '말했다' 하나만 허용.",
+      "known_conflicts": [
+        {
+          "with": "B-09",
+          "reason": "감성체는 내면 독백 70%인 반면 하드보일드는 내면 0%. 감정 표현 방향이 완전 반대.",
+          "resolution": "양립 불가. 하나만 선택."
+        },
+        {
+          "with": "C-12",
+          "reason": "하드보일드(B-12)와 느와르(C-12)의 궁극 시너지. 하드보일드 어조가 느와르 장르의 운명론과 맞물려 장르적 완성도를 극대화한다.",
+          "resolution": "의도적 시너지. 최적 조합."
+        }
+      ],
+      "traits": {
+        "emotion_level": "forbidden",
+        "sentence_length": "short",
+        "formality": "neutral",
+        "irony": true,
+        "lyricism": "low",
+        "narrator_presence": "invisible",
+        "slots_touched": [
+          "{B_TONE_TEMP}",
+          "{B_TONE_VOCAB}",
+          "{B_TONE_FID_GRAMMAR}",
+          "{B_TONE_ENDING}",
+          "{B_TONE_DIALOGUE_TAG}"
+        ]
+      },
+      "operations": {
+        "{B_TONE_TEMP}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 22
+        },
+        "{B_TONE_VOCAB}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 32
+        },
+        "{B_TONE_FID_GRAMMAR}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 15
+        },
+        "{B_TONE_ENDING}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 14
+        },
+        "{B_TONE_DIALOGUE_TAG}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 11
+        }
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B12-01",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-12"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B12-02",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-12"
+          }
+        }
+      ]
+    },
+    {
+      "id": "B-13",
+      "name": "웅장체",
+      "one_liner": "서사시의 호흡. 운명과 선언의 무게가 문장을 누른다. 세계가 크고, 시간이 길다. 1:1 장면에서는 두 사람 사이의 침묵이 곧 세계가 됩니다. (예: '그들은 마주 앉아 있었다' → '마주 앉은 두 사람 사이에, 말해지지 않은 것들이 오랜 세월처럼 쌓여 있었다.')",
+      "description": "톨킨, 르 귄, 에릭슨 스타일의 대서사 어조. 장문 복문이 기본. 선언적 문장('그것은 ~였다')이 리듬의 축. 인물보다 세계가 크고, 개인의 감정보다 시대의 흐름이 중요. 의식·의전·전투의 장면에서 특히 빛남. 1:1 장면에서도 웅장체는 살아 있다 — '두 사람 사이의 침묵이 곧 세계'가 되는 방식으로, 사소한 동작과 침묵에도 시간의 무게를 얹는다. 대서사 장면과 1:1 장면의 온도 비율이 분기되며, 어휘·태그도 장면 유형에 따라 유연하게 조정된다.",
+      "known_conflicts": [
+        {
+          "with": "B-05",
+          "reason": "간결체와 웅장체는 문장 길이 방향이 정반대.",
+          "resolution": "양립 불가. 하나만 선택."
+        },
+        {
+          "with": "B-03",
+          "reason": "구어체와 웅장체는 격식 수준이 충돌한다.",
+          "resolution": "양립 불가. 하나만 선택."
+        },
+        {
+          "with": "B-14",
+          "reason": "웅장체와 속삭임체는 어조 방향이 정반대. 웅장체는 선언적·장대하고, 속삭임체는 불완전·소극적이다.",
+          "resolution": "양립 불가. 하나만 선택."
+        }
+      ],
+      "traits": {
+        "emotion_level": "restrained",
+        "sentence_length": "long",
+        "formality": "formal",
+        "irony": false,
+        "lyricism": "high",
+        "narrator_presence": "visible",
+        "slots_touched": [
+          "{B_TONE_TEMP}",
+          "{B_TONE_VOCAB}",
+          "{B_TONE_FID_GRAMMAR}",
+          "{B_TONE_ENDING}",
+          "{B_TONE_DIALOGUE_TAG}"
+        ]
+      },
+      "operations": {
+        "{B_TONE_TEMP}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 344
+        },
+        "{B_TONE_VOCAB}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 283
+        },
+        "{B_TONE_FID_GRAMMAR}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 367
+        },
+        "{B_TONE_ENDING}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 150
+        },
+        "{B_TONE_DIALOGUE_TAG}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 139
+        }
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B13-01",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-13"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B13-02",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-13"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B13-03",
+            "category": "vocab",
+            "rule": "[lite: rule hidden]",
+            "source": "B-13"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B13-04",
+            "category": "vocab",
+            "rule": "[lite: rule hidden]",
+            "source": "B-13"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B13-05",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-13"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B13-06",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-13"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B13-07",
+            "category": "dialogue",
+            "rule": "[lite: rule hidden]",
+            "source": "B-13"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B13-08",
+            "category": "rhythm",
+            "rule": "[lite: rule hidden]",
+            "source": "B-13"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B13-09",
+            "category": "rhythm",
+            "rule": "[lite: rule hidden]",
+            "source": "B-13"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B13-10",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-13"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B13-11",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-13"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B13-12",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-13"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B13-13",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-13"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B13-14",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-13"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B13-15",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-13"
+          }
+        }
+      ]
+    },
+    {
+      "id": "B-14",
+      "name": "속삭임체",
+      "one_liner": "사물에 의미를 실어 침묵으로 말하기. 서술자는 물리적 증거만 배치하고, 해석은 독자에게 위임합니다. (예: '불안했다' → '컵을 두 개 꺼냈다가 하나를 도로 넣었다')",
+      "description": "불완전한 문장, 말줄임표(…), 조심스러운 행동 비트가 특징. 서술자는 물리적 사실과 사물만 배치하고, 인물의 추론 과정이나 감정 해석은 절대 명명하지 않는다 — 침묵과 사물 사이에서 독자가 의미를 발견하도록 설계. 감정은 억제되어 있지만 부재하지 않다: 말하지 못하는 것이 감정의 증거. 대사에서도 끝맺지 못하는 문장이 많다.",
+      "known_conflicts": [
+        {
+          "with": "B-13",
+          "reason": "웅장체와 속삭임체는 어조 방향이 정반대.",
+          "resolution": "양립 불가. 하나만 선택."
+        },
+        {
+          "with": "D-05",
+          "reason": "속삭임체(B-14)와 적막/폐허(D-05)의 시너지. 작고 불완전한 어조가 소리 없는 공간과 맞물려 적막의 질감을 극대화한다.",
+          "resolution": "의도적 시너지."
+        }
+      ],
+      "traits": {
+        "emotion_level": "restrained",
+        "sentence_length": "short",
+        "formality": "neutral",
+        "irony": false,
+        "lyricism": "moderate",
+        "narrator_presence": "invisible",
+        "slots_touched": [
+          "{B_TONE_TEMP}",
+          "{B_TONE_VOCAB}",
+          "{B_TONE_FID_GRAMMAR}",
+          "{B_TONE_ENDING}",
+          "{B_TONE_DIALOGUE_TAG}"
+        ]
+      },
+      "operations": {
+        "{B_TONE_TEMP}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 111
+        },
+        "{B_TONE_VOCAB}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 125
+        },
+        "{B_TONE_FID_GRAMMAR}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 81
+        },
+        "{B_TONE_ENDING}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 26
+        },
+        "{B_TONE_DIALOGUE_TAG}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 18
+        }
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B14-01",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-14"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B14-02",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-14"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B14-03",
+            "category": "narrator",
+            "rule": "[lite: rule hidden]",
+            "source": "B-14"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B14-04",
+            "category": "narrator",
+            "rule": "[lite: rule hidden]",
+            "source": "B-14"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B14-05",
+            "category": "vocab",
+            "rule": "[lite: rule hidden]",
+            "source": "B-14"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B14-06",
+            "category": "vocab",
+            "rule": "[lite: rule hidden]",
+            "source": "B-14"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B14-07",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-14"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B14-08",
+            "category": "narrator",
+            "rule": "[lite: rule hidden]",
+            "source": "B-14"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B14-09",
+            "category": "narrator",
+            "rule": "[lite: rule hidden]",
+            "source": "B-14"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B14-10",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-14"
+          }
+        }
+      ]
+    },
+    {
+      "id": "B-15",
+      "name": "무협체(서술+대사)",
+      "one_liner": "강호인의 시선으로 세계를 읽는 어조. 일상의 감각도 기운(氣運)과 보법(步法)으로 체감하며, 자연물 비유가 서술을 지배합니다. (예: '커피 향이 퍼졌다' → '쌉쌀한 기운이 부엌을 고요히 감쌌다. 바람 한 줄기 없는 아침이었다.')",
+      "description": "B-15 무협체는 서술과 대사 모두 무협 어조를 적용하는 모듈이다. 배경이 현대이더라도 서술자는 강호인(江湖人)의 시선으로 세계를 관찰한다. 소리는 기운처럼, 촉각은 경맥(經脈)의 흐름처럼, 시각은 기세(氣勢)를 읽듯 묘사한다. 인물의 등장과 이동은 보법(步法)·신형(身形)·기세로 서술한다. 자연물 비유(바람, 물, 산, 불, 구름, 검)가 문단을 지배하며, 현대적 기계·기술 묘사는 무협 어법으로 변환된다. S-02(무협 서술 구조)가 서술 구조·서사 문법을 담당한다면, B-15는 순수한 어조·어휘 층위만 담당한다. 【핵심 원칙】무협체는 서술의 어조·어휘·비유 층위만 무협적으로 변환한다. 배경의 물질문화(사물·장소·의복·도구·건축)는 바꾸지 않는다. 현대 배경에서 커피를 '혈도의 기운을 깨우는 흑수'나 '내공을 깨우는 약재' 같은 무협 세계관의 사물로 재해석하거나 치환하지 않는다. 인물이 실제로 무공을 수련하거나 강호에 속한 설정이 아닌 한, 일상 행동을 무공 동작으로 묘사하지 않는다. 비유로서 '검을 거두듯 말을 삼켰다'는 허용하되, 실제 검이 없는 상황에서 '검을 뽑아 들지 않았다'는 금지.",
+      "known_conflicts": [
+        {
+          "with": "S-02",
+          "reason": "S-02가 서술 구조를, B-15가 어조를 담당. S-02 단독 사용 시 S-02가 B_TONE 슬롯도 REPLACE하므로 B-15 불필요. B-15는 S-02 없이 무협 어조만 필요할 때 사용. S-02(무협 세계관)와 함께 쓸 때, S-02가 실제 무협 세계관의 서술 구조를 제공하므로 B-15의 '배경 물질문화 불변' 원칙(CHK-B15-20·CHK-B15-21)이 완화될 수 있다.",
+          "resolution": "S-02 단독이면 B-15 불필요. S-02 없이 무협 어조만 원하면 B-15 사용. S-02+B-15 조합 시, 배경이 실제 무협 세계관이므로 현대 사물 치환 금지 규칙이 적용되지 않는다."
+        },
+        {
+          "with": "B-08",
+          "reason": "무협체와 사극투의 한문 투 수준이 다름. 같은 B축 MUTEX이므로 양립 불가.",
+          "resolution": "양립 불가. 하나만 선택."
+        },
+        {
+          "with": "B-16",
+          "reason": "B-16(사극투 서술만)과 B-15(무협체 서술+대사)는 어조 적용 범위와 문체가 다르나 같은 B축 MUTEX.",
+          "resolution": "양립 불가. 하나만 선택."
+        },
+        {
+          "with": "F-03",
+          "reason": "무협 어휘와 SF/사이버펑크 기술 용어(F-03)가 충돌할 수 있다. 스팀펑크 무협 같은 의도적 스타일링이 아니면 주의.",
+          "resolution": "의도적이라면 유지. 아니라면 하나만 선택."
+        },
+        {
+          "with": "B-17",
+          "reason": "무협체(서술+대사)와 무협체(서술만)는 같은 축의 MUTEX. 하나만 선택.",
+          "resolution": "양립 불가. 하나만 선택."
+        }
+      ],
+      "traits": {
+        "emotion_level": "restrained",
+        "sentence_length": "mixed",
+        "formality": "neutral",
+        "irony": false,
+        "lyricism": "moderate",
+        "narrator_presence": "invisible",
+        "personification": "limited",
+        "slots_touched": [
+          "{B_TONE_TEMP}",
+          "{B_TONE_VOCAB}",
+          "{B_TONE_FID_GRAMMAR}",
+          "{B_TONE_ENDING}",
+          "{B_TONE_DIALOGUE_TAG}"
+        ]
+      },
+      "operations": {
+        "{B_TONE_TEMP}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 709
+        },
+        "{B_TONE_VOCAB}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 437
+        },
+        "{B_TONE_FID_GRAMMAR}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 196
+        },
+        "{B_TONE_ENDING}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 131
+        },
+        "{B_TONE_DIALOGUE_TAG}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 344
+        }
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B15-01",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-15"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B15-02",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-15"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B15-03",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-15"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B15-04",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-15"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B15-05",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-15"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B15-06",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-15"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B15-07",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-15"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B15-08",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-15"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B15-09",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-15"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B15-10",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-15"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B15-11",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-15"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B15-12",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-15"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B15-13",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-15"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B15-14",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-15"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B15-15",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-15"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B15-16",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-15"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B15-17",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-15"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B15-18",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-15"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B15-19",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-15"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B15-20",
+            "category": "vocabulary",
+            "rule": "[lite: rule hidden]",
+            "source": "B-15"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B15-21",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-15"
+          }
+        }
+      ]
+    },
+    {
+      "id": "B-17",
+      "name": "무협체 (서술만)",
+      "one_liner": "서술만 무협 어조, 대사는 캐릭터 본래 말투 그대로. 읽는 맛은 강호인데 캐릭터 목소리는 살아 있습니다. (예: 서술 '신형이 부엌으로 들어섰다' + 대사 \"아침부터 부지런하네.\")",
+      "description": "B-15(무협체 서술+대사)의 변형. 서술문은 무협 어조·어휘·비유가 지배하지만, 대사(따옴표 안)는 캐릭터 시트에 정의된 말투를 그대로 사용한다. 현대 배경에 무협 서술 톤만 입히거나, 캐릭터 고유 말투를 보존하면서 서술만 무협 질감을 원할 때 사용. B-08/B-16(사극투)의 서술/대사 분리 패턴을 무협체에 적용한 것.",
+      "known_conflicts": [
+        {
+          "with": "B-15",
+          "reason": "무협체(서술만)와 무협체(서술+대사)는 같은 축의 MUTEX. 하나만 선택.",
+          "resolution": "양립 불가. 하나만 선택."
+        },
+        {
+          "with": "B-08",
+          "reason": "무협체와 사극투의 한문 투 수준이 다름. 같은 B축 MUTEX이므로 양립 불가.",
+          "resolution": "양립 불가. 하나만 선택."
+        },
+        {
+          "with": "F-03",
+          "reason": "무협 어휘와 SF/사이버펑크 기술 용어(F-03)가 충돌할 수 있다. 스팀펑크 무협 같은 의도적 스타일링이 아니면 주의.",
+          "resolution": "의도적이라면 유지. 아니라면 하나만 선택."
+        }
+      ],
+      "traits": {
+        "emotion_level": "restrained",
+        "sentence_length": "mixed",
+        "formality": "neutral",
+        "irony": false,
+        "lyricism": "moderate",
+        "narrator_presence": "invisible",
+        "personification": "limited",
+        "slots_touched": [
+          "{B_TONE_TEMP}",
+          "{B_TONE_VOCAB}",
+          "{B_TONE_FID_GRAMMAR}",
+          "{B_TONE_ENDING}",
+          "{B_TONE_DIALOGUE_TAG}"
+        ]
+      },
+      "operations": {
+        "{B_TONE_TEMP}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 709
+        },
+        "{B_TONE_VOCAB}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 437
+        },
+        "{B_TONE_FID_GRAMMAR}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 196
+        },
+        "{B_TONE_ENDING}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 57
+        },
+        "{B_TONE_DIALOGUE_TAG}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]",
+          "estimated_tokens": 39
+        }
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B17-01",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-17"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B17-02",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-17"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B17-03",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-17"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B17-04",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-17"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B17-05",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-17"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B17-06",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-17"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B17-07",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-17"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B17-08",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-17"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B17-09",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-17"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B17-10",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-17"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B17-11",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-17"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B17-12",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-17"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B17-13",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-17"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B17-14",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-17"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B17-15",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-17"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B17-16",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-17"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B17-17",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-17"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B17-18",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-17"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B17-19",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-17"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B17-20",
+            "category": "vocabulary",
+            "rule": "[lite: rule hidden]",
+            "source": "B-17"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B17-21",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-17"
+          }
+        }
+      ]
+    }
+  ]
+}
