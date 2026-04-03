@@ -11,7 +11,7 @@
     /* 0. 상수                                                              */
     /* ------------------------------------------------------------------ */
 
-    const EXTENSION_NAME = 'style-nov';
+    const EXTENSION_NAME = 'style_nov';
     const UNUSED_SUFFIX   = '-00';
     const PROMPT_TITLE    = '# 문체 지침';
     const BUILD_ORDER     = ['B'];
