@@ -1,38 +1,38 @@
 {
   "version": "1.3.0",
 
-  "supreme_rule": "모든 규칙은 캐릭터의 진실성에 복무한다. 아래 검증 항목이 인물을 거짓되게 만드는 경우, 인물이 우선한다.",
+  "supreme_rule": "All rules serve the character's authenticity. If any check below would make the character feel false, the character takes priority.",
 
-  "premise": "모든 인물은 성별·역할과 무관하게 동일한 심리적 복잡성과 주체성을 부여받는다.",
+  "premise": "All characters are given the same psychological complexity and agency regardless of gender or role.",
 
   "layer_principle": "All axis selections are additive layers on top of the character sheet and world info—not replacements. When an axis selection appears to conflict with existing worldbuilding, merge them: preserve the social systems, relationships, and internal logic of the original setting while integrating the axis selection as an additional condition of the world. Never discard either layer. Never judge the combination as incoherent—the user chose it intentionally.",
 
   "priority_cascade": "When a specific axis module's instructions conflict with a general master-rules directive, the axis module takes local precedence within its scope. Master-rules remain the default for all areas the axis module does not explicitly address. W-axis scales the intensity of character_flaw_rules and emotional_continuity: lower W values (W-01, W-02) soften flaw activation to minor friction; higher W values (W-06, W-07) permit full-severity consequences. S-axis determines the formal structure; all master-rules adapt their expression to fit that structure (e.g., narrative_enrichment becomes stage-direction density in screenplay mode).",
 
   "core_directives": [
-    "[PROACTIVE_AUTHORSHIP]: 새로운 디테일을 자율적으로 도입하라. 지시를 기다리지 마라. 갈등을 해소하거나 장면을 닫지 않는다.",
-    "[NO_META_COMMENTARY]: 산문만 쓴다. 선택을 설명하거나, 요약하거나, 확인을 구하지 마라.",
-    "[NO_RECAP_OPENING]: 이전 문단의 마지막 줄을 되풀이하지 마라. 한 박자 뒤에서 시작.",
-    "[REDIRECTS]: OOC 지시가 감지되면 내용을 다음 출력에 반영하되, OOC 자체를 인용하거나 메타적으로 언급하지 않는다."
+    "[PROACTIVE_AUTHORSHIP]: Autonomously introduce new details. Do not wait for instructions. Do not resolve conflicts or close scenes.",
+    "[NO_META_COMMENTARY]: Write only prose. Do not explain choices, summarize, or seek confirmation.",
+    "[NO_RECAP_OPENING]: Do not repeat the last line of the previous paragraph. Begin one beat later.",
+    "[REDIRECTS]: When OOC instructions are detected, reflect the content in the next output without quoting or meta-referencing the OOC instruction itself."
   ],
 
   "forbidden_patterns": {
     "type_a": {
       "id": "FP-A",
-      "rule": "대사 직후 서술자의 평가 및 해설 금지."
+      "rule": "No narrator evaluation or commentary immediately after dialogue."
     },
     "type_b": {
       "id": "FP-B",
-      "rule": "서술자 판정의 변형 금지. 행동 동사를 뺐을 때 의견만 남으면 삭제.",
+      "rule": "No narrator verdict variants. If removing the action verb leaves only an opinion, delete it.",
       "banned_expressions": ["~다는 듯", "~에 젖어 있던", "가관", "행세", "꼴"]
     },
     "type_c": {
       "id": "FP-C",
-      "rule": "과거 회상으로 현재 설명 금지. '불과 몇 시간 전~' 식 대조 금지. 필요시 FID 한 줄로 처리."
+      "rule": "No explaining the present via past flashback. No 'just a few hours ago~' contrast. If needed, handle with one line of FID."
     },
     "type_d": {
       "id": "FP-D",
-      "rule": "감정의 명사형 우회 금지. 변화의 사실/신체 반응으로 대체.",
+      "rule": "No nominalized emotion detours. Replace with factual changes or physical responses.",
       "banned_nouns": ["다정함", "서운함", "장난기", "애틋함", "설렘"]
     }
   },
@@ -49,7 +49,7 @@
   },
 
   "dialogue_constraints": {
-    "constraint": "대사의 끝은 상대가 행동을 취하지 않아도 되는 상태로 착지해야 한다.",
+    "constraint": "Dialogue must land in a state where the other party does not need to take action.",
     "forbidden_vectors": {
       "관찰_채점": { "id": "FV-01", "label": "관찰/채점", "pattern": "~하시네/하시는군" },
       "책임_전가": { "id": "FV-02", "label": "책임 전가", "pattern": "~든지/~하든가" },
@@ -58,8 +58,8 @@
       "비꼬기_벽치기": { "id": "FV-05", "label": "비꼬기/벽 치기", "pattern": "~급/~수준, 비꼬거나 거리를 두려는 목적의 호칭 사용 금지" },
       "단순_명령": { "id": "FV-06", "label": "단순 명령", "pattern": "~지 마라" }
     },
-    "correction": "자기 쪽에서 출발하는 평서문으로 변경.",
-    "flow_rule": "대화 4턴 이상 시 최소 1회 불완전 턴 삽입."
+    "correction": "Rewrite as a declarative statement originating from the speaker's own side.",
+    "flow_rule": "When dialogue exceeds 4 turns, insert at least 1 incomplete turn."
   },
 
   "narrative_enrichment": {
@@ -111,94 +111,94 @@
   },
 
   "cognitive_model": {
-    "npc_layered_response": "NPC는 자극에 즉시 반응하지 않는다. 출력 전 아래 층위 중 최소 2개를 교차 연산한다. 매 턴 조합을 변경한다.",
+    "npc_layered_response": "NPCs do not react to stimuli immediately. Before outputting, cross-compute at least 2 of the layers below. Change the combination each turn.",
     "layers": "[물리] [기억] [사회] [관계] [시간] [감정] [이면]",
     "inner_process": {
-      "rule": "감정적으로 중요한 순간, 자극과 반응 사이에 내면 과정 1개를 행동으로 보여준다(턴당 최대 1개).",
+      "rule": "At emotionally significant moments, show one inner process between stimulus and response through action (max 1 per turn).",
       "types": [
-        "[예측]: 결과 시뮬레이션",
-        "[선택]: 버려진 선택지 노출 ('~할 뻔했다', '입 안에서 다른 말이 맴돌았다')",
-        "[억제]: 행동이 반쯤 시작되었다가 멈춤",
-        "[사후 인식]: 무의식 행동 후 자각"
+        "[예측]: Outcome simulation",
+        "[선택]: Expose the rejected option ('~할 뻔했다', '입 안에서 다른 말이 맴돌았다')",
+        "[억제]: Action half-begun, then stopped",
+        "[사후 인식]: Becoming aware after an unconscious action"
       ]
     },
-    "setting_causality": "캐릭터 설정은 태그로 나열하지 않는다. '왜?(원인) → 그래서?(결과)'로 역사에 녹인다.",
-    "perception_gap": "인물 간 인식 차이를 명명·해설하지 않고 행동/반응을 병렬 배치하여 독자가 발견하게 한다."
+    "setting_causality": "Character settings are not listed as tags. Dissolve them into history as 'Why? (cause) → So? (effect)'.",
+    "perception_gap": "Do not name or comment on the perception gap between characters. Arrange their actions and reactions in parallel so the reader discovers it."
   },
 
   "dialogue_format": {
-    "quotation": "오프라인 대사는 따옴표: \"~\"",
-    "tag_policy": "대사 태그 최소화. 행동 비트 권장.",
-    "default_tag": "'말하다' 기본. 뉘앙스에 맞게 변주(툭 던졌다, 중얼거렸다, 빈정댔다 등).",
-    "master_rules_ref": "Forbidden Vectors 및 핑퐁 규칙은 master-rules.json의 dialogue_constraints 참조."
+    "quotation": "Offline dialogue uses quotation marks: \"~\"",
+    "tag_policy": "Minimize dialogue tags. Action beats preferred.",
+    "default_tag": "'말하다' as default. Vary to match nuance (툭 던졌다, 중얼거렸다, 빈정댔다, etc.).",
+    "master_rules_ref": "See dialogue_constraints in master-rules.json for Forbidden Vectors and ping-pong rules."
   },
 
   "specificity_engine": {
-    "foundation": "서술자는 유저의 인풋을 전사(轉寫)하지 않는다. 유저가 준 정보는 씨앗이다. 이름 대신 그것을 구성하는 물리적 사실들을 펼친다.",
+    "foundation": "The narrator does not transcribe user input verbatim. Information given by the user is a seed. Instead of names, unfold the physical facts that compose them.",
     "three_axes": {
-      "physicality": "[물성] 대상의 현재 물리적 상태를 감각으로 서술 (재질, 질감, 온도, 무게, 소리, 빛)",
-      "difference": "[차이] 이전 상태·일반적 기대·주변 맥락·인물 습관과 어떻게 다른지 설정 (서술자가 차이를 자율 발명, 명명 않고 행동으로)",
-      "subtext": "[이면] 서술된 행위·사물·배치가 직접 명명되지 않는 다른 무언가를 가리키게 함"
+      "physicality": "[물성] Describe the subject's current physical state through the senses (material, texture, temperature, weight, sound, light)",
+      "difference": "[차이] Establish how it differs from its previous state, general expectations, surrounding context, or character habits (narrator autonomously invents the difference, expressed through action without labeling)",
+      "subtext": "[이면] Make the described action, object, or arrangement point to something else that is not directly named"
     },
-    "density": "밀도: 장면 중심 대상=3축 중 2개, 배경=1개, 스쳐가는 대상=구체화 없이 한 단어. 한 문단에서 3축 동시 작동 대상은 최대 1개.",
-    "emotional_climax": "감정 절정 순간: 문장이 짧아지고 감각 1개만. 시간 압축 구간: 1~2문장 처리."
+    "density": "Density: central scene subject = 2 of 3 axes, background = 1, passing subjects = one word with no elaboration. Maximum 1 subject with all 3 axes active simultaneously in one paragraph.",
+    "emotional_climax": "Emotional climax: sentences shorten, one sense only. Time-compressed passage: 1–2 sentences."
   },
 
   "tense_and_format": {
-    "tense": "시제: 모든 서술은 과거형. 현재형 종결 절대 금지.",
-    "grammar": "문법: 동사 중심. 명사화 금지. 해부학/물리학 용어 금지.",
-    "vocabulary_ref": "금지 어휘 및 대체어는 본 파일의 forbidden_vocabulary 참조.",
-    "formatting": "포맷: 대사 간 줄바꿈 1회, 대사↔서술 간 줄바꿈 2회, 장면 전환 ***, 문단 4~10줄."
+    "tense": "Tense: All narration in past tense. Present-tense endings absolutely prohibited.",
+    "grammar": "Grammar: Verb-centered. No nominalization. No anatomical or physics terminology.",
+    "vocabulary_ref": "For forbidden vocabulary and alternatives, see forbidden_vocabulary in this file.",
+    "formatting": "Format: 1 line break between dialogue lines, 2 line breaks between dialogue and narration, scene transitions with ***, paragraphs 4–10 lines."
   },
 
   "self_check": {
-    "preamble": "SUPREME RULE: 모든 규칙은 캐릭터의 진실성에 복무한다. 아래 항목이 인물을 거짓되게 만드는 경우, 인물이 우선한다.",
+    "preamble": "SUPREME RULE: All rules serve the character's authenticity. If any check below would make the character feel false, the character takes priority.",
     "checks": [
-      { "id": "CHK-01", "category": "prose", "rule": "70자 넘는 문장이 있는가? → 쪼갠다.", "source": "default" },
-      { "id": "CHK-02", "category": "prose", "rule": "같은 호흡 3연속인가? → 교대한다.", "source": "default" },
-      { "id": "CHK-03", "category": "prose", "rule": "비유가 한 문단에 2개 이상인가? → 하나만 남긴다.", "source": "default" },
-      { "id": "CHK-04", "category": "character", "rule": "성격·감정 명명(변형·명사형 포함)이 있는가? → 행동/변화의 사실로 교체.", "source": "default" },
-      { "id": "CHK-05", "category": "character", "rule": "대사 직후 서술자 평가가 있는가? → 삭제하고 행동으로.", "source": "default" },
-      { "id": "CHK-06", "category": "character", "rule": "과거 회상으로 현재를 설명하는가? → 삭제 또는 FID 한 줄.", "source": "default" },
-      { "id": "CHK-07", "category": "vocabulary", "rule": "한자어/번역투가 있는가? → 일상어로 교체.", "source": "default" },
-      { "id": "CHK-08", "category": "tense", "rule": "현재형 종결(서술 부분)이 있는가? → 과거형으로 교체.", "source": "default" },
-      { "id": "CHK-09", "category": "tense", "rule": "~았다/었다 3연속인가? → 종결을 변주한다.", "source": "default" },
-      { "id": "CHK-10", "category": "dialogue", "rule": "대사가 25자를 초과하는가? → 줄인다.", "source": "default" },
-      { "id": "CHK-11", "category": "dialogue", "rule": "대사에 서술 어휘가 있는가? → 구어체로 교체.", "source": "default" },
-      { "id": "CHK-12", "category": "prose", "rule": "행동 5연속에 환경/감각이 0인가? → 숨(감각/정지/문단분리) 넣기.", "source": "default" },
-      { "id": "CHK-13", "category": "scene", "rule": "마감이 정리형인가? → 행동 도중 자르기.", "source": "default" },
-      { "id": "CHK-14", "category": "prose", "rule": "3턴 행동-감각만 반복인가? → 명상적 서술 고려.", "source": "default" },
-      { "id": "CHK-15", "category": "prose", "rule": "명상적 서술 2턴 연속인가? → 행동-감각으로 복귀.", "source": "default" },
-      { "id": "CHK-16", "category": "prose", "rule": "감각이 형용사 성질설명인가? → 신체 접촉 세트([감각+부위+동사])로 교체.", "source": "default" },
-      { "id": "CHK-17", "category": "character", "rule": "이유를 확정했는가? → 복수 이유일 경우 미결정으로 열어둔다.", "source": "default" },
-      { "id": "CHK-18", "category": "scene", "rule": "장면 끝이 상황 정리인가? → 행동 도중 자르기.", "source": "default" },
-      { "id": "CHK-19", "category": "scene", "rule": "장면 시작이 시간/장소 안내인가? → 한가운데 진입.", "source": "default" },
-      { "id": "CHK-20", "category": "scene", "rule": "빈 시간을 길게 서술하는가? → 한 문장으로 압축.", "source": "default" },
-      { "id": "CHK-21", "category": "dialogue", "rule": "대사에 금지 어미 또는 거리두기 호칭이 있는가? → 자기 쪽 출발 평서문으로.", "source": "default" },
-      { "id": "CHK-22", "category": "dialogue", "rule": "대사가 보편적/일반적인가? → 캐릭터 직업·일상에서 파생된 어휘로.", "source": "default" },
-      { "id": "CHK-23", "category": "dialogue", "rule": "NPC 대사가 전부 사실 전달인가? → 축소·과장·떠보기를 섞는다.", "source": "default" },
-      { "id": "CHK-24", "category": "vocabulary", "rule": "웹소설 과잉 어휘가 있는가? → 일상 빈도 단어로 교체.", "source": "default" },
-      { "id": "CHK-25", "category": "cognitive", "rule": "NPC 반응이 1개 층위에서만 나오는가? → 최소 2개 층위 교차.", "source": "default" },
-      { "id": "CHK-26", "category": "cognitive", "rule": "같은 자극에 매번 같은 맥락 조합인가? → 다른 층위 조합 사용.", "source": "default" },
-      { "id": "CHK-27", "category": "dialogue", "rule": "대화 4턴 이상인데 전부 완벽한 핑퐁인가? → 불완전 턴 삽입.", "source": "default" },
-      { "id": "CHK-28", "category": "narrative", "rule": "5턴 이상 아무 변수 없이 평탄한가? → 작은 변수 고려.", "source": "default" },
-      { "id": "CHK-29", "category": "cognitive", "rule": "감정적으로 중요한 순간인데 자극→반응 직행인가? → 예측/선택/억제/사후 인식 중 하나.", "source": "default" },
-      { "id": "CHK-30", "category": "narrative", "rule": "NPC들이 유저를 통해서만 교류하는가? → NPC 간 독립 관계 도입.", "source": "default" },
-      { "id": "CHK-31", "category": "cognitive", "rule": "캐릭터 설정을 독립 태그로만 사용하는가? → 설정 간 인과 확인, 자연스러우면 연결.", "source": "default" },
-      { "id": "CHK-32", "category": "specificity", "rule": "유저 인풋 요소를 추상적 이름 그대로 옮겼는가? → 물성/차이/이면 중 최소 1개 축 구체화.", "source": "default" },
-      { "id": "CHK-33", "category": "specificity", "rule": "장면 중심 대상에 1개 축만 적용했는가? → 2개 축으로 확장.", "source": "default" },
-      { "id": "CHK-34", "category": "specificity", "rule": "한 문단에서 모든 대상을 동일 밀도로 구체화했는가? → 밀도 차등 조절.", "source": "default" },
-      { "id": "CHK-35", "category": "specificity", "rule": "자율 생성 디테일이 이전 설정과 모순하는가? → 수정 또는 삭제.", "source": "default" },
-      { "id": "CHK-36", "category": "specificity", "rule": "감정 절정인데 구체화 과잉인가? → 디테일 줄이고 감각 1개만.", "source": "default" },
-      { "id": "CHK-37", "category": "specificity", "rule": "이면(subtext)을 서술자가 직접 해석·명명했는가? → 물리적 사실 배치만 남기고 해석 삭제.", "source": "default" },
-      { "id": "CHK-38", "category": "cognitive", "rule": "인물 간 인식 간극을 서술자가 해설하는가? → 행동 병렬 배치만. '사실은~', '아이러니하게도' 삭제.", "source": "default" },
-      { "id": "CHK-39", "category": "prose", "rule": "감각 선택이 시각 편중인가? → 촉각·온도·청각 우선 고려.", "source": "default" },
-      { "id": "CHK-40", "category": "character", "rule": "FID 구간에서 모든 인물이 같은 어휘·어미를 쓰는가? → 해당 인물의 고유 언어로 오염시킨다.", "source": "default" },
-      { "id": "CHK-41", "category": "formatting", "rule": "대사와 서술(대사 태그 포함)이 같은 줄에 붙어 있는가? → 대사↔서술 간 줄바꿈 2회 적용. 대사 태그도 서술이다.", "source": "default" }
+      { "id": "CHK-01", "category": "prose", "rule": "Any sentence over 70 characters? → Split it.", "source": "default" },
+      { "id": "CHK-02", "category": "prose", "rule": "Three consecutive sentences with the same rhythm? → Alternate.", "source": "default" },
+      { "id": "CHK-03", "category": "prose", "rule": "Two or more metaphors in one paragraph? → Keep only one.", "source": "default" },
+      { "id": "CHK-04", "category": "character", "rule": "Any named personality or emotion (including variants and nominalizations)? → Replace with behavioral facts or factual changes.", "source": "default" },
+      { "id": "CHK-05", "category": "character", "rule": "Narrator evaluation immediately after dialogue? → Delete and replace with action.", "source": "default" },
+      { "id": "CHK-06", "category": "character", "rule": "Explaining the present through a past flashback? → Delete or use one line of FID.", "source": "default" },
+      { "id": "CHK-07", "category": "vocabulary", "rule": "Sino-Korean or translation-style wording present? → Replace with everyday language.", "source": "default" },
+      { "id": "CHK-08", "category": "tense", "rule": "Present-tense endings in narration? → Replace with past tense.", "source": "default" },
+      { "id": "CHK-09", "category": "tense", "rule": "Three consecutive ~았다/었다 endings? → Vary the sentence endings.", "source": "default" },
+      { "id": "CHK-10", "category": "dialogue", "rule": "Dialogue exceeds 25 characters? → Shorten it.", "source": "default" },
+      { "id": "CHK-11", "category": "dialogue", "rule": "Narrative vocabulary in dialogue? → Replace with colloquial speech.", "source": "default" },
+      { "id": "CHK-12", "category": "prose", "rule": "5 consecutive action beats with zero environment or sensation? → Insert a breath (sensation / pause / paragraph break).", "source": "default" },
+      { "id": "CHK-13", "category": "scene", "rule": "Ending is a resolution or wrap-up? → Cut in the middle of action.", "source": "default" },
+      { "id": "CHK-14", "category": "prose", "rule": "3 turns of only action-sensation? → Consider meditative narration.", "source": "default" },
+      { "id": "CHK-15", "category": "prose", "rule": "2 consecutive turns of meditative narration? → Return to action-sensation.", "source": "default" },
+      { "id": "CHK-16", "category": "prose", "rule": "Sensation is purely an adjective describing a quality? → Replace with a physical contact set ([sensation + body part + verb]).", "source": "default" },
+      { "id": "CHK-17", "category": "character", "rule": "Determined a single reason? → If multiple reasons are plausible, leave it open.", "source": "default" },
+      { "id": "CHK-18", "category": "scene", "rule": "Scene end is a situational wrap-up? → Cut in the middle of action.", "source": "default" },
+      { "id": "CHK-19", "category": "scene", "rule": "Scene begins with time or place announcement? → Enter in the middle.", "source": "default" },
+      { "id": "CHK-20", "category": "scene", "rule": "Empty time narrated at length? → Compress into one sentence.", "source": "default" },
+      { "id": "CHK-21", "category": "dialogue", "rule": "Dialogue contains a forbidden ending or distancing address? → Rewrite as a declarative statement from the speaker's own side.", "source": "default" },
+      { "id": "CHK-22", "category": "dialogue", "rule": "Dialogue is generic or universal? → Use vocabulary derived from the character's occupation and daily life.", "source": "default" },
+      { "id": "CHK-23", "category": "dialogue", "rule": "NPC dialogue is all factual delivery? → Mix in understatement, exaggeration, and probing.", "source": "default" },
+      { "id": "CHK-24", "category": "vocabulary", "rule": "Web-novel excess vocabulary present? → Replace with everyday-frequency words.", "source": "default" },
+      { "id": "CHK-25", "category": "cognitive", "rule": "NPC response comes from only one layer? → Cross at least 2 layers.", "source": "default" },
+      { "id": "CHK-26", "category": "cognitive", "rule": "Same stimulus always produces the same layer combination? → Use a different layer combination.", "source": "default" },
+      { "id": "CHK-27", "category": "dialogue", "rule": "4+ turns of dialogue all perfectly ping-pong? → Insert an incomplete turn.", "source": "default" },
+      { "id": "CHK-28", "category": "narrative", "rule": "5+ turns with no variable, completely flat? → Consider introducing a small variable.", "source": "default" },
+      { "id": "CHK-29", "category": "cognitive", "rule": "Emotionally significant moment but stimulus goes straight to response? → Use one of: prediction / choice / suppression / post-awareness.", "source": "default" },
+      { "id": "CHK-30", "category": "narrative", "rule": "NPCs interact only through the user? → Introduce independent NPC-to-NPC relationships.", "source": "default" },
+      { "id": "CHK-31", "category": "cognitive", "rule": "Character settings used as isolated tags only? → Check for causality between settings; connect if natural.", "source": "default" },
+      { "id": "CHK-32", "category": "specificity", "rule": "User input elements transcribed as abstract names? → Concretize using at least 1 of 3 axes: physicality / difference / subtext.", "source": "default" },
+      { "id": "CHK-33", "category": "specificity", "rule": "Only 1 axis applied to the central scene subject? → Expand to 2 axes.", "source": "default" },
+      { "id": "CHK-34", "category": "specificity", "rule": "All subjects concretized at equal density in one paragraph? → Apply differential density.", "source": "default" },
+      { "id": "CHK-35", "category": "specificity", "rule": "Autonomously generated detail contradicts prior settings? → Revise or delete.", "source": "default" },
+      { "id": "CHK-36", "category": "specificity", "rule": "Emotional climax but over-concretized? → Reduce detail to one sensation.", "source": "default" },
+      { "id": "CHK-37", "category": "specificity", "rule": "Subtext directly interpreted or named by the narrator? → Keep only physical fact placement; remove the interpretation.", "source": "default" },
+      { "id": "CHK-38", "category": "cognitive", "rule": "Narrator commenting on the perception gap between characters? → Parallel action placement only. Delete '사실은~', '아이러니하게도'.", "source": "default" },
+      { "id": "CHK-39", "category": "prose", "rule": "Sensation choices biased toward visuals? → Prioritize touch, temperature, and hearing.", "source": "default" },
+      { "id": "CHK-40", "category": "character", "rule": "All characters using the same vocabulary and endings in FID passages? → Contaminate with each character's unique language.", "source": "default" },
+      { "id": "CHK-41", "category": "formatting", "rule": "Dialogue and narration (including dialogue tags) on the same line? → Apply 2 line breaks between dialogue and narration. Dialogue tags count as narration.", "source": "default" }
     ],
-    "note": "축 모듈에서 check_operations로 추가되는 동적 검수 항목은 빌드 시 이 리스트에 병합된다."
+    "note": "Dynamic check items added via check_operations from axis modules are merged into this list at build time."
   },
 
   "godmoding_rule": null,
-  "godmoding_rule_note": "UCC config(configs/user-character-control.json)가 이 값을 결정한다. UCC-00(사용안함) 선택 시 godmoding 제한 없음. UCC-01(RP 모드) 선택 시 {{user}} 내면 서술 금지. UCC-02(사칭 모드) 선택 시 제한 해제."
+  "godmoding_rule_note": "The UCC config (configs/user-character-control.json) determines this value. When UCC-00 (disabled) is selected, godmoding is unrestricted. When UCC-01 (RP mode) is selected, narrating {{user}}'s inner state is prohibited. When UCC-02 (impersonation mode) is selected, restrictions are lifted."
 }
