@@ -1,0 +1,12 @@
+{
+  "display_name": "Nov Style Lite — 어조·어휘",
+  "loading_order": 100,
+  "requires": [],
+  "optional": [],
+  "js": "index.js",
+  "css": "style.css",
+  "author": "pointhuh-netizen",
+  "version": "1.0.0",
+  "homepageUrl": "https://github.com/pointhuh-netizen/nov-style",
+  "auto_update": true
+}
