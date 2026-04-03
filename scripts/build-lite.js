@@ -277,7 +277,7 @@ if (fs.existsSync(masterSrc)) {
 console.log('[build-lite] 📄 manifest.json 생성 중...');
 
 const liteManifest = {
-  display_name: 'Nov Style Lite — 어조·어휘',
+  display_name: '문체 조합 확장',
   loading_order: 100,
   requires: [],
   optional: [],
@@ -305,8 +305,8 @@ if (fs.existsSync(cssSrc)) {
   let cssContent = fs.readFileSync(cssSrc, 'utf8');
   cssContent += `
 /* ─── Nov Style Lite ID aliases ─── */
-#nov-style-lite-settings .menu_button,
-#nov-style-lite-settings button.menu_button {
+#style-nov-settings .menu_button,
+#style-nov-settings button.menu_button {
     width: 100%;
     white-space: nowrap;
     overflow: hidden;
@@ -327,7 +327,7 @@ if (fs.existsSync(cssSrc)) {
     gap: 6px;
 }
 
-#nov-style-lite-settings .menu_button:hover {
+#style-nov-settings .menu_button:hover {
     background: var(--nov-bg-hover);
     transform: translateY(-1px);
     box-shadow: var(--nov-shadow-sm);
@@ -344,23 +344,23 @@ if (fs.existsSync(cssSrc)) {
 // ─── 7. settings.html 생성 / Generate settings.html ────────────────────────
 console.log('[build-lite] 🖼  settings.html 생성 중...');
 
-const liteSettingsHtml = `<div id="nov-style-lite-settings" class="nov-style-container">
+const liteSettingsHtml = `<div id="style-nov-settings" class="nov-style-container">
     <div class="inline-drawer">
         <div class="inline-drawer-toggle inline-drawer-header">
-            <span class="nov-style-title"><b>✍️ Nov Style Lite — 어조·어휘</b></span>
+            <span class="nov-style-title"><b>✍️ 문체 조합 확장</b></span>
             <div class="inline-drawer-icon fa-solid fa-circle-chevron-down down"></div>
         </div>
         <div class="inline-drawer-content nov-style-drawer-content">
             <div class="nov-style-sidebar-row">
                 <label class="nov-style-enable-label">
-                    <input type="checkbox" id="nov-style-lite-enabled" class="nov-style-checkbox">
+                    <input type="checkbox" id="style-nov-enabled" class="nov-style-checkbox">
                     <span>엔진 활성화</span>
                 </label>
             </div>
-            <button id="nov-style-lite-open-popup" class="menu_button nov-style-btn-primary" title="어조·어휘 설정 팝업을 엽니다">
+            <button id="style-nov-open-popup" class="menu_button nov-style-btn-primary" title="어조·어휘 설정 팝업을 엽니다">
                 <i class="fa-solid fa-gear"></i> 설정 열기
             </button>
-            <div id="nov-style-lite-status" class="nov-style-status">적용된 빌드 없음</div>
+            <div id="style-nov-status" class="nov-style-status">적용된 빌드 없음</div>
         </div>
     </div>
 </div>
