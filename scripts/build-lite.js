@@ -82,17 +82,15 @@ function writeJSON(filePath, data) {
 /**
  * 프롬프트 텍스트의 예상 토큰 수를 추정
  * Estimate token count for prompt text.
- * Uses ~3.5 characters per token as a rough approximation for Korean text
+ * Uses ~2.0 characters per token as a rough approximation for Korean-heavy text
  * (based on observed GPT-series cl100k_base tokenizer behavior for Korean).
  * This is an approximation only — actual token counts will vary by tokenizer.
  * @param {number} charCount  total character count of the original prompt text
  * @returns {number}
  */
-function estimateTokens(text) {
-  if (!text || typeof text !== 'string' || text.length === 0) return 0;
-  const koreanChars = (text.match(/[\uAC00-\uD7AF\u3130-\u318F\u1100-\u11FF]/g) || []).length;
-  const nonKoreanChars = text.length - koreanChars;
-  return Math.ceil(koreanChars / 1.5 + nonKoreanChars / 4);
+function estimateTokens(charCount) {
+  if (!charCount || charCount <= 0) return 0;
+  return Math.ceil(charCount / 2.0);
 }
 
 // ─── 1. catalog.json 필터링 / Filter catalog.json ────────────────────────
@@ -169,7 +167,7 @@ for (const relFile of axisFiles) {
       }
     }
 
-    const estimatedTokens = estimateTokens(rawTokenTexts.join(''));
+    const estimatedTokens = estimateTokens(rawTokenTexts.join('').length);
     totalEstimatedTokens += estimatedTokens;
 
     // check_operations 처리: rule 텍스트를 숨기고 id/category 만 남김
