@@ -11,7 +11,7 @@
     /* 0. 상수                                                              */
     /* ------------------------------------------------------------------ */
 
-    const EXTENSION_NAME = 'nov-style-lite';
+    const EXTENSION_NAME = 'style_nov';
     const UNUSED_SUFFIX   = '-00';
     const PROMPT_TITLE    = '# 문체 지침';
     const BUILD_ORDER     = ['B'];
@@ -652,7 +652,7 @@
     /* ------------------------------------------------------------------ */
 
     function updateSidebarStatus(text, isApplied = false, isError = false) {
-        const el = document.getElementById('nov-style-lite-status');
+        const el = document.getElementById('style-nov-status');
         if (!el) return;
         el.textContent = text;
         el.className = 'nov-style-status';
@@ -667,7 +667,7 @@
     async function openSettingsPopup() {
         if (!_data) {
             if (typeof toastr !== 'undefined') {
-                toastr.warning('Nov Style Lite: 데이터를 로드 중입니다. 잠시 후 다시 시도하세요.');
+                toastr.warning('문체 조합 확장: 데이터를 로드 중입니다. 잠시 후 다시 시도하세요.');
             }
             return;
         }
@@ -691,11 +691,11 @@
     }
 
     function showFallbackModal(contentEl) {
-        const existing = document.getElementById('nov-style-lite-fallback-modal');
+        const existing = document.getElementById('style-nov-fallback-modal');
         if (existing) existing.remove();
 
         const overlay = document.createElement('div');
-        overlay.id = 'nov-style-lite-fallback-modal';
+        overlay.id = 'style-nov-fallback-modal';
         overlay.className = 'nov-style-modal-overlay';
 
         const modal = document.createElement('div');
@@ -705,7 +705,7 @@
         header.className = 'nov-style-modal-header';
 
         const titleSpan = document.createElement('span');
-        titleSpan.textContent = '✍️ Nov Style Lite — 어조·어휘';
+        titleSpan.textContent = '✍️ 문체 조합 확장';
         header.appendChild(titleSpan);
 
         const closeBtn = document.createElement('button');
@@ -767,11 +767,11 @@
             return;
         }
 
-        if (document.getElementById('nov-style-lite-settings')) return;
+        if (document.getElementById('style-nov-settings')) return;
 
         targetEl.insertAdjacentHTML('beforeend', settingsHtml);
 
-        const enabledCb = document.getElementById('nov-style-lite-enabled');
+        const enabledCb = document.getElementById('style-nov-enabled');
         if (enabledCb) {
             enabledCb.checked = getSettings().enabled;
             enabledCb.addEventListener('change', () => {
@@ -790,7 +790,7 @@
             });
         }
 
-        const openPopupBtn = document.getElementById('nov-style-lite-open-popup');
+        const openPopupBtn = document.getElementById('style-nov-open-popup');
         if (openPopupBtn) {
             openPopupBtn.addEventListener('click', () => openSettingsPopup());
         }
@@ -812,7 +812,7 @@
             console.error(`[${EXTENSION_NAME}] 데이터 로드 실패:`, err);
             updateSidebarStatus(`❌ 데이터 로드 실패: ${err.message}`, false, true);
             if (typeof toastr !== 'undefined') {
-                toastr.error(`Nov Style Lite: 데이터 로드 실패 — ${err.message}`);
+                toastr.error(`문체 조합 확장: 데이터 로드 실패 — ${err.message}`);
             }
             return;
         }
