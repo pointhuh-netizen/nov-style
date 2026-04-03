@@ -377,7 +377,27 @@ console.log('[build-lite] ⚙️  index.js 생성 중...');
 const indexTemplateSrc = path.join(__dirname, 'lite-index-template.js');
 if (fs.existsSync(indexTemplateSrc)) {
   const indexOut = path.join(OUTPUT_ROOT, 'index.js');
-  fs.copyFileSync(indexTemplateSrc, indexOut);
+
+  // Read template and apply lite-specific modifications:
+  let indexContent = fs.readFileSync(indexTemplateSrc, 'utf8');
+
+  // 1. Remove the entire prompt preview section from buildPopupElement.
+  //    Matches from the comment line before "const previewSection" through
+  //    the closing el.appendChild(previewSection), regardless of comment text.
+  indexContent = indexContent.replace(
+    /\n\s+\/\/[^\n]+\n\s+const previewSection = document\.createElement\([^)]+\);[\s\S]*?el\.appendChild\(previewSection\);\n/,
+    '\n'
+  );
+
+  // 2. In the apply button click handler, remove character count from status message.
+  //    Removes ", ${promptText.length}<non-space chars> " to change
+  //    "sectionLabel, N자 (≈N tokens)" → "sectionLabel (≈N tokens)"
+  indexContent = indexContent.replace(
+    /, \$\{promptText\.length\}\S* /,
+    ' '
+  );
+
+  fs.writeFileSync(indexOut, indexContent, 'utf8');
   writtenFiles.push(indexOut);
   console.log('[build-lite] ✅ index.js 생성 완료');
 } else {
