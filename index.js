@@ -537,6 +537,14 @@
         return Math.ceil(koreanChars / 1.5 + nonKoreanChars / 4);
     }
 
+    function formatSectionStatus(promptText) {
+        const totalSections = promptText.split('##').length - 1;
+        const userSections = totalSections - 1; // 마스터룰(핵심 규칙) 제외
+        return userSections > 0
+            ? `기본 설정값 + ${userSections}개 섹션`
+            : '기본 설정값';
+    }
+
     function injectPrompt(promptText) {
         try {
             let ctx;
@@ -844,11 +852,11 @@
             }
             const ok = injectPrompt(promptText);
             if (ok) {
-                const count = promptText.split('##').length - 1;
+                const sectionLabel = formatSectionStatus(promptText);
                 const estimatedTokenCount = estimateTokens(promptText);
-                popupStatusEl.innerHTML = `✅ 적용됨 — ${count}개 섹션, ${promptText.length}자 (≈${estimatedTokenCount.toLocaleString()} tokens)<br><span class="nov-style-token-notice">ℹ️ 이 토큰은 AI 인풋에 포함되지만, SillyTavern의 채팅 토큰 카운터에는 표시되지 않습니다.</span>`;
+                popupStatusEl.innerHTML = `✅ 적용됨 — ${sectionLabel}, ${promptText.length}자 (≈${estimatedTokenCount.toLocaleString()} tokens)<br><span class="nov-style-token-notice">ℹ️ 이 토큰은 AI 인풋에 포함되지만, SillyTavern의 채팅 토큰 카운터에는 표시되지 않습니다.</span>`;
                 popupStatusEl.className = 'nov-style-popup-status applied';
-                updateSidebarStatus(`✅ 적용됨 — ${count}개 섹션`, true);
+                updateSidebarStatus(`✅ 적용됨 — ${sectionLabel}`, true);
             } else {
                 popupStatusEl.textContent = '❌ 주입 실패 (ST API 없음). 콘솔을 확인하세요.';
                 popupStatusEl.className = 'nov-style-popup-status error';
@@ -1013,8 +1021,7 @@
         const promptText = buildPrompt(_data);
         if (promptText) {
             injectPrompt(promptText);
-            const count = promptText.split('##').length - 1;
-            updateSidebarStatus(`✅ 적용됨 — ${count}개 섹션`, true);
+            updateSidebarStatus(`✅ 적용됨 — ${formatSectionStatus(promptText)}`, true);
         }
     }
 
@@ -1059,8 +1066,7 @@
                     const promptText = buildPrompt(_data);
                     if (promptText) {
                         injectPrompt(promptText);
-                        const count = promptText.split('##').length - 1;
-                        updateSidebarStatus(`✅ 적용됨 — ${count}개 섹션`, true);
+                        updateSidebarStatus(`✅ 적용됨 — ${formatSectionStatus(promptText)}`, true);
                     }
                 }
                 saveSettings();
@@ -1099,8 +1105,7 @@
             const promptText = buildPrompt(data);
             if (promptText) {
                 injectPrompt(promptText);
-                const count = promptText.split('##').length - 1;
-                updateSidebarStatus(`✅ 적용됨 — ${count}개 섹션`, true);
+                updateSidebarStatus(`✅ 적용됨 — ${formatSectionStatus(promptText)}`, true);
             }
         } else {
             updateSidebarStatus('비활성화됨');
