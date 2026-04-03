@@ -273,7 +273,118 @@ if (fs.existsSync(masterSrc)) {
   console.warn('[build-lite] ⚠️  data/master-rules.json 를 찾을 수 없습니다. 건너뜁니다.');
 }
 
-// ─── 4. 결과 요약 / Print summary ────────────────────────────────────────
+// ─── 5. manifest.json 생성 / Generate manifest.json ────────────────────────
+console.log('[build-lite] 📄 manifest.json 생성 중...');
+
+const liteManifest = {
+  display_name: 'Nov Style Lite — 어조·어휘',
+  loading_order: 100,
+  requires: [],
+  optional: [],
+  js: 'index.js',
+  css: 'style.css',
+  author: 'pointhuh-netizen',
+  version: '1.0.0',
+  homepageUrl: 'https://github.com/pointhuh-netizen/nov-style',
+  auto_update: true,
+};
+
+const manifestOut = path.join(OUTPUT_ROOT, 'manifest.json');
+writeJSON(manifestOut, liteManifest);
+writtenFiles.push(manifestOut);
+console.log('[build-lite] ✅ manifest.json 생성 완료');
+
+// ─── 6. style.css 복사 / Copy style.css ─────────────────────────────────
+console.log('[build-lite] 🎨 style.css 복사 중...');
+
+const cssSrc = path.join(ROOT, 'style.css');
+if (fs.existsSync(cssSrc)) {
+  const cssOut = path.join(OUTPUT_ROOT, 'style.css');
+
+  // Copy base CSS and append lite-specific selector aliases for the sidebar panel
+  let cssContent = fs.readFileSync(cssSrc, 'utf8');
+  cssContent += `
+/* ─── Nov Style Lite ID aliases ─── */
+#nov-style-lite-settings .menu_button,
+#nov-style-lite-settings button.menu_button {
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    box-sizing: border-box;
+    padding: 10px 16px;
+    background: var(--nov-bg-panel);
+    color: var(--nov-text-main);
+    border: 1px solid var(--nov-border);
+    border-radius: var(--nov-radius-sm);
+    font-size: 0.9em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--nov-transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+#nov-style-lite-settings .menu_button:hover {
+    background: var(--nov-bg-hover);
+    transform: translateY(-1px);
+    box-shadow: var(--nov-shadow-sm);
+}
+`;
+
+  fs.writeFileSync(cssOut, cssContent, 'utf8');
+  writtenFiles.push(cssOut);
+  console.log('[build-lite] ✅ style.css 복사 완료');
+} else {
+  console.warn('[build-lite] ⚠️  style.css 를 찾을 수 없습니다. 건너뜁니다.');
+}
+
+// ─── 7. settings.html 생성 / Generate settings.html ────────────────────────
+console.log('[build-lite] 🖼  settings.html 생성 중...');
+
+const liteSettingsHtml = `<div id="nov-style-lite-settings" class="nov-style-container">
+    <div class="inline-drawer">
+        <div class="inline-drawer-toggle inline-drawer-header">
+            <span class="nov-style-title"><b>✍️ Nov Style Lite — 어조·어휘</b></span>
+            <div class="inline-drawer-icon fa-solid fa-circle-chevron-down down"></div>
+        </div>
+        <div class="inline-drawer-content nov-style-drawer-content">
+            <div class="nov-style-sidebar-row">
+                <label class="nov-style-enable-label">
+                    <input type="checkbox" id="nov-style-lite-enabled" class="nov-style-checkbox">
+                    <span>엔진 활성화</span>
+                </label>
+            </div>
+            <button id="nov-style-lite-open-popup" class="menu_button nov-style-btn-primary" title="어조·어휘 설정 팝업을 엽니다">
+                <i class="fa-solid fa-gear"></i> 설정 열기
+            </button>
+            <div id="nov-style-lite-status" class="nov-style-status">적용된 빌드 없음</div>
+        </div>
+    </div>
+</div>
+`;
+
+const settingsOut = path.join(OUTPUT_ROOT, 'settings.html');
+fs.writeFileSync(settingsOut, liteSettingsHtml, 'utf8');
+writtenFiles.push(settingsOut);
+console.log('[build-lite] ✅ settings.html 생성 완료');
+
+// ─── 8. index.js 생성 / Copy lite engine ────────────────────────────────────
+console.log('[build-lite] ⚙️  index.js 생성 중...');
+
+const indexTemplateSrc = path.join(__dirname, 'lite-index-template.js');
+if (fs.existsSync(indexTemplateSrc)) {
+  const indexOut = path.join(OUTPUT_ROOT, 'index.js');
+  fs.copyFileSync(indexTemplateSrc, indexOut);
+  writtenFiles.push(indexOut);
+  console.log('[build-lite] ✅ index.js 생성 완료');
+} else {
+  console.warn('[build-lite] ⚠️  scripts/lite-index-template.js 를 찾을 수 없습니다. 건너뜁니다.');
+}
+
+// ─── 9. 결과 요약 / Print summary ────────────────────────────────────────
 console.log('\n' + '═'.repeat(60));
 console.log('[build-lite] 🎉 빌드 완료!');
 console.log('─'.repeat(60));
@@ -287,5 +398,5 @@ for (const f of writtenFiles) {
 }
 console.log('─'.repeat(60));
 console.log('  ℹ️  dist/ 는 .gitignore 에 의해 커밋되지 않습니다.');
-console.log('  ℹ️  배포 시 dist/lite/data/ 를 외부 레포에 복사하세요.');
+console.log('  ℹ️  배포 시 dist/lite/ 폴더 전체를 외부 레포에 복사하세요.');
 console.log('═'.repeat(60) + '\n');
