@@ -273,6 +273,18 @@ if (fs.existsSync(masterSrc)) {
   console.warn('[build-lite] ⚠️  data/master-rules.json 를 찾을 수 없습니다. 건너뜁니다.');
 }
 
+// ─── 4. delta-resolution.json 복사 / Copy delta-resolution.json ─────────────
+const deltaResSrc = path.join(ROOT, 'data', 'delta-resolution.json');
+if (fs.existsSync(deltaResSrc)) {
+  console.log('[build-lite] 🔀 delta-resolution.json 복사 중...');
+  const deltaResOut = path.join(OUTPUT_DATA, 'delta-resolution.json');
+  fs.copyFileSync(deltaResSrc, deltaResOut);
+  writtenFiles.push(deltaResOut);
+  console.log('[build-lite] ✅ delta-resolution.json 복사 완료');
+} else {
+  console.warn('[build-lite] ⚠️  data/delta-resolution.json 를 찾을 수 없습니다. 건너뜁니다.');
+}
+
 // ─── 5. manifest.json 생성 / Generate manifest.json ────────────────────────
 console.log('[build-lite] 📄 manifest.json 생성 중...');
 
