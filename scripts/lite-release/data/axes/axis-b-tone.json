@@ -2149,6 +2149,197 @@
           "{B_TONE_DIALOGUE_TAG}"
         ]
       }
+    },
+    {
+      "id": "B-18",
+      "name": "웹소설체",
+      "one_liner": "빠른 호흡, 짧은 문단, 감정 직접 서술, 클리프행어. 읽는 속도가 곧 문체입니다. (예: '그는 뭔가 이상하다고 느꼈다' → '이상했다. 분명히 이상했다. 이 남자, 뭔가 숨기고 있다.')",
+      "description": "웹소설 특유의 가독성과 속도감을 구현하는 어조. 짧은 문단(1~3문장), 과감한 줄바꿈, 감정의 직접적 명명, 내면 독백 위주의 서술이 특징이다. master-rules의 일부 금지 규칙(감정 명명 금지, 서술자 해설 금지, 과잉 어휘 금지 등)을 전략적으로 완화하여 웹소설 독자가 기대하는 '몰입 속도'를 우선한다. 단, 캐릭터의 진실성(supreme_rule)은 여전히 최상위 원칙.",
+      "operations": {
+        "{B_TONE_TEMP}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]"
+        },
+        "{B_TONE_VOCAB}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]"
+        },
+        "{B_TONE_FID_GRAMMAR}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]"
+        },
+        "{B_TONE_ENDING}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]"
+        },
+        "{B_TONE_DIALOGUE_TAG}": {
+          "mode": "REPLACE",
+          "value": "[lite: prompt hidden]"
+        }
+      },
+      "check_operations": [
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B18-01",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-18"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B18-02",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-18"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B18-03",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-18"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B18-04",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-18"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B18-05",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-18"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B18-06",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-18"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B18-07",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-18"
+          }
+        },
+        {
+          "mode": "ADD",
+          "check": {
+            "id": "CHK-B18-08",
+            "category": "tone",
+            "rule": "[lite: rule hidden]",
+            "source": "B-18"
+          }
+        }
+      ],
+      "master_guide_delta": {
+        "_engine_status": "ACTIVE — 빌드 엔진이 이 필드를 처리함.",
+        "forbidden_patterns": {
+          "type_a": {
+            "override": "PARTIAL_LIFT",
+            "note": "FP-A(대사 직후 서술자 평가 금지) 완화. 시점 인물의 주관적 판단 1문장 허용. 서술자의 객관적 해설은 여전히 금지."
+          },
+          "type_d": {
+            "override": "LIFT",
+            "note": "FP-D(감정의 명사형 우회 금지) 해제. 감정 명사 직접 사용 허용. 단, 한 문단에 감정 명사 2개 이상 나열 금지."
+          }
+        },
+        "forbidden_vocabulary": {
+          "override": "PARTIAL_LIFT",
+          "lifted_entries": ["능글맞은", "이죽거리다", "킬킬", "실소를 흩뿌리다"],
+          "note": "웹소설 빈도 어휘 4종 해금. 나머지(햇귀, 나른한 눈매를 접다, 헛웃음을 뱉어내다, 퉁을 놓다)는 유지."
+        },
+        "subtext_rules": {
+          "emotion_naming_ban": {
+            "override": "LIFT",
+            "note": "감정 직접 명명 허용. 같은 감정을 3턴 연속 같은 단어로 명명 금지 — 변주할 것."
+          },
+          "emotion_action_ban": {
+            "override": "PARTIAL_LIFT",
+            "note": "1:1 매핑 허용하되 턴당 1회만. 나머지는 간접 채널 유지."
+          }
+        },
+        "anti_archetype_rules": {
+          "top3_ban": {
+            "override": "SOFTEN",
+            "note": "3개 중 2개만 폐기. 독자 기대 충족도 가치. 단, 매번 같은 1개를 살리면 안 됨."
+          }
+        },
+        "self_check_overrides": [
+          {
+            "target_id": "CHK-01",
+            "override": "MODIFY",
+            "new_rule": "50자 넘는 문장이 있는가? → 쪼갠다. 웹소설체는 70자 → 50자로 강화."
+          },
+          {
+            "target_id": "CHK-03",
+            "override": "LIFT",
+            "note": "비유 문단당 1개 제한 해제."
+          },
+          {
+            "target_id": "CHK-04",
+            "override": "LIFT",
+            "note": "성격·감정 명명 금지 해제."
+          },
+          {
+            "target_id": "CHK-05",
+            "override": "MODIFY",
+            "new_rule": "대사 직후 서술자의 '객관적 해설'이 있는가? → 삭제. 단, 시점 인물의 '주관적 내면 판단' 1문장은 허용."
+          },
+          {
+            "target_id": "CHK-07",
+            "override": "LIFT",
+            "note": "한자어/번역투 금지 해제. 웹소설 빈도 한자어(직감, 본능, 위압감, 살기 등) 허용."
+          },
+          {
+            "target_id": "CHK-10",
+            "override": "MODIFY",
+            "new_rule": "대사가 35자를 초과하는가? → 줄인다. 25자 → 35자로 완화."
+          },
+          {
+            "target_id": "CHK-13",
+            "override": "MODIFY",
+            "new_rule": "마감이 정리형인가? → 클리프행어로 교체."
+          },
+          {
+            "target_id": "CHK-24",
+            "override": "LIFT",
+            "note": "웹소설 과잉 어휘 금지 해제. B-18에서는 웹소설 어휘가 기본 어휘."
+          }
+        ]
+      },
+      "known_conflicts": [],
+      "traits": {
+        "emotion_level": "direct",
+        "sentence_length": "short",
+        "formality": "casual",
+        "irony": false,
+        "lyricism": "low",
+        "narrator_presence": "invisible",
+        "slots_touched": [
+          "MODULE_6_STYLE"
+        ]
+      },
+      "estimated_tokens": 0
     }
   ]
 }

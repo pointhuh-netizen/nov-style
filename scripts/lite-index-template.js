@@ -115,7 +115,15 @@
             })
         );
 
-        _data = { catalog, masterRules, axes };
+        // delta-resolution.json 로드 (실패 시 fallback)
+        let deltaResolution = { default_strategy: 'last_axis_wins', rules: [] };
+        try {
+            deltaResolution = await fetchJSON(`${root}/data/delta-resolution.json`);
+        } catch (err) {
+            console.warn(`[${EXTENSION_NAME}] delta-resolution.json 로드 실패 (fallback 사용):`, err.message);
+        }
+
+        _data = { catalog, masterRules, axes, deltaResolution };
         return _data;
     }
 
@@ -218,6 +226,87 @@
         }
 
         return texts;
+    }
+
+    function applyMasterGuideDelta(masterRules, delta) {
+        // forbidden_patterns
+        if (delta.forbidden_patterns && masterRules.forbidden_patterns) {
+            for (const [typeKey, override] of Object.entries(delta.forbidden_patterns)) {
+                if (typeKey === '_engine_status') continue;
+                if (!masterRules.forbidden_patterns[typeKey]) continue;
+                const overrideType = override.override;
+                if (overrideType === 'LIFT') {
+                    delete masterRules.forbidden_patterns[typeKey];
+                } else if (overrideType === 'PARTIAL_LIFT' || overrideType === 'SOFTEN') {
+                    masterRules.forbidden_patterns[typeKey] = {
+                        ...masterRules.forbidden_patterns[typeKey],
+                        rule: override.note,
+                    };
+                } else if (overrideType === 'MODIFY') {
+                    masterRules.forbidden_patterns[typeKey] = {
+                        ...masterRules.forbidden_patterns[typeKey],
+                        rule: override.new_rule,
+                    };
+                }
+            }
+        }
+
+        // forbidden_vocabulary
+        if (delta.forbidden_vocabulary && masterRules.forbidden_vocabulary) {
+            const { lifted_entries } = delta.forbidden_vocabulary;
+            if (Array.isArray(lifted_entries)) {
+                for (const entry of lifted_entries) {
+                    delete masterRules.forbidden_vocabulary[entry];
+                }
+            }
+        }
+
+        // subtext_rules
+        if (delta.subtext_rules && masterRules.subtext_rules) {
+            for (const [fieldKey, override] of Object.entries(delta.subtext_rules)) {
+                if (fieldKey === '_engine_status') continue;
+                const overrideType = override.override;
+                if (overrideType === 'LIFT') {
+                    delete masterRules.subtext_rules[fieldKey];
+                } else if (overrideType === 'PARTIAL_LIFT' || overrideType === 'SOFTEN') {
+                    masterRules.subtext_rules[fieldKey] = override.note;
+                } else if (overrideType === 'MODIFY') {
+                    masterRules.subtext_rules[fieldKey] = override.new_rule;
+                }
+            }
+        }
+
+        // anti_archetype_rules
+        if (delta.anti_archetype_rules && masterRules.anti_archetype_rules) {
+            for (const [fieldKey, override] of Object.entries(delta.anti_archetype_rules)) {
+                if (fieldKey === '_engine_status') continue;
+                const overrideType = override.override;
+                if (overrideType === 'LIFT') {
+                    delete masterRules.anti_archetype_rules[fieldKey];
+                } else if (overrideType === 'PARTIAL_LIFT' || overrideType === 'SOFTEN') {
+                    masterRules.anti_archetype_rules[fieldKey] = override.note;
+                } else if (overrideType === 'MODIFY') {
+                    masterRules.anti_archetype_rules[fieldKey] = override.new_rule;
+                }
+            }
+        }
+
+        // self_check_overrides
+        if (Array.isArray(delta.self_check_overrides) && masterRules.self_check && Array.isArray(masterRules.self_check.checks)) {
+            for (const op of delta.self_check_overrides) {
+                const { target_id, override: overrideType, new_rule } = op;
+                const idx = masterRules.self_check.checks.findIndex(c => c.id === target_id);
+                if (idx === -1) continue;
+                if (overrideType === 'LIFT') {
+                    masterRules.self_check.checks.splice(idx, 1);
+                } else if (overrideType === 'MODIFY') {
+                    masterRules.self_check.checks[idx] = {
+                        ...masterRules.self_check.checks[idx],
+                        rule: new_rule,
+                    };
+                }
+            }
+        }
     }
 
     function buildMasterRulesSection(masterRules, dynamicChecks = []) {
@@ -401,6 +490,7 @@
         const { catalog, masterRules, axes } = data;
         const sections = [];
         const dynamicChecks = [];
+        const pendingDeltas = [];
 
         // 축별 선택 모듈
         for (const axisKey of BUILD_ORDER) {
@@ -427,6 +517,15 @@
                 }
             }
 
+            // master_guide_delta 수집 (BUILD_ORDER 순, last_axis_wins)
+            if (moduleObj.master_guide_delta && typeof moduleObj.master_guide_delta === 'object') {
+                const delta = moduleObj.master_guide_delta;
+                const hasContent = Object.keys(delta).some(k => k !== '_engine_status');
+                if (hasContent) {
+                    pendingDeltas.push(delta);
+                }
+            }
+
             const texts = extractModuleTexts(moduleObj);
             if (texts.length === 0) continue;
 
@@ -434,7 +533,16 @@
             sections.push(`## ${axisLabel} — ${moduleObj.name}\n${texts.join('\n')}`);
         }
 
-        const masterText = buildMasterRulesSection(masterRules, dynamicChecks);
+        // master_guide_delta 적용 (delta가 있으면 클론 생성 후 순서대로 적용)
+        let effectiveMasterRules = masterRules;
+        if (pendingDeltas.length > 0) {
+            effectiveMasterRules = JSON.parse(JSON.stringify(masterRules));
+            for (const delta of pendingDeltas) {
+                applyMasterGuideDelta(effectiveMasterRules, delta);
+            }
+        }
+
+        const masterText = buildMasterRulesSection(effectiveMasterRules, dynamicChecks);
         if (masterText) {
             sections.unshift(`## 핵심 규칙\n${masterText}`);
         }

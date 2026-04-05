@@ -338,6 +338,13 @@
       "file": "axes/axis-b-tone.json"
     },
     {
+      "id": "B-18",
+      "axis": "B",
+      "name": "웹소설체",
+      "one_liner": "빠른 호흡, 짧은 문단, 감정 직접 서술, 클리프행어. 읽는 속도가 곧 문체입니다.",
+      "file": "axes/axis-b-tone.json"
+    },
+    {
       "id": "C-01",
       "axis": "C",
       "name": "궁정 정치 / 전쟁 서사",

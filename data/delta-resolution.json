@@ -1,0 +1,6 @@
+{
+  "version": "1.0.0",
+  "default_strategy": "last_axis_wins",
+  "strategy_note": "When multiple axis modules modify the same master-rules target via master_guide_delta, and no explicit rule below matches, the module from the later axis in BUILD_ORDER wins.",
+  "rules": []
+}
