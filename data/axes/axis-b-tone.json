@@ -2162,7 +2162,7 @@
         },
         "{B_TONE_VOCAB}": {
           "mode": "REPLACE",
-          "value": "Web-novel vocabulary UNLOCKED. The following master-rules forbidden_vocabulary entries are LIFTED within B-18 scope: 능글맞은, 실소를 흩뿌리다, 이죽거리다, 킬킬 — these may be used if they serve pacing. Additionally allowed: 감정 형용사(짜릿한, 아찔한, 서늘한, 뜨거운), 감각 과장(심장이 쿵쾅거렸다, 숨이 멎을 뻔했다, 머리가 하얘졌다). STILL BANNED: 햇귀, 나른한 눈매를 접다, 헛웃음을 뱉어내다 — these remain awkward even in web-novel register. 웹소설 빈도 어휘 허용. 단, 한 턴에 같은 과장 표현 2회 이상 금지."
+          "value": "Web-novel vocabulary UNLOCKED. The following master-rules forbidden_vocabulary entries are LIFTED within B-18 scope: 능글맞은, 실소를 흩뿌리다, 이죽거리다 — these may be used if they serve pacing. Additionally allowed: 감정 형용사(짜릿한, 아찔한, 서늘한, 뜨거운), 감각 과장(심장이 쿵쾅거렸다, 숨이 멎을 뻔했다, 머리가 하얘졌다). STILL BANNED: 햇귀, 나른한 눈매를 접다, 헛웃음을 뱉어내다, 킬킬 — these remain awkward even in web-novel register. 웹소설 빈도 어휘 허용. 단, 한 턴에 같은 과장 표현 2회 이상 금지."
         },
         "{B_TONE_FID_GRAMMAR}": {
           "mode": "REPLACE",
@@ -2265,8 +2265,8 @@
         },
         "forbidden_vocabulary": {
           "override": "PARTIAL_LIFT",
-          "lifted_entries": ["능글맞은", "이죽거리다", "킬킬", "실소를 흩뿌리다"],
-          "note": "웹소설 빈도 어휘 4종 해금. 나머지(햇귀, 나른한 눈매를 접다, 헛웃음을 뱉어내다, 퉁을 놓다)는 유지."
+          "lifted_entries": ["능글맞은", "이죽거리다", "실소를 흩뿌리다"],
+          "note": "웹소설 빈도 어휘 3종 해금. 나머지(햇귀, 나른한 눈매를 접다, 헛웃음을 뱉어내다, 퉁을 놓다, 킬킬)는 유지."
         },
         "subtext_rules": {
           "emotion_naming_ban": {
