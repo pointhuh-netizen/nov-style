@@ -2265,8 +2265,8 @@
         },
         "forbidden_vocabulary": {
           "override": "PARTIAL_LIFT",
-          "lifted_entries": ["능글맞은", "이죽거리다", "킬킬", "실소를 흩뿌리다"],
-          "note": "웹소설 빈도 어휘 4종 해금. 나머지(햇귀, 나른한 눈매를 접다, 헛웃음을 뱉어내다, 퉁을 놓다)는 유지."
+          "lifted_entries": ["능글맞은", "이죽거리다", "실소를 흩뿌리다"],
+          "note": "웹소설 빈도 어휘 3종 해금. 나머지(햇귀, 나른한 눈매를 접다, 헛웃음을 뱉어내다, 퉁을 놓다, 킬킬)는 유지."
         },
         "subtext_rules": {
           "emotion_naming_ban": {
